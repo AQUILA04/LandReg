@@ -194,7 +194,7 @@
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/AQUILA04/ELYKIA</url>
+            <url>https://maven.pkg.github.com/AQUILA04/LandReg</url>
         </repository>
     </distributionManagement>
 
