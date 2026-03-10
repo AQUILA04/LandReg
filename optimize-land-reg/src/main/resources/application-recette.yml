@@ -58,7 +58,7 @@ security:
       society: "Optimize"
   config:
     auto-initialize:
-      enabled: false
+      enabled: true
     profiles: ADMIN,USER,LAND_AGENT
     permissions: ROLE_ADMIN,ROLE_USER,ROLE_LAND_AGENT
     profil-permissions:
@@ -77,6 +77,17 @@ security:
             phone: 90000001
             gender: MALE
             email: admin@email.com
+        user:
+          username: demo
+          password: Abcd1234
+          profil: USER
+          user-details:
+            firstname: User 
+            lastname: Demo
+            phone: 90000002
+            gender: MALE
+            email: user@email.com
+            
 lang-reg:
   kafka:
     config:
