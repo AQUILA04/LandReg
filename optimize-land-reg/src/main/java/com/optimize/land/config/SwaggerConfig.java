@@ -24,7 +24,7 @@ import org.springframework.core.annotation.Order;
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI elykiaOpenAPI() {
+    public OpenAPI landRegOpenAPI() {
         return new OpenAPI()
                 .info(new Info().title("Land-Reg Service API")
                         .description("API pour la gestion des acteurs et des constatations")

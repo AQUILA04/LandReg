@@ -4,6 +4,7 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <springProperty scope="context" name="springAppName" source="spring.application.name"/>
     <springProperty scope="context" name="logFolder" source="logging.file.path"/>
+    <springProperty scope="context" name="activeProfile" source="spring.profiles.active"/>
 <!--    <springProperty scope="context" name="logstashServer" source="logging.logstash.server.url"/>-->
 
     <!-- You can override this to have a custom pattern -->
@@ -24,12 +25,12 @@
 
     <!-- Appender to log to file in a JSON format -->
     <appender name="AppEventRollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${logFolder}/app-event.json</file>
+        <file>${logFolder}app-event.json</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${logFolder}/ac-event.json.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+            <fileNamePattern>${logFolder}app-event.json.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
             <maxHistory>7</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFileNamingAndTriggeringPolicy">
-                <maxFileSize>10MB</maxFileSize>
+                <maxFileSize>200MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
@@ -71,12 +72,14 @@
     </appender>
 
     <appender name="MainRollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${logFolder}/main.json</file>
+        <file>${logFolder}main.json</file>
+<!--        <file>${logFolder}/main.json</file>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${logFolder}/main.json.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+            <fileNamePattern>${logFolder}main.json.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+<!--            <fileNamePattern>${logFolder}/main.json.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>-->
             <maxHistory>7</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFileNamingAndTriggeringPolicy">
-                <maxFileSize>10MB</maxFileSize>
+                <maxFileSize>100MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
@@ -118,9 +121,33 @@
         </encoder>
     </appender>
 
+<!--    <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">-->
+<!--        <lokiFlow>-->
+<!--            <batch>-->
+<!--                <timeoutMs>2000</timeoutMs> &lt;!&ndash; Envoi toutes les 2 sec &ndash;&gt;-->
+<!--                <maxItems>1000</maxItems>   &lt;!&ndash; Max 1000 logs par batch &ndash;&gt;-->
+<!--                <maxBytes>1048576</maxBytes> &lt;!&ndash; 1MB max par batch &ndash;&gt;-->
+<!--            </batch>-->
+<!--            <http>-->
+<!--                <url>https://logs-prod-028.grafana.net/loki/api/v1/push</url>-->
+<!--                <user>1114217</user>-->
+<!--                <password>configured</password>-->
+<!--                <connectTimeoutMs>2000</connectTimeoutMs>-->
+<!--                <requestTimeoutMs>5000</requestTimeoutMs>-->
+<!--            </http>-->
+<!--            <label>-->
+<!--                <static>app=${springAppName},env=${activeProfile}</static>-->
+<!--            </label>-->
+<!--        </lokiFlow>-->
+<!--        <encoder>-->
+<!--            <pattern>{"timestamp":"%d{yyyy-MM-dd HH:mm:ss.SSS}","level":"%p","thread":"%t","logger":"%c","message":"%m"}%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
 
     <logger name="EventLog" level="DEBUG" additivity="false">
         <appender-ref ref="AppEventRollingFile"/>
+<!--        <appender-ref ref="LOKI"/>-->
 <!--        <appender-ref ref="LOGSTASH"/>-->
     </logger>
     <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter">
@@ -131,6 +158,7 @@
     <root level="INFO">
         <appender-ref ref="MainRollingFile"/>
         <appender-ref ref="Console"/>
+<!--        <appender-ref ref="LOKI"/>-->
 <!--        <appender-ref ref="LOGSTASH"/>-->
     </root>
 

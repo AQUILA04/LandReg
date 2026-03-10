@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/land_reg_db
+    url: jdbc:postgresql://localhost:5432/olr_demo
     username: francis #jeff #francis
     password: Anid2022 #Admin@1234 #Anid2022
   jpa:
@@ -14,13 +14,6 @@ spring:
             non_contextual_creation: true
   main:
     allow-circular-references: true
-  boot:
-    admin:
-      client:
-        url: http://localhost:8090
-        instance:
-          service-base-url: http://localhost:8080
-          service-host-type: IP
 
 bezkoder:
   app:
@@ -35,7 +28,7 @@ logging:
           filter:
             CommonsRequestLoggingFilter: DEBUG
   file:
-    path: ${user.home}/.${spring.application.name}/logs/
+    path: ${user.home}\.${spring.application.name}\logs\
 
 
 management:
@@ -53,6 +46,10 @@ server:
     enabled: false
 
 security:
+  licence:
+    prod:
+      active: 1
+      society: "Optimize"
   config:
     profiles: ADMIN,USER,LAND_AGENT
     permissions: ROLE_ADMIN,ROLE_USER,ROLE_LAND_AGENT
@@ -72,3 +69,28 @@ security:
             phone: 90000001
             gender: MALE
             email: admin@email.com
+        joseph:
+          username: joseph
+          password: Pass1234
+          profil: ADMIN
+          user-details:
+            firstname: Joseph
+            lastname: EGBENDEWE
+            phone: 90000002
+            gender: MALE
+            email: josephegbendewe@gmail.com
+lang-reg:
+  kafka:
+    config:
+      num-partitions:
+        afis-master-topic: 1
+        afis-matcher-topic: 1
+        afis-matcher-result-topic: 1
+        afis-master-feedback-topic: 1
+      replication-factor:
+        afis-master-topic: 1
+        afis-matcher-topic: 1
+        afis-matcher-result-topic: 1
+        afis-master-feedback-topic: 1
+
+debug: true

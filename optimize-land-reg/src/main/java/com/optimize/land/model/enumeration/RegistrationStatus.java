@@ -10,4 +10,5 @@ public enum RegistrationStatus {
     FAILED,
     VALIDATED,
     DUPLICATED,
+    ACTOR
 }

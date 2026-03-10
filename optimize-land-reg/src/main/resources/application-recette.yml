@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/land_reg_db
-    username: francis #jeff #francis
-    password: Anid2022 #Admin@1234 #Anid2022
+    url: jdbc:postgresql://localhost:5432/olr_recette_db
+    username: app #jeff #francis
+    password: "12345678" #Admin@1234 #Anid2022
   jpa:
     hibernate:
       ddl-auto: update
@@ -17,9 +17,9 @@ spring:
   boot:
     admin:
       client:
-        url: http://localhost:8090
+        url: http://localhost:1111
         instance:
-          service-base-url: http://localhost:8080
+#          service-base-url: http://localhost:8080
           service-host-type: IP
 bezkoder:
   app:
@@ -52,6 +52,10 @@ server:
     enabled: false
 
 security:
+  licence:
+    prod:
+      active: 1
+      society: "Optimize"
   config:
     profiles: ADMIN,USER,LAND_AGENT
     permissions: ROLE_ADMIN,ROLE_USER,ROLE_LAND_AGENT
@@ -71,3 +75,16 @@ security:
             phone: 90000001
             gender: MALE
             email: admin@email.com
+lang-reg:
+  kafka:
+    config:
+      num-partitions:
+        afis-master-topic: 1
+        afis-matcher-topic: 1
+        afis-matcher-result-topic: 1
+        afis-master-feedback-topic: 1
+      replication-factor: #la valeur ne doit pas dépasser le nombre de brokers déployer
+        afis-master-topic: 1
+        afis-matcher-topic: 1
+        afis-matcher-result-topic: 1
+        afis-master-feedback-topic: 1

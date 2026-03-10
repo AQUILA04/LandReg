@@ -2,6 +2,7 @@ package com.optimize.land.model.entity;
 
 import com.optimize.common.entities.entity.BaseEntity;
 import com.optimize.land.model.enumeration.SynchroStatus;
+import com.optimize.land.model.enumeration.SynchroType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -76,6 +77,8 @@ public class SynchroHistory extends BaseEntity<String> {
 
     @Column(name = "last_packet_date")
     private ZonedDateTime lastPacketDate;
+    @Enumerated(EnumType.STRING)
+    private SynchroType type;
 
 
     @Override

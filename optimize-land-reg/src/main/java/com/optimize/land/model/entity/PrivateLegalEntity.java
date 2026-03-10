@@ -1,8 +1,14 @@
 package com.optimize.land.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.optimize.common.entities.annotations.ValidPhoneNumber;
 import com.optimize.common.entities.entity.BaseEntity;
+import com.optimize.land.annotation.ExistsInDB;
 import com.optimize.land.model.enumeration.PrivateEntityType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -10,6 +16,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * A PrivateLegalEntity.
@@ -29,8 +36,8 @@ public class PrivateLegalEntity extends BaseEntity<String> {
     @Column(name = "id")
     private Long id;
 
-    @Size(min = 10, max = 15)
-    @Column(name = "uin", length = 15)
+
+    @Column(name = "uin")
     private String uin;
 
     @NotNull
@@ -38,64 +45,67 @@ public class PrivateLegalEntity extends BaseEntity<String> {
     @Column(name = "company_name", length = 60, nullable = false, unique = true)
     private String companyName;
 
-    @NotNull
-    @Size(min = 4, max = 200)
+    //@NotNull
+    //@Size(min = 4, max = 200)
     @Column(name = "address", length = 200, nullable = false)
     private String address;
 
-    @NotNull
-    @Size(min = 8, max = 11)
+    //@NotNull
+    //@Size(min = 8, max = 11)
     @Column(name = "phone_number", length = 11, nullable = false)
+    //@ValidPhoneNumber
     private String phoneNumber;
 
-    @Size(min = 8, max = 11)
+    //@Size(min = 8, max = 11)
     @Column(name = "secondary_phone_number", length = 11)
+    //@ValidPhoneNumber
     private String secondaryPhoneNumber;
 
     @Column(name = "email")
+    @Email
     private String email;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "entity_type")
+    @NotNull(message = "Le type de la personne morale de droit privé est obligatoire !")
     private PrivateEntityType entityType;
 
-    @Column(name = "identification_doc_type")
-    private String identificationDocType;
+    @JsonManagedReference
+    @OneToOne(cascade = CascadeType.ALL)
+    private IdentificationDoc identificationDoc;
 
-    @NotNull
-    @Column(name = "identification_doc_number", nullable = false)
-    private String identificationDocNumber;
-
-    @Lob
-    @Column(name = "identification_doc_photo", nullable = false)
-    private byte[] identificationDocPhoto;
-
-    @NotNull
-    @Column(name = "identification_doc_photo_content_type", nullable = false)
-    private String identificationDocPhotoContentType;
-
-    @NotNull
+    //@NotNull
     @Column(name = "main_activity", nullable = false)
     private String mainActivity;
 
-    @NotNull
+    //@NotNull
     @Column(name = "acronym", nullable = false)
     private String acronym;
 
-    @NotNull
+    //@NotNull
     @Column(name = "company_created_date", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate companyCreatedDate;
 
-    @NotNull
+    //@NotNull
     @Column(name = "representative_uin", nullable = false)
+    @ExistsInDB(entity = Actor.class, field = "uin", message = "le NIU du représentant n'existe pas !")
     private String representativeUIN;
 
-    @NotNull
+    //@NotNull
     @Column(name = "representative_fullname", nullable = false)
     private String representativeFullname;
 
     @Column(name = "rid")
     private String rid;
+
+    @JsonProperty(value = "identificationDoc")
+    public IdentificationDoc getIdentificationDoc() {
+        if (Objects.nonNull(this.identificationDoc) && this.identificationDoc.isNull() ) {
+            return null;
+        }
+        return identificationDoc;
+    }
 
 
 
@@ -130,10 +140,6 @@ public class PrivateLegalEntity extends BaseEntity<String> {
             ", secondaryPhoneNumber='" + getSecondaryPhoneNumber() + "'" +
             ", email='" + getEmail() + "'" +
             ", entityType='" + getEntityType() + "'" +
-            ", identificationDocType='" + getIdentificationDocType() + "'" +
-            ", identificationDocNumber='" + getIdentificationDocNumber() + "'" +
-            ", identificationDocPhoto='" + getIdentificationDocPhoto() + "'" +
-            ", identificationDocPhotoContentType='" + getIdentificationDocPhotoContentType() + "'" +
             ", mainActivity='" + getMainActivity() + "'" +
             ", acronym='" + getAcronym() + "'" +
             ", companyCreatedDate='" + getCompanyCreatedDate() + "'" +

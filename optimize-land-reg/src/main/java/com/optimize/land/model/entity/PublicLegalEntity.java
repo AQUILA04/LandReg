@@ -1,8 +1,10 @@
 package com.optimize.land.model.entity;
 
+import com.optimize.common.entities.annotations.ValidPhoneNumber;
 import com.optimize.common.entities.entity.BaseEntity;
 import com.optimize.land.model.enumeration.PublicEntityType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -27,14 +29,18 @@ public class PublicLegalEntity extends BaseEntity<String> {
     @Column(name = "id")
     private Long id;
 
-    @Size(min = 10, max = 15)
-    @Column(name = "uin", length = 15, unique = true)
+
+    @Column(name = "uin", unique = true)
     private String uin;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "public_entity_type", nullable = false)
     private PublicEntityType publicEntityType;
+    //@NotBlank(message = "Le numéro de la personnalité du droit publique est obligatoire !!!")
+    //@ValidPhoneNumber(message = "Le numéro de la personnalité du droit public n'est pas valide !")
+    private String phoneNumber;
+    private String name;
 
 
     @Override

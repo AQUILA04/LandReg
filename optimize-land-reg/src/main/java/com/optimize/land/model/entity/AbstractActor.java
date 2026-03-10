@@ -1,17 +1,22 @@
 package com.optimize.land.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.optimize.common.entities.entity.Auditable;
-import com.optimize.land.model.enumeration.MaritalStatus;
+import com.optimize.common.entities.exception.CustomValidationException;
+import com.optimize.land.model.dto.ActorModel;
+import com.optimize.land.model.enumeration.ActorType;
 import com.optimize.land.model.enumeration.RegistrationStatus;
 import com.optimize.land.model.enumeration.RoleActor;
-import com.optimize.land.model.enumeration.Sex;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -19,118 +24,21 @@ import java.time.LocalDate;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class AbstractActor extends Auditable<String> {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "actorSequenceGenerator")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@SequenceGenerator(name = "actorSequenceGenerator")
     protected Long id;
-    //@NotNull
-    @Size(min = 2, max = 25)
-    @Column(name = "lastname", length = 25, nullable = false)
-    protected String lastname;
 
-    //@NotNull
-    @Size(min = 2, max = 55)
-    @Column(name = "firstname", length = 55, nullable = false)
-    protected String firstname;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    protected Person physicalPerson;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    protected InformalGroup informalGroup;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    protected PrivateLegalEntity privateLegalEntity;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    protected PublicLegalEntity publicLegalEntity;
 
-    //@NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "sex", nullable = false)
-    protected Sex sex;
-
-    //@NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "marital_status", nullable = false)
-    protected MaritalStatus maritalStatus;
-
-    //@NotNull
-    @Column(name = "birth_date", nullable = false)
-    protected LocalDate birthDate;
-
-    //@NotNull
-    @Size(min = 2, max = 60)
-    @Column(name = "place_of_birth", length = 60, nullable = false)
-    protected String placeOfBirth;
-
-    //@NotNull
-    @Size(min = 2, max = 60)
-    @Column(name = "nationality", length = 60, nullable = false)
-    protected String nationality;
-
-    @Column(name = "profession")
-    protected String profession;
-
-    @Column(name = "other_profession")
-    protected String otherProfession;
-
-    //@NotNull
-    @Size(min = 2, max = 70)
-    @Column(name = "address", length = 70, nullable = false)
-    protected String address;
-
-    //@NotNull
-    @Size(min = 8, max = 11)
-    @Column(name = "primary_phone", length = 11, nullable = false)
-    protected String primaryPhone;
-
-    @Size(min = 8, max = 11)
-    @Column(name = "secondary_phone", length = 11)
-    protected String secondaryPhone;
-
-    //@NotNull
-    @Column(name = "email", nullable = false)
-    protected String email;
-
-    @Column(name = "has_handicap")
-    protected Boolean hasHandicap;
-
-    @Column(name = "socio_cultural_group")
-    protected String socioCulturalGroup;
-
-    @Column(name = "handicap_type")
-    protected String handicapType;
-
-    @Column(name = "other_handicap_type")
-    protected String otherHandicapType;
-
-    @Column(name = "first_fingerprint")
-    protected String firstFingerprint;
-
-    @Column(name = "second_fingerprint")
-    protected String secondFingerprint;
-
-    @Column(name = "third_fingerprint")
-    protected String thirdFingerprint;
-
-    @Column(name = "first_finger_name")
-    protected String firstFingerName;
-
-    @Column(name = "second_finger_name")
-    protected String secondFingerName;
-
-    @Column(name = "third_finger_name")
-    protected String thirdFingerName;
-
-    @Column(name = "has_id_doc")
-    protected Boolean hasIDDoc;
-
-    @Column(name = "identification_doc_type")
-    protected String identificationDocType;
-
-    @Column(name = "other_identification_doc_type")
-    protected String otherIdentificationDocType;
-
-    @Column(name = "identification_doc_number")
-    protected String identificationDocNumber;
-
-    @Lob
-    @Column(name = "identification_doc_photo")
-    protected byte[] identificationDocPhoto;
-
-    @Column(name = "identification_doc_photo_content_type")
-    protected String identificationDocPhotoContentType;
-
-    @Column(name = "witness_uin")
-    protected String witnessUIN;
+    @Column(name = "uin", unique = true)
+    protected String uin;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -151,4 +59,91 @@ public abstract class AbstractActor extends Auditable<String> {
 
     @Enumerated(EnumType.STRING)
     protected RoleActor role;
+
+    @Enumerated(EnumType.STRING)
+    protected ActorType type;
+    private String operatorAgent;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "actor")
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonManagedReference
+    protected Set<FingerprintStore> fingerprintStores = new HashSet<>();
+
+    public void validateUniqueActorType () {
+            if (Objects.nonNull(physicalPerson) &&
+                    Objects.nonNull(informalGroup) &&
+                    Objects.nonNull(privateLegalEntity) && Objects.nonNull(publicLegalEntity)) {
+                throw new CustomValidationException("Au moins une valeur pour le type d'acteur est obligatoire !");
+            }
+    }
+
+    public void updateFingerprint() {
+        fingerprintStores.forEach(fs -> fs.setActor(this));
+    }
+
+    public void addRid(String rid) {
+        this.rid = rid;
+        this.registrationStatus = RegistrationStatus.PENDING;
+        if (Objects.nonNull(fingerprintStores)) {
+            fingerprintStores.forEach(fs -> fs.setRid(rid));
+        }
+
+    }
+
+    @JsonIgnore
+    public ActorModel toActorModel() {
+        ActorModel model = new ActorModel();
+        model.setUin(this.uin);
+        model.setType(this.type);
+        model.setRole(this.role);
+        if (actorTypeIs(ActorType.PHYSICAL_PERSON)) {
+            model.setName(this.physicalPerson.getFullName());
+            model.setFirstname(this.physicalPerson.getFirstname());
+            model.setLastname(this.physicalPerson.getLastname());
+            model.setContact(this.physicalPerson.getPrimaryPhone());
+            model.setAddress(this.physicalPerson.getAddress());
+            model.setEmail(this.physicalPerson.getEmail());
+            if (Objects.nonNull(this.physicalPerson.getIdentificationDoc())) {
+                model.setIdentificationDocType(this.physicalPerson.getIdentificationDoc().getIdentificationDocType());
+                model.setIdentificationDocNumber(this.physicalPerson.getIdentificationDoc().getIdentificationDocNumber());
+                model.setOtherIdentificationDocType(this.physicalPerson.getIdentificationDoc().getOtherIdentificationDocType());
+            }
+
+        } else if (actorTypeIs(ActorType.INFORMAL_GROUP)) {
+            model.setName(this.informalGroup.getGroupName());
+            model.setContact(this.informalGroup.getPhoneNumber());
+            model.setEmail(this.informalGroup.getEmail());
+        } else if (actorTypeIs(ActorType.PRIVATE_LEGAL_ENTITY)) {
+            model.setName(this.privateLegalEntity.getCompanyName());
+            model.setContact(this.privateLegalEntity.getPhoneNumber());
+            model.setAddress(this.privateLegalEntity.getAddress());
+            model.setEmail(this.privateLegalEntity.getEmail());
+            if (Objects.nonNull(this.privateLegalEntity.getIdentificationDoc())) {
+                model.setIdentificationDocType(this.privateLegalEntity.getIdentificationDoc().getIdentificationDocType());
+                model.setIdentificationDocNumber(this.privateLegalEntity.getIdentificationDoc().getIdentificationDocNumber());
+                model.setOtherIdentificationDocType(this.privateLegalEntity.getIdentificationDoc().getOtherIdentificationDocType());
+            }
+        } else {
+            model.setContact(this.publicLegalEntity.getPhoneNumber());
+            model.setName(Objects.nonNull(this.publicLegalEntity.getName()) ? this.publicLegalEntity.getName() : this.privateLegalEntity.getEntityType().name());
+        }
+        return model;
+    }
+
+    public boolean actorTypeIs(ActorType actorType) {
+        return actorType.equals(type);
+    }
+
+    @JsonIgnore
+    public void getAllOperations() {
+        this.informalGroup = null;
+        this.physicalPerson = null;
+        this.privateLegalEntity = null;
+        this.publicLegalEntity = null;
+    }
+
+    public void fingerprintMandatoryCheck() {
+        if (actorTypeIs(ActorType.PHYSICAL_PERSON) && Objects.isNull(this.fingerprintStores)) {
+            throw new CustomValidationException("Les données d'empreintes digitales sont obligatoires pour une personne physique !");
+        }
+    }
 }

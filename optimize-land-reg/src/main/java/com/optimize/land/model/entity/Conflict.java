@@ -1,7 +1,8 @@
 package com.optimize.land.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.optimize.common.entities.entity.Auditable;
-import com.optimize.land.model.enumeration.ConflictParty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,8 +16,7 @@ public class Conflict extends Auditable<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Enumerated(EnumType.STRING)
-    private ConflictParty conflictParty;
+    private String conflictParty;
     private String firstConflictPartyNUP;
     private String firstConflictPartyOccupationDurationInMonth;
     private String secondConflictPartyNUP;
@@ -33,20 +33,34 @@ public class Conflict extends Auditable<String> {
      */
     private String seizureProof;
     private String exhibitAndEvidence;
-    @Lob
     private byte[] photoOfProof;
     private String procedureStatus;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate settlementDate;
     private String settlementCompromiseNature;
     private String settlementActor;
     private String regulationWitnesses;
     private String finalDecisionProof;
-    @Lob
     private byte[] settlementProofPhoto;
     private String rightRestrictionType;
     private String currentlyUseFor;
     private String agriculturalDevelopmentType;
     private String pointOfAttention;
+    @JsonBackReference
+    @OneToOne(mappedBy = "conflict")
+    private Finding finding;
+    private String modeAcquisition;
+    private String siHeritageDeQui;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate siHeritageDateDeces;
+    private Integer girlCount;
+    private Integer boyCount;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateAcquisition;
+    private String typePreuveAcquisition;
+    private byte[] photoPreuveAcquisition;
+    private byte[] photoTemoignage;
+    private byte[] photoFicheTemoignage;
 
 
 

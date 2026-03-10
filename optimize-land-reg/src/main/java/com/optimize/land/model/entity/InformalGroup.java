@@ -1,7 +1,12 @@
 package com.optimize.land.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.optimize.common.entities.annotations.ValidPhoneNumber;
 import com.optimize.common.entities.entity.BaseEntity;
+import com.optimize.land.annotation.ExistsInDB;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -26,71 +31,73 @@ public class InformalGroup extends BaseEntity<String> {
     @Column(name = "id")
     private Long id;
 
-    @Size(min = 10, max = 15)
-    @Column(name = "uin", length = 15, unique = true)
+    @Column(name = "uin", unique = true)
     private String uin;
 
-    @NotNull
-    @Column(name = "group_name", nullable = false)
+    @NotNull(message = "Le nom du groupe informel est obligatoire !")
+    @Column(name = "group_name", nullable = false, unique = true)
     private String groupName;
 
-    @NotNull
+    //@NotNull
     @Column(name = "address", nullable = false)
     private String address;
 
-    @NotNull
-    @Size(min = 8, max = 11)
-    @Column(name = "phone_number", length = 11, nullable = false, unique = true)
+    //@NotBlank(message = "Le numéro de téléphone du groupe informel est obligatoire !")
+    //@Size(min = 8, max = 11)
+    @Column(name = "phone_number", length = 11, unique = true)
+    //@ValidPhoneNumber
     private String phoneNumber;
 
-    @Size(min = 8, max = 11)
+    //@Size(min = 8, max = 11)
     @Column(name = "secondary_phone_number", length = 11)
+    //@ValidPhoneNumber
     private String secondaryPhoneNumber;
 
-    @NotNull
-    @Column(name = "email", nullable = false)
+    //@NotNull
+    @Column(name = "email")
+    @Email
     private String email;
 
-    @NotNull
+    @NotNull(message = "Le type de groupe informel est obligatoire !")
     @Column(name = "group_type", nullable = false)
     private String groupType;
 
-    @NotNull
-    @Size(min = 10, max = 15)
-    @Column(name = "representative_uin", length = 15, nullable = false)
+    //@NotNull
+    @Column(name = "representative_uin")
+    @ExistsInDB(entity = Actor.class, field = "uin", message = "le NIU du premier représentant n'existe pas !")
     private String representativeUIN;
 
-    @NotNull
-    @Size(min = 3, max = 80)
-    @Column(name = "representative_fullname", length = 80, nullable = false)
+    //@NotNull
+    //@Size(min = 3, max = 80)
+    @Column(name = "representative_fullname", length = 80)
     private String representativeFullname;
 
-    @NotNull
-    @Size(min = 10, max = 15)
-    @Column(name = "secondary_representative_uin", length = 15, nullable = false)
+    //@NotNull
+    @Column(name = "secondary_representative_uin")
+    @ExistsInDB(entity = Actor.class, field = "uin", message = "le NIU du second représentant n'existe pas !")
     private String secondaryRepresentativeUIN;
 
-    @NotNull
-    @Size(min = 3, max = 80)
-    @Column(name = "secondary_representative_fullname", length = 80, nullable = false)
+    //@NotNull
+    //@Size(min = 3, max = 80)
+    @Column(name = "secondary_representative_fullname", length = 80)
     private String secondaryRepresentativeFullname;
 
-    @NotNull
-    @Size(min = 10, max = 15)
-    @Column(name = "third_representative_uin", length = 15, nullable = false)
+    //@NotNull
+    @Column(name = "third_representative_uin")
+    @ExistsInDB(entity = Actor.class, field = "uin", message = "le NIU du troisième représentant n'existe pas !")
     private String thirdRepresentativeUIN;
 
-    @NotNull
-    @Size(min = 3, max = 80)
-    @Column(name = "third_representative_fullname", length = 80, nullable = false)
+    //@NotNull
+    //@Size(min = 3, max = 80)
+    @Column(name = "third_representative_fullname", length = 80)
     private String thirdRepresentativeFullname;
 
-    @Lob
-    @Column(name = "mandate_photo", nullable = false)
+    @Column(name = "mandate_photo")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Basic(fetch = FetchType.LAZY)
     private byte[] mandatePhoto;
 
-    @NotNull
-    @Column(name = "mandate_photo_content_type", nullable = false)
+    @Column(name = "mandate_photo_content_type")
     private String mandatePhotoContentType;
 
 
