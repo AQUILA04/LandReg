@@ -61,6 +61,20 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.14.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.18.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/net.minidev/json-smart -->
+        <dependency>
+            <groupId>net.minidev</groupId>
+            <artifactId>json-smart</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+
 
 
     </dependencies>
@@ -165,5 +179,4 @@
             <url>https://maven.pkg.github.com/AQUILA04/LandReg</url>
         </repository>
     </distributionManagement>
-
 </project>

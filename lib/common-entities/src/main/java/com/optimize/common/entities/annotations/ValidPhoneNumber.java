@@ -1,6 +1,6 @@
 package com.optimize.common.entities.annotations;
 
-import com.optimize.common.entities.annotations.validator.NotStringValueValidator;
+import com.optimize.common.entities.annotations.validator.PhoneNumberValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -9,13 +9,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = NotStringValueValidator.class)
-@Target({ ElementType.FIELD, ElementType.PARAMETER })
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface NotStringValue {
-    String message() default "Value cannot be 'string'";
-
+@Constraint(validatedBy = PhoneNumberValidator.class)
+public @interface ValidPhoneNumber {
+    String message() default "Invalid phone number";
     Class<?>[] groups() default {};
-
     Class<? extends Payload>[] payload() default {};
 }

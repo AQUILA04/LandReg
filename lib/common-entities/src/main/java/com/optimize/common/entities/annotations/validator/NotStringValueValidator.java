@@ -1,5 +1,6 @@
-package com.optimize.common.entities.annotations;
+package com.optimize.common.entities.annotations.validator;
 
+import com.optimize.common.entities.annotations.NotStringValue;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

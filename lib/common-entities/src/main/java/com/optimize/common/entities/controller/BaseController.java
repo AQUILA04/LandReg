@@ -6,7 +6,10 @@ import com.optimize.common.entities.service.GenericService;
 import com.optimize.common.entities.util.Response;
 import com.optimize.common.entities.util.ResponseUtil;
 import lombok.Getter;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.Serializable;
 
@@ -34,4 +37,21 @@ public abstract class BaseController<E extends BaseEntity<?>, I extends Serializ
         return ResponseUtil
                 .successResponse(data,  messageSource.getMessage(message), status, service);
     }
+
+    public ResponseEntity<Response> getAll(Pageable pageable) {
+        return new ResponseEntity<>(success(service.getAll(pageable), "operations.get-all.success"), HttpStatus.OK);
+    }
+
+    public ResponseEntity<Response> getAll() {
+        return new ResponseEntity<>(success(service.getAll(), "operations.get-all.success"), HttpStatus.OK);
+    }
+
+    public ResponseEntity<Response> getOne(@PathVariable I id) {
+        return new ResponseEntity<>(success(service.getById(id), "operations.get-one.success"), HttpStatus.OK);
+    }
+
+    public ResponseEntity<Response> deleteSoft(@PathVariable I id) {
+        return new ResponseEntity<>(success(service.deleteSoft(id), "operations.delete.success"), HttpStatus.OK);
+    }
+    //TODO: phoneNumber validation annotation | field dependant not null annotation | photo base64 format validation annotation
 }
