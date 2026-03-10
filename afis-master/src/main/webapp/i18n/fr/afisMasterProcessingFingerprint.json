@@ -1,0 +1,27 @@
+{
+  "afisMasterApp": {
+    "afisMasterProcessingFingerprint": {
+      "home": {
+        "title": "ProcessingFingerprints",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Processing Fingerprint",
+        "createOrEditLabel": "Créer ou éditer un Processing Fingerprint",
+        "notFound": "Aucun Processing Fingerprint trouvé"
+      },
+      "created": "Un nouveau Processing Fingerprint a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Processing Fingerprint avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Processing Fingerprint avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Processing Fingerprint {{ id }} ?"
+      },
+      "detail": {
+        "title": "Processing Fingerprint"
+      },
+      "id": "ID",
+      "rid": "Rid",
+      "handType": "Hand Type",
+      "fingerName": "Finger Name",
+      "fingerprintImage": "Fingerprint Image"
+    }
+  }
+}

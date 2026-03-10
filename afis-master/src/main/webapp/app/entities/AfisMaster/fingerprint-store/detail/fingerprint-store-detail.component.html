@@ -1,0 +1,65 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (fingerprintStore(); as fingerprintStoreRef) {
+      <div>
+        <h2 data-cy="fingerprintStoreDetailsHeading">
+          <span jhiTranslate="afisMasterApp.afisMasterFingerprintStore.detail.title">Fingerprint Store</span>
+        </h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ fingerprintStoreRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="afisMasterApp.afisMasterFingerprintStore.rid">Rid</span></dt>
+          <dd>
+            <span>{{ fingerprintStoreRef.rid }}</span>
+          </dd>
+          <dt><span jhiTranslate="afisMasterApp.afisMasterFingerprintStore.handType">Hand Type</span></dt>
+          <dd>
+            <span [jhiTranslate]="'afisMasterApp.HandType.' + (fingerprintStoreRef.handType ?? 'null')">{{
+              { null: '', LEFT: 'LEFT', RIGHT: 'RIGHT' }[fingerprintStoreRef.handType ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="afisMasterApp.afisMasterFingerprintStore.fingerName">Finger Name</span></dt>
+          <dd>
+            <span [jhiTranslate]="'afisMasterApp.Finger.' + (fingerprintStoreRef.fingerName ?? 'null')">{{
+              { null: '', THUMB: 'THUMB', INDEX: 'INDEX', MIDDLE: 'MIDDLE', RING: 'RING', LITTLE: 'LITTLE' }[
+                fingerprintStoreRef.fingerName ?? 'null'
+              ]
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="afisMasterApp.afisMasterFingerprintStore.fingerprintImage">Fingerprint Image</span></dt>
+          <dd>
+            @if (fingerprintStoreRef.fingerprintImage) {
+              <div>
+                <a (click)="openFile(fingerprintStoreRef.fingerprintImage ?? '', fingerprintStoreRef.fingerprintImageContentType)">
+                  <img
+                    [src]="'data:' + fingerprintStoreRef.fingerprintImageContentType + ';base64,' + fingerprintStoreRef.fingerprintImage"
+                    style="max-width: 100%"
+                    alt="fingerprintStore"
+                  />
+                </a>
+                {{ fingerprintStoreRef.fingerprintImageContentType }}, {{ byteSize(fingerprintStoreRef.fingerprintImage ?? '') }}
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Retour</span>
+        </button>
+
+        <button type="button" [routerLink]="['/afismaster/fingerprint-store', fingerprintStoreRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editer</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

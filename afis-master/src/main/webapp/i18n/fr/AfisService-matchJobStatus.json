@@ -1,0 +1,10 @@
+{
+  "afisMasterApp": {
+    "MatchJobStatus": {
+      "null": "",
+      "PENDING": "PENDING",
+      "PROCESSING": "PROCESSING",
+      "FINISHED": "FINISHED"
+    }
+  }
+}

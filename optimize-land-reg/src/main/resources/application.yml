@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: optimize-land-reg
+  profiles:
+    active: local
+  docker:
+    compose:
+      enabled: false

@@ -1,0 +1,36 @@
+{
+  "annotations": {
+    "changelogDate": "20241115202216"
+  },
+  "clientRootFolder": "AfisMaster",
+  "databaseType": "mongodb",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "rid",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "handType",
+      "fieldType": "HandType",
+      "fieldValues": "LEFT,RIGHT"
+    },
+    {
+      "fieldName": "fingerName",
+      "fieldType": "Finger",
+      "fieldValues": "THUMB,INDEX,MIDDLE,RING,LITTLE"
+    },
+    {
+      "fieldName": "fingerprintImage",
+      "fieldType": "ImageBlob"
+    }
+  ],
+  "microserviceName": "AfisMaster",
+  "name": "FingerprintStore",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

@@ -1,0 +1,163 @@
+<div>
+  <h2 id="page-heading" data-cy="MatcherJobHistoryHeading">
+    <span jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.home.title">MatcherJobHistories</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.home.refreshListLabel">Actualiser la liste</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-matcher-job-history"
+        [routerLink]="['/afismaster/matcher-job-history/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.home.createLabel">Créer un nouveau Matcher Job History</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (matcherJobHistories?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.home.notFound">Aucun Matcher Job History trouvé</span>
+    </div>
+  }
+
+  @if (matcherJobHistories && matcherJobHistories.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="rid">
+              <div class="d-flex">
+                <span jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.rid">Rid</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="producerCount">
+              <div class="d-flex">
+                <span jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.producerCount">Producer Count</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="consumerReponseCount">
+              <div class="d-flex">
+                <span jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.consumerReponseCount">Consumer Reponse Count</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="highScore">
+              <div class="d-flex">
+                <span jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.highScore">High Score</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="foundMatch">
+              <div class="d-flex">
+                <span jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.foundMatch">Found Match</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="matchedRID">
+              <div class="d-flex">
+                <span jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.matchedRID">Matched RID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="status">
+              <div class="d-flex">
+                <span jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.status">Status</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (matcherJobHistory of matcherJobHistories; track trackId(matcherJobHistory)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/afismaster/matcher-job-history', matcherJobHistory.id, 'view']">{{ matcherJobHistory.id }}</a>
+              </td>
+              <td>{{ matcherJobHistory.rid }}</td>
+              <td>{{ matcherJobHistory.producerCount }}</td>
+              <td>{{ matcherJobHistory.consumerReponseCount }}</td>
+              <td>{{ matcherJobHistory.highScore }}</td>
+              <td>{{ matcherJobHistory.foundMatch }}</td>
+              <td>{{ matcherJobHistory.matchedRID }}</td>
+              <td [jhiTranslate]="'afisMasterApp.MatchJobStatus.' + (matcherJobHistory.status ?? 'null')">
+                {{ { null: '', PENDING: 'PENDING', PROCESSING: 'PROCESSING', FINISHED: 'FINISHED' }[matcherJobHistory.status ?? 'null'] }}
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a
+                    [routerLink]="['/afismaster/matcher-job-history', matcherJobHistory.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                  >
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">Voir</span>
+                  </a>
+
+                  <a
+                    [routerLink]="['/afismaster/matcher-job-history', matcherJobHistory.id, 'edit']"
+                    class="btn btn-primary btn-sm"
+                    data-cy="entityEditButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Editer</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(matcherJobHistory)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Supprimer</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (matcherJobHistories && matcherJobHistories.length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

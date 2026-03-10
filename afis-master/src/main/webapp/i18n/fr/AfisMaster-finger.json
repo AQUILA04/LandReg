@@ -1,0 +1,12 @@
+{
+  "afisMasterApp": {
+    "Finger": {
+      "null": "",
+      "THUMB": "THUMB",
+      "INDEX": "INDEX",
+      "MIDDLE": "MIDDLE",
+      "RING": "RING",
+      "LITTLE": "LITTLE"
+    }
+  }
+}

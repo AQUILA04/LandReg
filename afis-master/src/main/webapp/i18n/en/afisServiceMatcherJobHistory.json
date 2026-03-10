@@ -1,0 +1,30 @@
+{
+  "afisMasterApp": {
+    "afisServiceMatcherJobHistory": {
+      "home": {
+        "title": "Matcher Job Histories",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Matcher Job History",
+        "createOrEditLabel": "Create or edit a Matcher Job History",
+        "notFound": "No Matcher Job Histories found"
+      },
+      "created": "A new Matcher Job History is created with identifier {{ param }}",
+      "updated": "A Matcher Job History is updated with identifier {{ param }}",
+      "deleted": "A Matcher Job History is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Matcher Job History {{ id }}?"
+      },
+      "detail": {
+        "title": "Matcher Job History"
+      },
+      "id": "ID",
+      "rid": "Rid",
+      "producerCount": "Producer Count",
+      "consumerReponseCount": "Consumer Reponse Count",
+      "highScore": "High Score",
+      "foundMatch": "Found Match",
+      "matchedRID": "Matched RID",
+      "status": "Status"
+    }
+  }
+}

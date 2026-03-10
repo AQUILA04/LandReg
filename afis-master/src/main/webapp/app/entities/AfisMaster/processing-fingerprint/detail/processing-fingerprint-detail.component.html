@@ -1,0 +1,76 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (processingFingerprint(); as processingFingerprintRef) {
+      <div>
+        <h2 data-cy="processingFingerprintDetailsHeading">
+          <span jhiTranslate="afisMasterApp.afisMasterProcessingFingerprint.detail.title">Processing Fingerprint</span>
+        </h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ processingFingerprintRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="afisMasterApp.afisMasterProcessingFingerprint.rid">Rid</span></dt>
+          <dd>
+            <span>{{ processingFingerprintRef.rid }}</span>
+          </dd>
+          <dt><span jhiTranslate="afisMasterApp.afisMasterProcessingFingerprint.handType">Hand Type</span></dt>
+          <dd>
+            <span [jhiTranslate]="'afisMasterApp.HandType.' + (processingFingerprintRef.handType ?? 'null')">{{
+              { null: '', LEFT: 'LEFT', RIGHT: 'RIGHT' }[processingFingerprintRef.handType ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="afisMasterApp.afisMasterProcessingFingerprint.fingerName">Finger Name</span></dt>
+          <dd>
+            <span [jhiTranslate]="'afisMasterApp.Finger.' + (processingFingerprintRef.fingerName ?? 'null')">{{
+              { null: '', THUMB: 'THUMB', INDEX: 'INDEX', MIDDLE: 'MIDDLE', RING: 'RING', LITTLE: 'LITTLE' }[
+                processingFingerprintRef.fingerName ?? 'null'
+              ]
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="afisMasterApp.afisMasterProcessingFingerprint.fingerprintImage">Fingerprint Image</span></dt>
+          <dd>
+            @if (processingFingerprintRef.fingerprintImage) {
+              <div>
+                <a
+                  (click)="openFile(processingFingerprintRef.fingerprintImage ?? '', processingFingerprintRef.fingerprintImageContentType)"
+                >
+                  <img
+                    [src]="
+                      'data:' +
+                      processingFingerprintRef.fingerprintImageContentType +
+                      ';base64,' +
+                      processingFingerprintRef.fingerprintImage
+                    "
+                    style="max-width: 100%"
+                    alt="processingFingerprint"
+                  />
+                </a>
+                {{ processingFingerprintRef.fingerprintImageContentType }}, {{ byteSize(processingFingerprintRef.fingerprintImage ?? '') }}
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Retour</span>
+        </button>
+
+        <button
+          type="button"
+          [routerLink]="['/afismaster/processing-fingerprint', processingFingerprintRef.id, 'edit']"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editer</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

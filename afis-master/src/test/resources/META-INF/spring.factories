@@ -1,0 +1,4 @@
+org.springframework.test.context.ContextCustomizerFactory = com.optimize.kopesa.\
+    afis.master.config.TestContainersSpringContextCustomizerFactory,com.\
+    optimize.kopesa.afis.master.config.\
+    KafkaTestContainersSpringContextCustomizerFactory

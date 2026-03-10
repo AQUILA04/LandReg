@@ -1,0 +1,62 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (matcherJobHistory(); as matcherJobHistoryRef) {
+      <div>
+        <h2 data-cy="matcherJobHistoryDetailsHeading">
+          <span jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.detail.title">Matcher Job History</span>
+        </h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ matcherJobHistoryRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.rid">Rid</span></dt>
+          <dd>
+            <span>{{ matcherJobHistoryRef.rid }}</span>
+          </dd>
+          <dt><span jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.producerCount">Producer Count</span></dt>
+          <dd>
+            <span>{{ matcherJobHistoryRef.producerCount }}</span>
+          </dd>
+          <dt><span jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.consumerReponseCount">Consumer Reponse Count</span></dt>
+          <dd>
+            <span>{{ matcherJobHistoryRef.consumerReponseCount }}</span>
+          </dd>
+          <dt><span jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.highScore">High Score</span></dt>
+          <dd>
+            <span>{{ matcherJobHistoryRef.highScore }}</span>
+          </dd>
+          <dt><span jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.foundMatch">Found Match</span></dt>
+          <dd>
+            <span>{{ matcherJobHistoryRef.foundMatch }}</span>
+          </dd>
+          <dt><span jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.matchedRID">Matched RID</span></dt>
+          <dd>
+            <span>{{ matcherJobHistoryRef.matchedRID }}</span>
+          </dd>
+          <dt><span jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.status">Status</span></dt>
+          <dd>
+            <span [jhiTranslate]="'afisMasterApp.MatchJobStatus.' + (matcherJobHistoryRef.status ?? 'null')">{{
+              { null: '', PENDING: 'PENDING', PROCESSING: 'PROCESSING', FINISHED: 'FINISHED' }[matcherJobHistoryRef.status ?? 'null']
+            }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Retour</span>
+        </button>
+
+        <button type="button" [routerLink]="['/afismaster/matcher-job-history', matcherJobHistoryRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editer</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

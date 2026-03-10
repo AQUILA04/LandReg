@@ -1,0 +1,41 @@
+{
+  "annotations": {
+    "changelogDate": "20241118184137"
+  },
+  "clientRootFolder": "AfisService",
+  "databaseType": "mongodb",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "rid",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "producerCount",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "consumerReponseCount",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "highScore",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "foundMatch",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "matchedRID",
+      "fieldType": "String"
+    }
+  ],
+  "microserviceName": "AfisService",
+  "name": "MatcherJobHistory",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

@@ -1,0 +1,27 @@
+{
+  "afisMasterApp": {
+    "afisMasterFingerprintStore": {
+      "home": {
+        "title": "FingerprintStores",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Fingerprint Store",
+        "createOrEditLabel": "Créer ou éditer un Fingerprint Store",
+        "notFound": "Aucun Fingerprint Store trouvé"
+      },
+      "created": "Un nouveau Fingerprint Store a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Fingerprint Store avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Fingerprint Store avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Fingerprint Store {{ id }} ?"
+      },
+      "detail": {
+        "title": "Fingerprint Store"
+      },
+      "id": "ID",
+      "rid": "Rid",
+      "handType": "Hand Type",
+      "fingerName": "Finger Name",
+      "fingerprintImage": "Fingerprint Image"
+    }
+  }
+}

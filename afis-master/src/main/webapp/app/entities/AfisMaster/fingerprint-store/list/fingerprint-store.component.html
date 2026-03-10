@@ -1,0 +1,156 @@
+<div>
+  <h2 id="page-heading" data-cy="FingerprintStoreHeading">
+    <span jhiTranslate="afisMasterApp.afisMasterFingerprintStore.home.title">FingerprintStores</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="afisMasterApp.afisMasterFingerprintStore.home.refreshListLabel">Actualiser la liste</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-fingerprint-store"
+        [routerLink]="['/afismaster/fingerprint-store/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="afisMasterApp.afisMasterFingerprintStore.home.createLabel">Créer un nouveau Fingerprint Store</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (fingerprintStores?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="afisMasterApp.afisMasterFingerprintStore.home.notFound">Aucun Fingerprint Store trouvé</span>
+    </div>
+  }
+
+  @if (fingerprintStores && fingerprintStores.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="rid">
+              <div class="d-flex">
+                <span jhiTranslate="afisMasterApp.afisMasterFingerprintStore.rid">Rid</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="handType">
+              <div class="d-flex">
+                <span jhiTranslate="afisMasterApp.afisMasterFingerprintStore.handType">Hand Type</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="fingerName">
+              <div class="d-flex">
+                <span jhiTranslate="afisMasterApp.afisMasterFingerprintStore.fingerName">Finger Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="fingerprintImage">
+              <div class="d-flex">
+                <span jhiTranslate="afisMasterApp.afisMasterFingerprintStore.fingerprintImage">Fingerprint Image</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (fingerprintStore of fingerprintStores; track trackId(fingerprintStore)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/afismaster/fingerprint-store', fingerprintStore.id, 'view']">{{ fingerprintStore.id }}</a>
+              </td>
+              <td>{{ fingerprintStore.rid }}</td>
+              <td [jhiTranslate]="'afisMasterApp.HandType.' + (fingerprintStore.handType ?? 'null')">
+                {{ { null: '', LEFT: 'LEFT', RIGHT: 'RIGHT' }[fingerprintStore.handType ?? 'null'] }}
+              </td>
+              <td [jhiTranslate]="'afisMasterApp.Finger.' + (fingerprintStore.fingerName ?? 'null')">
+                {{
+                  { null: '', THUMB: 'THUMB', INDEX: 'INDEX', MIDDLE: 'MIDDLE', RING: 'RING', LITTLE: 'LITTLE' }[
+                    fingerprintStore.fingerName ?? 'null'
+                  ]
+                }}
+              </td>
+              <td>
+                @if (fingerprintStore.fingerprintImage) {
+                  <a (click)="openFile(fingerprintStore.fingerprintImage, fingerprintStore.fingerprintImageContentType)">
+                    <img
+                      [src]="'data:' + fingerprintStore.fingerprintImageContentType + ';base64,' + fingerprintStore.fingerprintImage"
+                      style="max-height: 30px"
+                      alt="fingerprintStore"
+                    />
+                  </a>
+                  <span>{{ fingerprintStore.fingerprintImageContentType }}, {{ byteSize(fingerprintStore.fingerprintImage) }}</span>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a
+                    [routerLink]="['/afismaster/fingerprint-store', fingerprintStore.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                  >
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">Voir</span>
+                  </a>
+
+                  <a
+                    [routerLink]="['/afismaster/fingerprint-store', fingerprintStore.id, 'edit']"
+                    class="btn btn-primary btn-sm"
+                    data-cy="entityEditButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Editer</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(fingerprintStore)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Supprimer</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (fingerprintStores && fingerprintStores.length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

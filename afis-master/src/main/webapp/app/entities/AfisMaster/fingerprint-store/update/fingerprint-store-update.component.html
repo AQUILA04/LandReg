@@ -1,0 +1,128 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-fingerprint-store-heading"
+        data-cy="FingerprintStoreCreateUpdateHeading"
+        jhiTranslate="afisMasterApp.afisMasterFingerprintStore.home.createOrEditLabel"
+      >
+        Créer ou éditer un Fingerprint Store
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="afisMasterApp.afisMasterFingerprintStore.id">ID</label>
+            <input type="text" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let ridRef = editForm.get('rid')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_rid" jhiTranslate="afisMasterApp.afisMasterFingerprintStore.rid">Rid</label>
+          <input type="text" class="form-control" name="rid" id="field_rid" data-cy="rid" formControlName="rid" />
+          @if (ridRef.invalid && (ridRef.dirty || ridRef.touched)) {
+            <div>
+              @if (editForm.get('rid')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Ce champ est obligatoire.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_handType" jhiTranslate="afisMasterApp.afisMasterFingerprintStore.handType">Hand Type</label>
+          <select class="form-control" name="handType" formControlName="handType" id="field_handType" data-cy="handType">
+            <option [ngValue]="null">{{ 'afisMasterApp.HandType.null' | translate }}</option>
+            @for (handType of handTypeValues; track $index) {
+              <option [value]="handType">{{ 'afisMasterApp.HandType.' + handType | translate }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_fingerName" jhiTranslate="afisMasterApp.afisMasterFingerprintStore.fingerName"
+            >Finger Name</label
+          >
+          <select class="form-control" name="fingerName" formControlName="fingerName" id="field_fingerName" data-cy="fingerName">
+            <option [ngValue]="null">{{ 'afisMasterApp.Finger.null' | translate }}</option>
+            @for (finger of fingerValues; track $index) {
+              <option [value]="finger">{{ 'afisMasterApp.Finger.' + finger | translate }}</option>
+            }
+          </select>
+        </div>
+
+        @let fingerprintImageRef = editForm.get('fingerprintImage')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_fingerprintImage" jhiTranslate="afisMasterApp.afisMasterFingerprintStore.fingerprintImage"
+            >Fingerprint Image</label
+          >
+          <div>
+            @if (fingerprintImageRef.value) {
+              <img
+                [src]="'data:' + editForm.get('fingerprintImageContentType')!.value + ';base64,' + fingerprintImageRef.value"
+                style="max-height: 100px"
+                alt="fingerprintStore"
+              />
+            }
+            @if (fingerprintImageRef.value) {
+              <div class="form-text text-danger clearfix">
+                <span class="pull-start"
+                  >{{ editForm.get('fingerprintImageContentType')!.value }}, {{ byteSize(fingerprintImageRef.value!) }}</span
+                >
+                <button
+                  type="button"
+                  (click)="clearInputImage('fingerprintImage', 'fingerprintImageContentType', 'file_fingerprintImage')"
+                  class="btn btn-secondary btn-xs pull-end"
+                >
+                  <fa-icon icon="times"></fa-icon>
+                </button>
+              </div>
+            }
+            <input
+              type="file"
+              id="file_fingerprintImage"
+              data-cy="fingerprintImage"
+              (change)="setFileData($event, 'fingerprintImage', true)"
+              accept="image/*"
+              jhiTranslate="entity.action.addimage"
+            />
+          </div>
+          <input
+            type="hidden"
+            class="form-control"
+            name="fingerprintImage"
+            id="field_fingerprintImage"
+            data-cy="fingerprintImage"
+            formControlName="fingerprintImage"
+          />
+          <input
+            type="hidden"
+            class="form-control"
+            name="fingerprintImageContentType"
+            id="field_fingerprintImageContentType"
+            formControlName="fingerprintImageContentType"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Annuler</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Sauvegarder</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

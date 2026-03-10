@@ -1,0 +1,121 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-matcher-job-history-heading"
+        data-cy="MatcherJobHistoryCreateUpdateHeading"
+        jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.home.createOrEditLabel"
+      >
+        Créer ou éditer un Matcher Job History
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.id">ID</label>
+            <input type="text" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_rid" jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.rid">Rid</label>
+          <input type="text" class="form-control" name="rid" id="field_rid" data-cy="rid" formControlName="rid" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_producerCount" jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.producerCount"
+            >Producer Count</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="producerCount"
+            id="field_producerCount"
+            data-cy="producerCount"
+            formControlName="producerCount"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label
+            class="form-label"
+            for="field_consumerReponseCount"
+            jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.consumerReponseCount"
+            >Consumer Reponse Count</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="consumerReponseCount"
+            id="field_consumerReponseCount"
+            data-cy="consumerReponseCount"
+            formControlName="consumerReponseCount"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_highScore" jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.highScore"
+            >High Score</label
+          >
+          <input type="number" class="form-control" name="highScore" id="field_highScore" data-cy="highScore" formControlName="highScore" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_foundMatch" jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.foundMatch"
+            >Found Match</label
+          >
+          <input
+            type="checkbox"
+            class="form-check"
+            name="foundMatch"
+            id="field_foundMatch"
+            data-cy="foundMatch"
+            formControlName="foundMatch"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_matchedRID" jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.matchedRID"
+            >Matched RID</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="matchedRID"
+            id="field_matchedRID"
+            data-cy="matchedRID"
+            formControlName="matchedRID"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_status" jhiTranslate="afisMasterApp.afisServiceMatcherJobHistory.status">Status</label>
+          <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
+            <option [ngValue]="null">{{ 'afisMasterApp.MatchJobStatus.null' | translate }}</option>
+            @for (matchJobStatus of matchJobStatusValues; track $index) {
+              <option [value]="matchJobStatus">{{ 'afisMasterApp.MatchJobStatus.' + matchJobStatus | translate }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Annuler</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Sauvegarder</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
