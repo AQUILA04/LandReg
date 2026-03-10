@@ -1,5 +1,7 @@
 package com.optimize.kopesa.afis.service.domain;
 
+import com.machinezoo.sourceafis.FingerprintTemplate;
+import com.optimize.kopesa.afis.service.domain.enumeration.ActorType;
 import com.optimize.kopesa.afis.service.domain.enumeration.Finger;
 import com.optimize.kopesa.afis.service.domain.enumeration.HandType;
 import jakarta.validation.constraints.*;
@@ -35,6 +37,7 @@ public class FingerprintStore implements Serializable {
 
     @Field("fingerprint_image_content_type")
     private String fingerprintImageContentType;
+    private ActorType type;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -116,6 +119,14 @@ public class FingerprintStore implements Serializable {
         this.fingerprintImageContentType = fingerprintImageContentType;
     }
 
+    public ActorType getType() {
+        return type;
+    }
+
+    public void setType(ActorType type) {
+        this.type = type;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -143,7 +154,6 @@ public class FingerprintStore implements Serializable {
             ", rid='" + getRid() + "'" +
             ", handType='" + getHandType() + "'" +
             ", fingerName='" + getFingerName() + "'" +
-            ", fingerprintImage='" + getFingerprintImage() + "'" +
             ", fingerprintImageContentType='" + getFingerprintImageContentType() + "'" +
             "}";
     }

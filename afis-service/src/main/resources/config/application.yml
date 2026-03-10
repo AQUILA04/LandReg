@@ -146,7 +146,7 @@ spring:
         spring.json.trusted.packages: "*"
   docker:
     compose:
-      enabled: true
+      enabled: false
       lifecycle-management: start-only
       file: src/main/docker/mongodb.yml
   profiles:
@@ -247,6 +247,8 @@ jhipster:
       audience:
         - account
         - api://default
+afis-service:
+  fingerprint-folder: ${user.home}/.optimize-land-reg/fingerprint/
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class

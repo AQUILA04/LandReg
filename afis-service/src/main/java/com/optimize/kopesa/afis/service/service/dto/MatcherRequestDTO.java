@@ -9,17 +9,17 @@ public class MatcherRequestDTO {
     private String rid;
     private int batchSize;
     private double threshold;
-    private List<FingerprintMatcher> matchers;
+    private List<FingerprintStoreDTO> fingerprints;
 
     public MatcherRequestDTO() {
     }
 
-    public MatcherRequestDTO(int batchId, String rid, int batchSize, double threshold, List<FingerprintMatcher> matchers) {
+    public MatcherRequestDTO(int batchId, String rid, int batchSize, double threshold, List<FingerprintStoreDTO> fingerprints) {
         this.batchId = batchId;
         this.rid = rid;
         this.batchSize = batchSize;
         this.threshold = threshold;
-        this.matchers = matchers;
+        this.fingerprints = fingerprints;
     }
 
     public int getBatchId() {
@@ -54,11 +54,11 @@ public class MatcherRequestDTO {
         this.threshold = threshold;
     }
 
-    public List<FingerprintMatcher> getMatchers() {
-        return matchers;
+    public List<FingerprintStoreDTO> getFingerprints() {
+        return fingerprints;
     }
 
-    public void setMatchers(List<FingerprintMatcher> matchers) {
-        this.matchers = matchers;
+    public void setFingerprints(List<FingerprintStoreDTO> fingerprints) {
+        this.fingerprints = fingerprints;
     }
 }

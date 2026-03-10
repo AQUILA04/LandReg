@@ -1,6 +1,8 @@
 package com.optimize.kopesa.afis.service.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.machinezoo.sourceafis.FingerprintTemplate;
+import com.optimize.kopesa.afis.service.domain.enumeration.ActorType;
 import com.optimize.kopesa.afis.service.domain.enumeration.Finger;
 import com.optimize.kopesa.afis.service.domain.enumeration.HandType;
 import jakarta.validation.constraints.*;
@@ -25,6 +27,8 @@ public class FingerprintStoreDTO implements Serializable {
     private byte[] fingerprintImage;
 
     private String fingerprintImageContentType;
+
+    private ActorType type;
 
     public String getId() {
         return id;
@@ -74,7 +78,13 @@ public class FingerprintStoreDTO implements Serializable {
         this.fingerprintImageContentType = fingerprintImageContentType;
     }
 
+    public ActorType getType() {
+        return type;
+    }
 
+    public void setType(ActorType type) {
+        this.type = type;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -104,13 +114,9 @@ public class FingerprintStoreDTO implements Serializable {
             ", rid='" + getRid() + "'" +
             ", handType='" + getHandType() + "'" +
             ", fingerName='" + getFingerName() + "'" +
-            ", fingerprintImage='" + getFingerprintImage() + "'" +
             "}";
     }
 
-    public FingerprintTemplate getTemplate () {
-        return new FingerprintTemplate(fingerprintImage);
-    }
 
     // jhipster-needle-add-method
 }

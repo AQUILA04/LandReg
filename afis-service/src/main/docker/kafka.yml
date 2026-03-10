@@ -2,6 +2,7 @@
 name: afisservice
 services:
   kafka:
+    container_name: kafka
     image: confluentinc/cp-kafka:7.7.1
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
@@ -19,6 +20,7 @@ services:
       org.springframework.boot.ignore: true
   zookeeper:
     image: confluentinc/cp-zookeeper:7.7.1
+    container_name: zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000

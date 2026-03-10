@@ -1,6 +1,7 @@
 package com.optimize.kopesa.afis.service.service;
 
 import com.optimize.kopesa.afis.service.domain.FingerprintStore;
+import com.optimize.kopesa.afis.service.domain.enumeration.ActorType;
 import com.optimize.kopesa.afis.service.repository.FingerprintStoreRepository;
 import com.optimize.kopesa.afis.service.service.dto.FingerprintStoreDTO;
 import com.optimize.kopesa.afis.service.service.mapper.FingerprintStoreMapper;
@@ -104,5 +105,9 @@ public class FingerprintStoreService {
     public void delete(String id) {
         LOG.debug("Request to delete FingerprintStore : {}", id);
         fingerprintStoreRepository.deleteById(id);
+    }
+
+    public Page<FingerprintStore> getByTypePerson(Pageable pageable) {
+        return fingerprintStoreRepository.findByType(ActorType.PERSON, pageable);
     }
 }
