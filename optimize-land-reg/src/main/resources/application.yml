@@ -3,7 +3,7 @@ spring:
     name: optimize-land-reg
     version: 1.0.0
   profiles:
-    active: local
+    active: recette
   config:
     import: optional:file:${user.home}/.optimize-land-reg/config/application.yml
   docker:
