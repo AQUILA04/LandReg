@@ -4,6 +4,8 @@ spring:
     version: 1.0.0
   profiles:
     active: local
+  config:
+    import: optional:file:${user.home}/optimize-land-reg/config/application.yml
   docker:
     compose:
       enabled: false
