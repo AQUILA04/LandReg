@@ -58,7 +58,7 @@ public class AfisMasterConsumer {
 
     @KafkaListener(topics = "afis-matcher-result-topic", groupId = "afis-master", containerFactory = "kafkaListenerContainerFactory")
     public void receiveMatcherServiceResponse(String message) throws JsonProcessingException {
-        log.info("RECEIVING MATCHING RESPONSE: {}", message.substring(0, 255));
+        log.info("RECEIVING MATCHING RESPONSE: {}", message);
         MatcherResponseDTO response = new ObjectMapper().readValue(message, MatcherResponseDTO.class);
         MatcherJobHistory matcherJobHistory = matcherJobHistoryService.updateConsumerResponseJob(response);
         if (Objects.nonNull(matcherJobHistory) && MatchJobStatus.FINISHED.equals(matcherJobHistory.getStatus())) {
