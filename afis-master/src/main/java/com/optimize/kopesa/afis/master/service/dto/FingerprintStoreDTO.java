@@ -120,7 +120,6 @@ public class FingerprintStoreDTO implements Serializable {
             ", rid='" + getRid() + "'" +
             ", handType='" + getHandType() + "'" +
             ", fingerName='" + getFingerName() + "'" +
-            ", fingerprintImage='" + getFingerprintImage() + "'" +
             "}";
     }
 

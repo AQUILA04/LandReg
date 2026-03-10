@@ -61,4 +61,14 @@ public class MatcherRequestDTO {
     public void setFingerprints(List<FingerprintStoreDTO> fingerprints) {
         this.fingerprints = fingerprints;
     }
+
+    @Override
+    public String toString() {
+        return "MatcherRequestDTO{" +
+            "batchId=" + batchId +
+            ", rid='" + rid + '\'' +
+            ", batchSize=" + batchSize +
+            ", threshold=" + threshold +
+            '}';
+    }
 }

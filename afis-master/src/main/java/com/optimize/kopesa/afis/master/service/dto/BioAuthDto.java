@@ -47,4 +47,13 @@ public class BioAuthDto {
     public void setRole(String role) {
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return "BioAuthDto{" +
+            "uin='" + uin + '\'' +
+            ", rid='" + rid + '\'' +
+            ", role='" + role + '\'' +
+            '}';
+    }
 }

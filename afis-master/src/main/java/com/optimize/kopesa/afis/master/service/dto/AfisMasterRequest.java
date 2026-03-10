@@ -29,4 +29,11 @@ public class AfisMasterRequest {
     public void setFingerprintStores(List<FingerprintStoreDTO> fingerprintStores) {
         this.fingerprintStores = fingerprintStores;
     }
+
+    @Override
+    public String toString() {
+        return "AfisMasterRequest{" +
+            "rid='" + rid + '\'' +
+            '}';
+    }
 }

@@ -37,4 +37,13 @@ public class RegistrationProcessorFeedback {
     public void setMatchedRID(String matchedRID) {
         this.matchedRID = matchedRID;
     }
+
+    @Override
+    public String toString() {
+        return "RegistrationProcessorFeedback{" +
+            "rid='" + rid + '\'' +
+            ", isFoundMatch=" + isFoundMatch +
+            ", matchedRID='" + matchedRID + '\'' +
+            '}';
+    }
 }

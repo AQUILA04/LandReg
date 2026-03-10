@@ -59,7 +59,20 @@ public class MatcherResponseDTO {
         return matchRID;
     }
 
+    @Override
+    public String toString() {
+        return "MatcherResponseDTO{" +
+            "rid='" + rid + '\'' +
+            ", batchId=" + batchId +
+            ", highestScore=" + highestScore +
+            ", isFoundMatch=" + isFoundMatch +
+            ", matchRID='" + matchRID + '\'' +
+            '}';
+    }
+
     public void setMatchRID(String matchRID) {
         this.matchRID = matchRID;
     }
+
+
 }
