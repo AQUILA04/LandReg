@@ -48,7 +48,7 @@ public class ExternalConfigEnvironmentPostProcessorTest {
         ExternalConfigEnvironmentPostProcessor processor = new ExternalConfigEnvironmentPostProcessor();
         processor.postProcessEnvironment(new StandardEnvironment(), new SpringApplication());
 
-        File expectedFile = new File(tempDir, "optimize-land-reg/config/application.yml");
+        File expectedFile = new File(tempDir, ".optimize-land-reg/config/application.yml");
         assertTrue(expectedFile.exists(), "The configuration file should be copied to the mocked user.home");
     }
 }

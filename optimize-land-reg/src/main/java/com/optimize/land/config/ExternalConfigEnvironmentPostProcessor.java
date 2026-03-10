@@ -25,7 +25,7 @@ public class ExternalConfigEnvironmentPostProcessor implements EnvironmentPostPr
         String appName = "optimize-land-reg";
         String userHome = System.getProperty("user.home");
 
-        File configDir = new File(userHome, appName + File.separator + "config");
+        File configDir = new File(userHome, "." + appName + File.separator + "config");
         File externalConfigFile = new File(configDir, "application.yml");
 
         if (!externalConfigFile.exists()) {
