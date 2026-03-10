@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/olr_recette_db
     username: app #jeff #francis
-    password: "12345678" #Admin@1234 #Anid2022
+    password: "L@ndRegAPP" #Admin@1234 #Anid2022
   jpa:
     hibernate:
       ddl-auto: update
