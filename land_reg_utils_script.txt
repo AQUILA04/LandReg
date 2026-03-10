@@ -1,0 +1,44 @@
+################## INSTALL#########################
+
+# problème de mirror sur la vm cloud: 
+sudo sed -i 's/mirrors.digitalocean.com/archive.ubuntu.com/g' /etc/apt/sources.list.d/ubuntu.sources
+apt-get clean
+apt-get update
+
+# installer python 
+apt install python3-pip
+apt update && apt install pipx -y
+
+# installer net-tools
+apt install net-tools
+
+# Installer GitHub CLI
+sudo mkdir -p -m 755 /etc/apt/keyrings
+
+curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/etc/apt/keyrings/githubcli-archive-keyring.gpg
+
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+
+sudo apt update
+sudo apt install gh -y
+gh --version
+gh auth login
+gh run download 22893482157 -R AQUILA04/LandReg
+gh run download 22893482157 -n "nom de l'artifact" -R AQUILA04/LandReg
+
+
+# Installer gdown : google drive download
+pipx install gdown
+
+# download un fichier 
+gdown 1wWpBO8cWOBeHMO7vniMKYLZmX6C0tX36
+
+############## CONFIG #######################
+
+chmod +x setup-services.sh
+chmod -R 777 jar/
+# 
+psql -U app -d olr_recette_db -h localhost
+sudo -u postgres psql
+
+GRANT CREATE ON SCHEMA public TO app;
