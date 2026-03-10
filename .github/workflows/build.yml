@@ -1,0 +1,65 @@
+name: Build and Upload Artifacts
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build and Install common-entities
+        run: mvn clean install -DskipTests
+        working-directory: lib/common-entities
+
+      - name: Build and Install common-securities
+        run: mvn clean install -DskipTests
+        working-directory: lib/common-securities
+
+      - name: Build afis-master
+        run: mvn clean package -DskipTests
+        working-directory: afis-master
+
+      - name: Upload afis-master artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: afis-master-jar
+          path: afis-master/target/*.jar
+          if-no-files-found: error
+
+      - name: Build afis-service
+        run: mvn clean package -DskipTests
+        working-directory: afis-service
+
+      - name: Upload afis-service artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: afis-service-jar
+          path: afis-service/target/*.jar
+          if-no-files-found: error
+
+      - name: Build optimize-land-reg
+        run: mvn clean package -DskipTests
+        working-directory: optimize-land-reg
+
+      - name: Upload optimize-land-reg artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: optimize-land-reg-jar
+          path: optimize-land-reg/target/*.jar
+          if-no-files-found: error
