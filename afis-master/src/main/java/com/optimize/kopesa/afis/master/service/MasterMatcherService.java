@@ -13,6 +13,8 @@ import jakarta.validation.constraints.NotNull;
 import org.apache.commons.imaging.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.imgscalr.Scalr;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ import java.nio.file.Paths;
 
 @Service
 public class MasterMatcherService {
+    private final Logger log = LoggerFactory.getLogger(MasterMatcherService.class);
     private final MessageBrokerService brokerService;
     private final FingerprintStoreRepository fingerprintStoreRepository;
     private final MatcherJobHistoryService matcherJobHistoryService;
@@ -48,7 +51,9 @@ public class MasterMatcherService {
 
     public void dispatchDeduplicationJob (AfisMasterRequest request) throws JsonProcessingException {
         long totalRecords = fingerprintStoreRepository.countByType(ActorType.PERSON);
+        log.info("Total records in fingerprint store: {}", totalRecords);
         if (totalRecords > 0) {
+            log.info("Total records in fingerprint store: {} processing", totalRecords);
             int batchSize = 18000;
             int numBatches = (int) Math.ceil((double) totalRecords / batchSize);
             for (int i = 0; i < numBatches; i++) {
@@ -60,6 +65,7 @@ public class MasterMatcherService {
                     processingFingerprintRepository.save(fingerprintStoreMapper.toProcessingFingerprint(fs));
             });
         } else {
+            log.info("No records in fingerprint store, sending feedback to registration processor");
             request.getFingerprintStores().forEach(fs -> {
                 fs.setType(ActorType.PERSON);
                     fingerprintStoreRepository.save(fingerprintStoreMapper.toEntity(fs));

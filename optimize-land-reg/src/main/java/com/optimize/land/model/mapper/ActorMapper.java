@@ -1,6 +1,5 @@
 package com.optimize.land.model.mapper;
 
-import com.optimize.common.entities.mapper.BaseMapper;
 import com.optimize.common.entities.util.Converter;
 import com.optimize.land.model.dto.*;
 import com.optimize.land.model.entity.*;

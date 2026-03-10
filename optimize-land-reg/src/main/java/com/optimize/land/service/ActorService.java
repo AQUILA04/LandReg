@@ -63,6 +63,7 @@ public class ActorService extends GenericService<AbstractActor, Long> {
 
     @Transactional
     public synchronized String register(@NotNull ActorDto actorDto) throws JsonProcessingException {
+        log.info("ACTOR REGISTRATION: {}, Fingerprint count {}", actorDto.getSynchroBatchNumber(), actorDto.getFingerprintStores().size());
         synchroHistoryService.receivedPacket(actorDto.getSynchroBatchNumber(),
                 actorDto.getSynchroPacketNumber(), SynchroType.ACTOR);
         try {
@@ -75,6 +76,7 @@ public class ActorService extends GenericService<AbstractActor, Long> {
             registration.addRid(rid);
             registration.setOperatorAgent(userService.getCurrentUser().getUsername());
             if (!registration.getFingerprintStores().isEmpty()) {
+                log.info("==> fingerprints non null | SAVING FINGERPRINTS");
                 fingerprintStoreService.getRepository().saveAll(registration.getFingerprintStores());
             }
             //registration.updateFingerprint();
@@ -90,8 +92,8 @@ public class ActorService extends GenericService<AbstractActor, Long> {
             }
             return "{\"rid\":"+rid +"}";
         } catch (Exception e) {
-            e.printStackTrace();
             log.error("ACTOR REGISTRATION ERROR: {}", e.getLocalizedMessage());
+            log.error(e.getLocalizedMessage(), e.getCause());
             synchroHistoryService.failedPacket(actorDto.getSynchroBatchNumber(), actorDto.getSynchroPacketNumber());
             throw new ApplicationException("ACTOR REGISTRATION ERROR: "+ e.getMessage());
         }
@@ -100,6 +102,7 @@ public class ActorService extends GenericService<AbstractActor, Long> {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void validate(String rid) {
+        log.info("===> VALIDATION REQUEST RID {}", rid);
         Registration registration = (Registration) getRepository().getByRid(rid);
         Actor actor = new Actor();
                 actor = actorMapper.registrationToActor(registration);
@@ -111,6 +114,7 @@ public class ActorService extends GenericService<AbstractActor, Long> {
 
     @Transactional(noRollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
     public void failed(String rid, String message) {
+        log.error("===> FAILED REQUEST RID {} | MESSAGE {}", rid, message);
         Registration registration = getRepository().getRegistrationByRid(rid);
         registration.setRegistrationStatus(RegistrationStatus.FAILED);
         registration.setStatusObservation(message);
@@ -120,6 +124,7 @@ public class ActorService extends GenericService<AbstractActor, Long> {
 
     @Transactional
     public void duplicate(String rid, String message) {
+        log.info("===> DUPLICATED REQUEST RID {} | MESSAGE {}", rid, message);
         Registration registration = getRepository().getRegistrationByRid(rid);
         registration.setRegistrationStatus(RegistrationStatus.DUPLICATED);
         registration.setStatusObservation(message);
