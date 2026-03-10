@@ -3,10 +3,17 @@ package com.optimize.common.entities.controller;
 import com.optimize.common.entities.config.CustomMessageSource;
 import com.optimize.common.entities.dto.ValidationErrorDTO;
 import com.optimize.common.entities.util.Response;
+import com.optimize.common.entities.util.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.connector.ClientAbortException;
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -22,6 +29,7 @@ import com.optimize.common.entities.exception.CustomValidationException;
 import com.optimize.common.entities.exception.ResourceNotFoundException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -52,6 +60,18 @@ public class CommonAdviceController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(Response.errorResponse(HttpStatus.UNAUTHORIZED, bodyOfResponse, ex.getService()), HttpStatus.UNAUTHORIZED);
     }
 
+    protected ResponseEntity<Object> handleHttpMessageNotReadableExceptionOverride (
+            HttpMessageNotReadableException ex, WebRequest request) {
+        String bodyOfResponse = this.messageSource.getMessage(ex.getMessage());
+        logger(ex);
+        return new ResponseEntity<>(Response.errorResponse(HttpStatus.UNAUTHORIZED, bodyOfResponse, ""), HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        return handleHttpMessageNotReadableExceptionOverride(ex, request);
+    }
+
     @ExceptionHandler(value
             =  ApplicationException.class )
     protected ResponseEntity<Response> handleApplicationException(
@@ -78,26 +98,96 @@ public class CommonAdviceController extends ResponseEntityExceptionHandler {
             =  Exception.class )
     public ResponseEntity<Response> handleException(Exception ex) {
         String bodyOfResponse = this.messageSource.getMessage(ex.getMessage());
+
+        if (ex instanceof ConstraintViolationException || ex instanceof DataIntegrityViolationException) {
+            bodyOfResponse = "ERROR : VIOLATION DE CONTRAINTE D'UNICITE" + ex.getCause().getLocalizedMessage();
+            if (ex instanceof DataIntegrityViolationException dve) {
+                final String message = dve.getMostSpecificCause().getMessage();
+                final int open = message.lastIndexOf("(") + 1;
+                final int close = message.lastIndexOf(")");
+                final int length = message.length();
+                String constraintValue = message.substring(open, close);
+                constraintValue += " " + message.substring(close + 1);
+                bodyOfResponse = "VIOLATION DE CONTRAINTE D'INTEGRITE : " +  constraintValue;
+            }
+            return new ResponseEntity<>(ResponseUtil
+                    .errorResponse(HttpStatus.CONFLICT, bodyOfResponse),
+                    HttpStatus.CONFLICT);
+        }
+
         logger(ex);
-        return new ResponseEntity<>(Response
-                .errorResponse(HttpStatus.INTERNAL_SERVER_ERROR, bodyOfResponse, ""),
+
+
+        if (ex instanceof JpaSystemException jpaEx) {
+            bodyOfResponse = jpaEx.getMostSpecificCause().getMessage();
+            log.error(Arrays.toString(jpaEx.getStackTrace()));
+            return new ResponseEntity<>(ResponseUtil
+                    .errorResponse(HttpStatus.UNAUTHORIZED, bodyOfResponse),
+                    HttpStatus.UNAUTHORIZED);
+        }
+
+        if (ex instanceof ClientAbortException caEx) {
+            bodyOfResponse = caEx.getMessage();
+            log.error("CLIENT ABORT EXCEPTION  ===> {}",caEx.toString());
+        }
+
+        return new ResponseEntity<>(ResponseUtil
+                .errorResponse(HttpStatus.INTERNAL_SERVER_ERROR, bodyOfResponse),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        return customHandleMethodArgumentNotValid(ex, headers, status, request);
+    }
+
+    protected ResponseEntity<Object> customHandleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
             HttpHeaders headers,
-            HttpStatus status,
+            HttpStatusCode status,
             WebRequest request) {
-        List<ValidationErrorDTO> errors = new ArrayList<>();
+        List<String> errors = new ArrayList<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
-            errors.add(new ValidationErrorDTO(fieldName, this.messageSource.getMessage(errorMessage)));
+            errors.add(new ValidationErrorDTO(fieldName, this.messageSource.getMessage(errorMessage)).toString());
         });
         logger(ex);
         log.error(ERROR+errors);
         return new ResponseEntity<>(Response.errorResponse(HttpStatus.BAD_REQUEST, errors, ""), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value
+            =  NullPointerException.class )
+    protected ResponseEntity<Response> handleNullPoiException(
+            NullPointerException ex, WebRequest request) {
+        String bodyOfResponse = this.messageSource.getMessage(ex.getMessage());
+        logger(ex);
+        return new ResponseEntity<>(ResponseUtil
+                .errorResponse(HttpStatus.INTERNAL_SERVER_ERROR, bodyOfResponse),
+                HttpStatus.OK);
+    }
+
+    @ExceptionHandler(value
+            =  ConstraintViolationException.class )
+    protected ResponseEntity<Response> constraintException(
+            ConstraintViolationException ex, WebRequest request) {
+        String bodyOfResponse = this.messageSource.getMessage(ex.getLocalizedMessage());
+        logger(ex);
+        return new ResponseEntity<>(ResponseUtil
+                .errorResponse(HttpStatus.INTERNAL_SERVER_ERROR, bodyOfResponse),
+                HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(value
+            =  DataIntegrityViolationException.class )
+    protected ResponseEntity<Response> dataIntegrityException(
+            DataIntegrityViolationException ex, WebRequest request) {
+        String bodyOfResponse = this.messageSource.getMessage(ex.getLocalizedMessage());
+        logger(ex);
+        return new ResponseEntity<>(ResponseUtil
+                .errorResponse(HttpStatus.INTERNAL_SERVER_ERROR, bodyOfResponse),
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     protected ResponseEntity<Object> handleMissingServletRequestParameter(
@@ -152,6 +242,8 @@ public class CommonAdviceController extends ResponseEntityExceptionHandler {
 
 
     private void logger(Exception ex) {
+        ex.printStackTrace();
+        log.error("===> ERROR : ", ex);
         log.error("===> Error Message: {}", this.messageSource.getMessage(ex.getMessage()));
     }
 }

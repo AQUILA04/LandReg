@@ -3,6 +3,8 @@ package com.optimize.common.entities.util;
 import jakarta.xml.bind.DatatypeConverter;
 import org.springframework.util.StringUtils;
 
+import java.util.Base64;
+import java.util.Objects;
 
 
 public class Converter {
@@ -19,6 +21,13 @@ public class Converter {
         }else {
             return new byte[0];
         }
+    }
+
+    public static String convertToBase64Image(byte[] byteImage) {
+        if (Objects.isNull(byteImage) || byteImage.length < 10) {
+            return null;
+        }
+        return Base64.getEncoder().encodeToString(byteImage);
     }
 
 }
