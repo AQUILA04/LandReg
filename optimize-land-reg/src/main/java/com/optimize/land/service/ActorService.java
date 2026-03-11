@@ -39,7 +39,7 @@ import java.util.Set;
 
 @Service
 @Transactional(readOnly = true)
-@Slf4j(topic = "EventLog")
+@Slf4j
 public class ActorService extends GenericService<AbstractActor, Long> {
     private final ActorMapper actorMapper;
     private final FingerprintStoreService fingerprintStoreService;
@@ -77,6 +77,7 @@ public class ActorService extends GenericService<AbstractActor, Long> {
     @Transactional
     public synchronized String register(@NotNull ActorDto actorDto) throws JsonProcessingException {
         log.info("ACTOR REGISTRATION: {}, Fingerprint count {}", actorDto.getSynchroBatchNumber(), actorDto.getFingerprintStores().size());
+        log.info("ACTOR DTO {}", actorDto);
         if (synchroHistoryService.getRepository().existsByBatchNumberAndPacketsNumberContains(actorDto.getSynchroBatchNumber(), actorDto.getSynchroPacketNumber())) {
             Optional<AbstractActor> optionalActor = getRepository().findBySynchroBatchNumberAndSynchroPacketNumber(actorDto.getSynchroBatchNumber(), actorDto.getSynchroPacketNumber());
             if (optionalActor.isPresent()) {
@@ -152,6 +153,7 @@ public class ActorService extends GenericService<AbstractActor, Long> {
         Registration registration = (Registration) getRepository().getByRid(rid);
         Actor actor = new Actor();
                 actor = actorMapper.registrationToActor(registration);
+        log.info("SETTING UIN FOR ACTOR {}", actor);
         actor.addUin(UniqueIDGenerator.generateUIN());
         getRepository().delete(registration);
         create(actor);

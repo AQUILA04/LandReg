@@ -180,4 +180,37 @@ public class Person extends Auditable<String> {
         }
         return identificationDoc;
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", lastname='" + lastname + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", sex=" + sex +
+                ", uin='" + uin + '\'' +
+                ", maritalStatus=" + maritalStatus +
+                ", birthDate=" + birthDate +
+                ", placeOfBirth='" + placeOfBirth + '\'' +
+                ", nationality='" + nationality + '\'' +
+                ", profession='" + profession + '\'' +
+                ", otherProfession='" + otherProfession + '\'' +
+                ", address='" + address + '\'' +
+                ", primaryPhone='" + primaryPhone + '\'' +
+                ", secondaryPhone='" + secondaryPhone + '\'' +
+                ", email='" + email + '\'' +
+                ", hasHandicap=" + hasHandicap +
+                ", socioCulturalGroup='" + socioCulturalGroup + '\'' +
+                ", handicapType='" + handicapType + '\'' +
+                ", otherHandicapType='" + otherHandicapType + '\'' +
+                ", hasIDDoc=" + hasIDDoc +
+                ", witnessUIN='" + witnessUIN + '\'' +
+                ", role='" + role + '\'' +
+                ", registrationStatus=" + registrationStatus +
+                ", statusObservation='" + statusObservation + '\'' +
+                ", rid='" + rid + '\'' +
+                ", synchroBatchNumber='" + synchroBatchNumber + '\'' +
+                ", synchroPacketNumber='" + synchroPacketNumber + '\'' +
+                '}';
+    }
 }

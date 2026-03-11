@@ -146,4 +146,24 @@ public abstract class AbstractActor extends Auditable<String> {
             throw new CustomValidationException("Les données d'empreintes digitales sont obligatoires pour une personne physique !");
         }
     }
+
+    @Override
+    public String toString() {
+        return "AbstractActor{" +
+                "id=" + id +
+                ", physicalPerson=" + physicalPerson +
+                ", informalGroup=" + informalGroup +
+                ", privateLegalEntity=" + privateLegalEntity +
+                ", publicLegalEntity=" + publicLegalEntity +
+                ", uin='" + uin + '\'' +
+                ", registrationStatus=" + registrationStatus +
+                ", statusObservation='" + statusObservation + '\'' +
+                ", rid='" + rid + '\'' +
+                ", synchroBatchNumber='" + synchroBatchNumber + '\'' +
+                ", synchroPacketNumber='" + synchroPacketNumber + '\'' +
+                ", role=" + role +
+                ", type=" + type +
+                ", operatorAgent='" + operatorAgent + '\'' +
+                '}';
+    }
 }

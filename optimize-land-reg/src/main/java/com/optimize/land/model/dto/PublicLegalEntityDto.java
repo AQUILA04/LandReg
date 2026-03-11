@@ -22,6 +22,17 @@ public class PublicLegalEntityDto {
     private String phoneNumber;
     private String name;
 
+    @Override
+    public String toString() {
+        return "PublicLegalEntityDto{" +
+                "id=" + id +
+                ", uin='" + uin + '\'' +
+                ", publicEntityType=" + publicEntityType +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
     @JsonIgnore
     public boolean isNull() {
         return Objects.isNull(this.publicEntityType);

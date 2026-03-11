@@ -50,6 +50,26 @@ public class PrivateLegalEntityDto {
         return identificationDoc;
     }
 
+    @Override
+    public String toString() {
+        return "PrivateLegalEntityDto{" +
+                "id=" + id +
+                ", uin='" + uin + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", address='" + address + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", secondaryPhoneNumber='" + secondaryPhoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", entityType=" + entityType +
+                ", mainActivity='" + mainActivity + '\'' +
+                ", acronym='" + acronym + '\'' +
+                ", companyCreatedDate=" + companyCreatedDate +
+                ", representativeUIN='" + representativeUIN + '\'' +
+                ", representativeFullname='" + representativeFullname + '\'' +
+                ", rid='" + rid + '\'' +
+                '}';
+    }
+
     public boolean isNull() {
         return !StringUtils.hasText(this.companyName);
     }

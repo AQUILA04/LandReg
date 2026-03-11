@@ -46,7 +46,7 @@ public class FingerprintStore extends BaseEntity<String> {
     private String fingerprintImageContentType;
     private String fingerStr;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JsonBackReference
     private AbstractActor actor;
 }

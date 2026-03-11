@@ -30,7 +30,6 @@ public class PersonDto {
     @NotBlank(message = "Le prénom de l'acteur est obligatoire !")
     protected String firstname;
     //@NotNull(message = "actor.person.sex.mandatory")
-    @NotNull(message = "Le sexe de l'acteur est obligatoire !")
     protected Sex sex;
     //@NotNull(message = "actor.person.marital-status.mandatory")
     protected MaritalStatus maritalStatus;
@@ -76,6 +75,37 @@ public class PersonDto {
             return null;
         }
         return identificationDoc;
+    }
+
+    @Override
+    public String toString() {
+        return "PersonDto{" +
+                "id=" + id +
+                ", lastname='" + lastname + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", sex=" + sex +
+                ", maritalStatus=" + maritalStatus +
+                ", birthDate=" + birthDate +
+                ", placeOfBirth='" + placeOfBirth + '\'' +
+                ", nationality='" + nationality + '\'' +
+                ", profession='" + profession + '\'' +
+                ", otherProfession='" + otherProfession + '\'' +
+                ", address='" + address + '\'' +
+                ", primaryPhone='" + primaryPhone + '\'' +
+                ", secondaryPhone='" + secondaryPhone + '\'' +
+                ", email='" + email + '\'' +
+                ", hasHandicap=" + hasHandicap +
+                ", socioCulturalGroup='" + socioCulturalGroup + '\'' +
+                ", handicapType='" + handicapType + '\'' +
+                ", otherHandicapType='" + otherHandicapType + '\'' +
+                ", hasIDDoc=" + hasIDDoc +
+                ", witnessUIN='" + witnessUIN + '\'' +
+                ", role='" + role + '\'' +
+                ", statusObservation='" + statusObservation + '\'' +
+                ", rid='" + rid + '\'' +
+                ", synchroBatchNumber='" + synchroBatchNumber + '\'' +
+                ", synchroPacketNumber='" + synchroPacketNumber + '\'' +
+                '}';
     }
 
     @JsonIgnore

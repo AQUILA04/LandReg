@@ -94,4 +94,20 @@ public class ActorDto {
         }
         return new HashSet<>();
     }
+
+    @Override
+    public String toString() {
+        return "ActorDto{" +
+                "id=" + id +
+                ", physicalPerson=" + physicalPerson +
+                ", informalGroup=" + informalGroup +
+                ", privateLegalEntity=" + privateLegalEntity +
+                ", publicLegalEntity=" + publicLegalEntity +
+                ", uin='" + uin + '\'' +
+                ", synchroBatchNumber='" + synchroBatchNumber + '\'' +
+                ", synchroPacketNumber='" + synchroPacketNumber + '\'' +
+                ", role=" + role +
+                ", type=" + type +
+                '}';
+    }
 }

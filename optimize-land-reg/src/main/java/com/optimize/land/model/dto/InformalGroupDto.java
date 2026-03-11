@@ -42,6 +42,27 @@ public class InformalGroupDto {
     private String mandatePhoto;
     private String mandatePhotoContentType;
 
+    @Override
+    public String toString() {
+        return "InformalGroupDto{" +
+                "id=" + id +
+                ", uin='" + uin + '\'' +
+                ", groupName='" + groupName + '\'' +
+                ", address='" + address + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", secondaryPhoneNumber='" + secondaryPhoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", groupType='" + groupType + '\'' +
+                ", representativeUIN='" + representativeUIN + '\'' +
+                ", representativeFullname='" + representativeFullname + '\'' +
+                ", secondaryRepresentativeUIN='" + secondaryRepresentativeUIN + '\'' +
+                ", secondaryRepresentativeFullname='" + secondaryRepresentativeFullname + '\'' +
+                ", thirdRepresentativeUIN='" + thirdRepresentativeUIN + '\'' +
+                ", thirdRepresentativeFullname='" + thirdRepresentativeFullname + '\'' +
+                ", mandatePhotoContentType='" + mandatePhotoContentType + '\'' +
+                '}';
+    }
+
     @JsonIgnore
     public boolean isNull() {
         return !StringUtils.hasText(groupName);
