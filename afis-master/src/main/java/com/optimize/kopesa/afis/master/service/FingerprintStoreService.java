@@ -152,6 +152,10 @@ public class FingerprintStoreService {
     }
 
     public BioAuthResponse bioAuth(BioAuthDto bioAuthDto) throws ImageWriteException, IOException, ImageReadException {
+        LOG.info("                                                                                        ");
+        LOG.info("|============================================ BEGIN BIO AUTH ===============================|");
+        LOG.info("|                                                                                           |");
+        LOG.info("|                                                                                           |");
         LOG.info("STARTING BIO AUTH {}", bioAuthDto);
         FingerprintTemplate fingerprintTemplate = getFingerprintTemplate(DatatypeConverter.parseBase64Binary(bioAuthDto.getFingerprint()));
         FingerprintMatcher fingerprintMatcher = Optional.ofNullable(fingerprintTemplate)
@@ -164,16 +168,21 @@ public class FingerprintStoreService {
             LOG.info("FINGERPRINT DE {} : {}", bioAuthDto.getRid(), fingerprintStore);
             LOG.info("===> Fingerprint Image LENGTH {}", fingerprintStore.getFingerprintImage().length);
             score = fingerprintMatcher.match(getFingerprintTemplate(fingerprintStore.getFingerprintImage()));
+            LOG .info("|========> SCORE : {}  <================|", score);
             if (score > finalScore) {
                 finalScore = score;
             }
-            if (finalScore > 65) {
-                LOG .info("FINAL SCORE > 65 : {}", finalScore);
+            if (finalScore > 40) {
+                LOG .info(" |========>FINAL SCORE > 65 : {} <================|", finalScore);
                 break;
             }
-            LOG .info("FINAL SCORE : {}", finalScore);
+            LOG .info("|========>FINAL SCORE : {} <================|", finalScore);
         }
-
+        LOG.info("|                                                                                           |");
+        LOG.info("|                                                                                           |");
+        LOG.info("|============================================ ENDED BIO AUTH ===============================|");
+        LOG.info("                                                                                        ");
+        LOG.info("                                                                                        ");
         return finalScore > 65 ? BioAuthResponse.MATCH : BioAuthResponse.FINGERPRINT_NOT_MATCH;
     }
 
