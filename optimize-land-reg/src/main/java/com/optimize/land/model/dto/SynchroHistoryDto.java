@@ -8,12 +8,14 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
+@ToString
 public class SynchroHistoryDto {
     private Long id;
     private String batchNumber;

@@ -49,7 +49,7 @@ public class Person extends Auditable<String> {
     //@NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "sex")
-    @DependentField
+    //@DependentField
     protected Sex sex;
 
     @Column(name = "uin", unique = true)
@@ -140,16 +140,16 @@ public class Person extends Auditable<String> {
 
     protected RegistrationStatus registrationStatus;
 
-    @Column(name = "status_observation")
+    @Column(name = "status_observation", columnDefinition = "TEXT")
     protected String statusObservation;
 
     @Column(name = "rid", unique = true)
     protected String rid;
 
-    @Column(name = "synchro_batch_number")
+    @Column(name = "synchro_batch_number", columnDefinition = "TEXT")
     protected String synchroBatchNumber;
 
-    @Column(name = "synchro_packet_number", unique = true)
+    @Column(name = "synchro_packet_number", unique = true, columnDefinition = "TEXT")
     protected String synchroPacketNumber;
 
     public String getFullName() {

@@ -19,7 +19,7 @@ import com.optimize.land.model.enumeration.RegistrationStatus;
 import com.optimize.land.model.enumeration.SynchroType;
 import com.optimize.land.model.mapper.ActorMapper;
 import com.optimize.land.model.projection.ActorProjection;
-import com.optimize.land.repository.ActorRepository;
+import com.optimize.land.repository.*;
 import com.optimize.land.util.ProfilConstant;
 import com.optimize.land.util.UniqueIDGenerator;
 import jakarta.validation.constraints.NotNull;
@@ -33,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -45,6 +46,10 @@ public class ActorService extends GenericService<AbstractActor, Long> {
     private final SynchroHistoryService synchroHistoryService;
     private final AfisProducer afisProducer;
     private final AfisClient afisClient;
+    private final PersonRepository personRepository;
+    private final InformalGroupRepository informalGroupRepository;
+    private final PrivateLegalEntityRepository privateLegalEntityRepository;
+    private final PublicLegalEntityRepository publicLegalEntityRepository;
     private UserService userService;
 
     protected ActorService(ActorRepository repository,
@@ -52,21 +57,36 @@ public class ActorService extends GenericService<AbstractActor, Long> {
                            FingerprintStoreService fingerprintStoreService,
                            SynchroHistoryService synchroHistoryService,
                            AfisProducer afisProducer,
-                           AfisClient afisClient) {
+                           AfisClient afisClient,
+                           PersonRepository personRepository,
+                           InformalGroupRepository informalGroupRepository,
+                           PrivateLegalEntityRepository privateLegalEntityRepository,
+                           PublicLegalEntityRepository publicLegalEntityRepository) {
         super(repository);
         this.actorMapper = actorMapper;
         this.fingerprintStoreService = fingerprintStoreService;
         this.synchroHistoryService = synchroHistoryService;
         this.afisProducer = afisProducer;
         this.afisClient = afisClient;
+        this.personRepository = personRepository;
+        this.informalGroupRepository = informalGroupRepository;
+        this.privateLegalEntityRepository = privateLegalEntityRepository;
+        this.publicLegalEntityRepository = publicLegalEntityRepository;
     }
 
     @Transactional
     public synchronized String register(@NotNull ActorDto actorDto) throws JsonProcessingException {
         log.info("ACTOR REGISTRATION: {}, Fingerprint count {}", actorDto.getSynchroBatchNumber(), actorDto.getFingerprintStores().size());
+        if (synchroHistoryService.getRepository().existsByBatchNumberAndPacketsNumberContains(actorDto.getSynchroBatchNumber(), actorDto.getSynchroPacketNumber())) {
+            Optional<AbstractActor> optionalActor = getRepository().findBySynchroBatchNumberAndSynchroPacketNumber(actorDto.getSynchroBatchNumber(), actorDto.getSynchroPacketNumber());
+            if (optionalActor.isPresent()) {
+                return "{\"rid\":\"" + optionalActor.get().getRid() + "\"}";
+            }
+        }
         synchroHistoryService.receivedPacket(actorDto.getSynchroBatchNumber(),
                 actorDto.getSynchroPacketNumber(), SynchroType.ACTOR);
         try {
+            checkUnicity(actorDto);
             actorDto.setId(null);
             actorDto.validateUniqueActorType();
             Registration registration = actorMapper.toRegistration(actorDto);
@@ -90,7 +110,7 @@ public class ActorService extends GenericService<AbstractActor, Long> {
             } else {
                 validateLegalEntity(registration);
             }
-            return "{\"rid\":"+rid +"}";
+            return "{\"rid\":\""+rid +"\"}";
         } catch (Exception e) {
             log.error("ACTOR REGISTRATION ERROR: {}", e.getLocalizedMessage());
             log.error(e.getLocalizedMessage(), e.getCause());
@@ -98,6 +118,32 @@ public class ActorService extends GenericService<AbstractActor, Long> {
             throw new ApplicationException("ACTOR REGISTRATION ERROR: "+ e.getMessage());
         }
 
+    }
+
+    private void checkUnicity(ActorDto actorDto) {
+        if (ActorType.PHYSICAL_PERSON.equals(actorDto.getType()) && Objects.nonNull(actorDto.getPhysicalPerson())) {
+            PersonDto person = actorDto.getPhysicalPerson();
+            if (personRepository.existsByLastnameAndFirstnameAndSexAndMaritalStatusAndBirthDateAndPlaceOfBirthAndNationalityAndProfessionAndAddressAndPrimaryPhoneAndEmail(
+                    person.getLastname(), person.getFirstname(), person.getSex(), person.getMaritalStatus(), person.getBirthDate(),
+                    person.getPlaceOfBirth(), person.getNationality(), person.getProfession(), person.getAddress(), person.getPrimaryPhone(), person.getEmail())) {
+                throw new ApplicationException("Une personne physique avec le nom " + person.getLastname() + " et le prénom " + person.getFirstname() + " existe déjà !");
+            }
+        } else if (ActorType.INFORMAL_GROUP.equals(actorDto.getType()) && Objects.nonNull(actorDto.getInformalGroup())) {
+            InformalGroupDto informalGroup = actorDto.getInformalGroup();
+            if (informalGroupRepository.existsByGroupNameAndAddressAndPhoneNumber(informalGroup.getGroupName(), informalGroup.getAddress(), informalGroup.getPhoneNumber())) {
+                throw new ApplicationException("Un groupe informel avec le nom " + informalGroup.getGroupName() + " existe déjà !");
+            }
+        } else if (ActorType.PRIVATE_LEGAL_ENTITY.equals(actorDto.getType()) && Objects.nonNull(actorDto.getPrivateLegalEntity())) {
+            PrivateLegalEntityDto privateLegalEntity = actorDto.getPrivateLegalEntity();
+            if (privateLegalEntityRepository.existsByCompanyNameAndAddressAndPhoneNumber(privateLegalEntity.getCompanyName(), privateLegalEntity.getAddress(), privateLegalEntity.getPhoneNumber())) {
+                throw new ApplicationException("Une personne morale de droit privé avec le nom " + privateLegalEntity.getCompanyName() + " existe déjà !");
+            }
+        } else if (ActorType.PUBLIC_LEGAL_ENTITY.equals(actorDto.getType()) && Objects.nonNull(actorDto.getPublicLegalEntity())) {
+            PublicLegalEntityDto publicLegalEntity = actorDto.getPublicLegalEntity();
+            if (publicLegalEntityRepository.existsByNameAndPhoneNumber(publicLegalEntity.getName(), publicLegalEntity.getPhoneNumber())) {
+                throw new ApplicationException("Une personne morale de droit public avec le nom " + publicLegalEntity.getName() + " existe déjà !");
+            }
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)

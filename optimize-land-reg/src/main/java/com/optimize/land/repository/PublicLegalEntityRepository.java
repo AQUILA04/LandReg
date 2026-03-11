@@ -4,4 +4,6 @@ import com.optimize.common.entities.repository.GenericRepository;
 import com.optimize.land.model.entity.PublicLegalEntity;
 
 public interface PublicLegalEntityRepository extends GenericRepository<PublicLegalEntity, Long> {
+
+    boolean existsByNameAndPhoneNumber(String name, String phoneNumber);
 }

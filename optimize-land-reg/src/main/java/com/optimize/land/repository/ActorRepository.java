@@ -21,6 +21,8 @@ public interface ActorRepository extends BaseActorRepository<AbstractActor, Long
 
     Optional<Registration> findByRidAndRegistrationStatusIn(String rid, List<RegistrationStatus> status);
 
+    Optional<AbstractActor> findBySynchroBatchNumberAndSynchroPacketNumber(String synchroBatchNumber, String synchroPacketNumber);
+
     Optional<Actor> findByUinAndRegistrationStatus(String rid, RegistrationStatus status);
 
     //@Query(value = "SELECT a.id, a.uin, a.registrationStatus, a.role FROM Actor a WHERE a.registrationStatus = :status ORDER BY a.id DESC")

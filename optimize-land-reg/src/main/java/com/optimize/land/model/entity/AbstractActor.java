@@ -45,16 +45,16 @@ public abstract class AbstractActor extends Auditable<String> {
     @Column(name = "registration_status", nullable = false)
     protected RegistrationStatus registrationStatus;
 
-    @Column(name = "status_observation")
+    @Column(name = "status_observation", columnDefinition = "TEXT")
     protected String statusObservation;
 
     @Column(name = "rid")
     protected String rid;
 
-    @Column(name = "synchro_batch_number")
+    @Column(name = "synchro_batch_number", columnDefinition = "TEXT")
     protected String synchroBatchNumber;
 
-    @Column(name = "synchro_packet_number")
+    @Column(name = "synchro_packet_number", columnDefinition = "TEXT")
     protected String synchroPacketNumber;
 
     @Enumerated(EnumType.STRING)
