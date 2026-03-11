@@ -183,7 +183,7 @@ public class FingerprintStoreService {
         LOG.info("|============================================ ENDED BIO AUTH ===============================|");
         LOG.info("                                                                                        ");
         LOG.info("                                                                                        ");
-        return finalScore > 65 ? BioAuthResponse.MATCH : BioAuthResponse.FINGERPRINT_NOT_MATCH;
+        return finalScore > 40 ? BioAuthResponse.MATCH : BioAuthResponse.FINGERPRINT_NOT_MATCH;
     }
 
     private FingerprintTemplate getFingerprintTemplate(byte[] fingerprintByte) throws ImageWriteException, IOException, ImageReadException {
