@@ -47,12 +47,12 @@ public class PrivateLegalEntity extends BaseEntity<String> {
 
     //@NotNull
     //@Size(min = 4, max = 200)
-    @Column(name = "address", length = 200, nullable = false)
+    @Column(name = "address", length = 200)
     private String address;
 
     //@NotNull
     //@Size(min = 8, max = 11)
-    @Column(name = "phone_number", length = 11, nullable = false)
+    @Column(name = "phone_number", length = 11)
     //@ValidPhoneNumber
     private String phoneNumber;
 
@@ -79,21 +79,22 @@ public class PrivateLegalEntity extends BaseEntity<String> {
     private String mainActivity;
 
     //@NotNull
-    @Column(name = "acronym", nullable = false)
+    @Column(name = "acronym")
     private String acronym;
 
     //@NotNull
-    @Column(name = "company_created_date", nullable = false)
+    @Column(name = "company_created_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate companyCreatedDate;
 
     //@NotNull
-    @Column(name = "representative_uin", nullable = false)
-    @ExistsInDB(entity = Actor.class, field = "uin", message = "le NIU du représentant n'existe pas !")
+    @Column(name = "representative_uin")
+    //TODO: A remettre pour la phase prod, enlever actuellement pour la phase de test
+    //@ExistsInDB(entity = Actor.class, field = "uin", message = "le NIU du représentant n'existe pas !")
     private String representativeUIN;
 
     //@NotNull
-    @Column(name = "representative_fullname", nullable = false)
+    @Column(name = "representative_fullname")
     private String representativeFullname;
 
     @Column(name = "rid")
