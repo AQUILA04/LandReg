@@ -29,6 +29,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.imgscalr.Scalr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,8 @@ public class FingerprintStoreService {
     private final FingerprintStoreRepository fingerprintStoreRepository;
 
     private final FingerprintStoreMapper fingerprintStoreMapper;
+    @Value(value = "${afis-service.fingerprint-folder}")
+    private String fingerprintFolder;
 
     public FingerprintStoreService(FingerprintStoreRepository fingerprintStoreRepository, FingerprintStoreMapper fingerprintStoreMapper) {
         this.fingerprintStoreRepository = fingerprintStoreRepository;
@@ -149,21 +152,26 @@ public class FingerprintStoreService {
     }
 
     public BioAuthResponse bioAuth(BioAuthDto bioAuthDto) throws ImageWriteException, IOException, ImageReadException {
+        LOG.info("STARTING BIO AUTH {}", bioAuthDto);
         FingerprintTemplate fingerprintTemplate = getFingerprintTemplate(DatatypeConverter.parseBase64Binary(bioAuthDto.getFingerprint()));
         FingerprintMatcher fingerprintMatcher = Optional.ofNullable(fingerprintTemplate)
             .map(FingerprintMatcher::new).orElseThrow();
         List<FingerprintStore> fingerprintStores = fingerprintStoreRepository.findByRid(bioAuthDto.getRid());
-
+        LOG.info("===> NOMBRE TOTAL DE FINGERPRINT TROUVER POUR L'ACTEUR {} EST {}", bioAuthDto.getRid(), fingerprintStores.size());
         double score;
         double finalScore = 0d;
         for (FingerprintStore fingerprintStore : fingerprintStores) {
+            LOG.info("FINGERPRINT DE {} : {}", bioAuthDto.getRid(), fingerprintStore);
+            LOG.info("===> Fingerprint Image LENGTH {}", fingerprintStore.getFingerprintImage().length);
             score = fingerprintMatcher.match(getFingerprintTemplate(fingerprintStore.getFingerprintImage()));
             if (score > finalScore) {
                 finalScore = score;
             }
             if (finalScore > 65) {
+                LOG .info("FINAL SCORE > 65 : {}", finalScore);
                 break;
             }
+            LOG .info("FINAL SCORE : {}", finalScore);
         }
 
         return finalScore > 65 ? BioAuthResponse.MATCH : BioAuthResponse.FINGERPRINT_NOT_MATCH;
@@ -201,8 +209,8 @@ public class FingerprintStoreService {
     }
 
     public String getPath() {
-        File fingerFolder = new File("C:/Users/user/langReg/fingerprint/");
-        folderUtil("C:/Users/user/langReg/fingerprint/");
+        File fingerFolder = new File(fingerprintFolder);
+        folderUtil(fingerprintFolder);
         return buildImagePath(fingerFolder, "Auth"+ RandomStringUtils.randomNumeric(5), "auth"+RandomStringUtils.randomNumeric(5), ".jpg");
     }
 

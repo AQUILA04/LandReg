@@ -221,7 +221,9 @@ public class ActorService extends GenericService<AbstractActor, Long> {
     }
 
     public FingerprintAuthenticationResp bioAuth(BioAuthDto dto) {
+        log.info("===> BIOMETRIC AUTHENTICATION {}", dto);
         Actor actor = getRepository().getByUin(dto.getUin());
+        log.info("===> BIOMETRIC AUTHENTICATION ACTOR {}", actor);
         FingerprintAuthenticationResp resp = new FingerprintAuthenticationResp();
         if (Objects.isNull(actor)) {
             resp.setStatus(BioAuthResponse.UIN_NOT_FOUND);
@@ -232,10 +234,12 @@ public class ActorService extends GenericService<AbstractActor, Long> {
 //            return resp;
 //        }
         dto.setRid(actor.getRid());
+        log.info("===> BIOMETRIC AUTHENTICATION RID {} AND Fingerprint starting with {}", dto.getRid(), dto.getFingerprint().substring(0, 255));
         String fingerprint = dto.getFingerprint().split(",")[1];
         dto.setFingerprint(fingerprint);
         try {
-            if (BioAuthResponse.MATCH.equals(afisClient.bioAuthRequest(dto))) {
+            BioAuthResponse bioAuthResponse = afisClient.bioAuthRequest(dto);
+            if (BioAuthResponse.MATCH.equals(bioAuthResponse)) {
                 resp.setStatus(BioAuthResponse.MATCH);
                 resp.setActor(actor.toActorModel());
             } else {

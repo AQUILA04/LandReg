@@ -15,4 +15,13 @@ public class BioAuthDto {
     private String fingerprint;
     private String rid;
     private RoleActor role;
+
+    @Override
+    public String toString() {
+        return "BioAuthDto{" +
+                "uin='" + uin + '\'' +
+                ", rid='" + rid + '\'' +
+                ", role=" + role +
+                '}';
+    }
 }

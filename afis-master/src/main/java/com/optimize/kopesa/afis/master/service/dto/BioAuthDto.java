@@ -1,8 +1,11 @@
 package com.optimize.kopesa.afis.master.service.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class BioAuthDto {
     private String uin;
     private String fingerprint;
+    @NotBlank(message = "Le RID est obligatoire pour l'authentification biométrique")
     private String rid;
     private String role;
 
