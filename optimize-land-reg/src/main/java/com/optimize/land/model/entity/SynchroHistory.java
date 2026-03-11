@@ -35,45 +35,45 @@ public class SynchroHistory extends BaseEntity<String> {
 
     @NotNull
     @Column(name = "total_offline_count", nullable = false)
-    private Integer totalOfflineCount;
+    private Integer totalOfflineCount = 0;
 
     @NotNull
     @Column(name = "synchro_candidate_count", nullable = false)
-    private Integer synchroCandidateCount;
+    private Integer synchroCandidateCount = 0;
 
     @Column(name = "total_received_count")
-    private Integer totalReceivedCount;
+    private Integer totalReceivedCount = 0;
 
     @Column(name = "success_packet_count")
-    private Integer successPacketCount;
+    private Integer successPacketCount = 0;
 
     @Column(name = "failed_packet_count")
-    private Integer failedPacketCount;
+    private Integer failedPacketCount = 0;
 
     @Column(name = "duplicated_packet_count")
-    private Integer duplicatedPacketCount;
+    private Integer duplicatedPacketCount = 0;
 
     @Column(name = "pending_packet_count")
-    private Integer pendingPacketCount;
+    private Integer pendingPacketCount = 0;
 
     @Column(name = "packets_number")
     private String packetsNumber;
 
     @Column(name = "init_date")
-    private LocalDate initDate;
+    private LocalDate initDate = LocalDate.now();
 
     @Column(name = "first_packet_date")
-    private LocalDate firstPacketDate;
+    private LocalDate firstPacketDate = LocalDate.now();
 
     @Column(name = "is_finished")
-    private Boolean isFinished;
+    private Boolean isFinished = Boolean.FALSE;
 
     @Column(name = "operator_agent")
     private String operatorAgent;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "synchro_status")
-    private SynchroStatus synchroStatus;
+    private SynchroStatus synchroStatus = SynchroStatus.PENDING;
 
     @Column(name = "last_packet_date")
     private ZonedDateTime lastPacketDate;
