@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("land-reg/api/v1/actors")
 public class ActorController extends BaseController<AbstractActor, Long> {
@@ -32,7 +34,7 @@ public class ActorController extends BaseController<AbstractActor, Long> {
     @GetMapping
     @Override
     public ResponseEntity<Response> getAll(Pageable pageable) {
-        return new ResponseEntity<>(success(getService().getByStatus(RegistrationStatus.ACTOR, pageable), "Get All actor success"), HttpStatus.OK);
+        return new ResponseEntity<>(success(getService().getAllActors(pageable), "Get All actor success"), HttpStatus.OK);
     }
 
     @GetMapping(value = "all")

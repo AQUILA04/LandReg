@@ -197,27 +197,28 @@ public class ActorService extends GenericService<AbstractActor, Long> {
         }
     }
 
-    public Page<ActorProjection> getByStatus(RegistrationStatus status, Pageable pageable) {
+    public List<ActorRespDto> getByStatus(List<RegistrationStatus> statusList) {
         User user = userService.getCurrentUser();
-        List<RegistrationStatus> statusList = List.of(status);;
+        if (user.is(ProfilConstant.LAND_AGENT_OPERATOR)) {
+            return getRepository().findByRegistrationStatusInAndOperatorAgent(statusList, user.getUsername());
+        }
+        return getRepository().findByRegistrationStatusIn(statusList);
+    }
+
+    public Page<ActorRespDto> getByStatus(RegistrationStatus status, Pageable pageable) {
+        User user = userService.getCurrentUser();
+        List<RegistrationStatus> statusList = List.of(status);
         if (!RegistrationStatus.ACTOR.equals(status)) {
             statusList = List.of(RegistrationStatus.PENDING, RegistrationStatus.QUEUED, RegistrationStatus.DUPLICATED, RegistrationStatus.FAILED, RegistrationStatus.IN_PROGRESS);
         }
         if (user.is(ProfilConstant.LAND_AGENT_OPERATOR)) {
-            return getRepository().findByRegistrationStatusInAndOperatorAgentOrderByIdDesc(statusList, user.getUsername(), pageable);
+            return getRepository().findByRegistrationStatusInAndOperatorAgent(statusList, user.getUsername(), pageable);
         }
-//        Page<AbstractActor> pageActor = getRepository().findByRegistrationStatusAndStateOrderByIdDesc(status, State.ENABLED, pageable);
-//        pageActor.getContent().forEach(AbstractActor::getAllOperations);
-//        return pageActor;
-        return getRepository().findByRegistrationStatusInOrderByIdDesc(statusList, pageable);
+        return getRepository().findByRegistrationStatusIn(statusList, pageable);
     }
 
-    public List<ActorProjection> getByStatus(RegistrationStatus status) {
-        User user = userService.getCurrentUser();
-        if (user.is(ProfilConstant.LAND_AGENT_OPERATOR)) {
-            return getRepository().findByRegistrationStatus(status, user.getUsername());
-        }
-        return getRepository().findByRegistrationStatus(status);
+    public List<ActorRespDto> getByStatus(RegistrationStatus status) {
+        return getByStatus(List.of(status));
     }
 
     public FingerprintAuthenticationResp bioAuth(BioAuthDto dto) {
@@ -268,11 +269,8 @@ public class ActorService extends GenericService<AbstractActor, Long> {
         return super.getAll();
     }
 
-    @Override
-    public Page<AbstractActor> getAll(Pageable pageable) {
-        Page<AbstractActor> pageActor = getRepository().findByRegistrationStatusAndStateOrderByIdDesc(RegistrationStatus.ACTOR, State.ENABLED, pageable);
-        pageActor.getContent().forEach(AbstractActor::getAllOperations);
-        return pageActor;
+    public Page<ActorRespDto> getAllActors(Pageable pageable) {
+        return getRepository().findAllActors(pageable);
     }
 
     public List<ActorModel> getUINDetails(UINWrapper uinWrapper) {
