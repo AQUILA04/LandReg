@@ -58,95 +58,135 @@ public interface ActorRepository extends BaseActorRepository<AbstractActor, Long
 
     boolean existsByRidAndRegistrationStatusIn(String rid, List<RegistrationStatus> statusList);
 
-    @Query("SELECT new com.optimize.land.model.dto.ActorRespDto(" +
-            "a.id, " +
-            "a.uin, " +
-            "CASE " +
-            "WHEN a.type = com.optimize.land.model.enumeration.ActorType.PHYSICAL_PERSON THEN CONCAT(a.physicalPerson.firstname, ' ', a.physicalPerson.lastname) " +
-            "WHEN a.type = com.optimize.land.model.enumeration.ActorType.INFORMAL_GROUP THEN a.informalGroup.groupName " +
-            "WHEN a.type = com.optimize.land.model.enumeration.ActorType.PRIVATE_LEGAL_ENTITY THEN a.privateLegalEntity.companyName " +
-            "WHEN a.type = com.optimize.land.model.enumeration.ActorType.PUBLIC_LEGAL_ENTITY THEN a.publicLegalEntity.name " +
-            "ELSE '' END, " +
-            "a.type, " +
-            "a.role, " +
-            "a.registrationStatus, " +
-            "a.statusObservation) " +
-            "FROM AbstractActor a WHERE a.registrationStatus = com.optimize.land.model.enumeration.RegistrationStatus.ACTOR " +
-            "AND a.state = com.optimize.common.entities.enums.State.ENABLED " +
-            "ORDER BY a.id DESC")
+    @Query("""
+            SELECT new com.optimize.land.model.dto.ActorRespDto(
+                a.id,
+                a.uin,
+                CASE
+                    WHEN a.type = com.optimize.land.model.enumeration.ActorType.PHYSICAL_PERSON THEN CONCAT(pp.firstname, ' ', pp.lastname)
+                    WHEN a.type = com.optimize.land.model.enumeration.ActorType.INFORMAL_GROUP THEN ig.groupName
+                    WHEN a.type = com.optimize.land.model.enumeration.ActorType.PRIVATE_LEGAL_ENTITY THEN ple.companyName
+                    WHEN a.type = com.optimize.land.model.enumeration.ActorType.PUBLIC_LEGAL_ENTITY THEN pub.name
+                    ELSE ''
+                END,
+                a.type,
+                a.role,
+                a.registrationStatus,
+                a.statusObservation)
+            FROM AbstractActor a
+            LEFT JOIN a.physicalPerson pp
+            LEFT JOIN a.informalGroup ig
+            LEFT JOIN a.privateLegalEntity ple
+            LEFT JOIN a.publicLegalEntity pub
+            WHERE a.registrationStatus = com.optimize.land.model.enumeration.RegistrationStatus.ACTOR
+            AND a.state = com.optimize.common.entities.enums.State.ENABLED
+            ORDER BY a.id DESC
+            """)
     Page<ActorRespDto> findAllActors(Pageable pageable);
 
-    @Query("SELECT new com.optimize.land.model.dto.ActorRespDto(" +
-            "a.id, " +
-            "a.uin, " +
-            "CASE " +
-            "WHEN a.type = com.optimize.land.model.enumeration.ActorType.PHYSICAL_PERSON THEN CONCAT(a.physicalPerson.firstname, ' ', a.physicalPerson.lastname) " +
-            "WHEN a.type = com.optimize.land.model.enumeration.ActorType.INFORMAL_GROUP THEN a.informalGroup.groupName " +
-            "WHEN a.type = com.optimize.land.model.enumeration.ActorType.PRIVATE_LEGAL_ENTITY THEN a.privateLegalEntity.companyName " +
-            "WHEN a.type = com.optimize.land.model.enumeration.ActorType.PUBLIC_LEGAL_ENTITY THEN a.publicLegalEntity.name " +
-            "ELSE '' END, " +
-            "a.type, " +
-            "a.role, " +
-            "a.registrationStatus, " +
-            "a.statusObservation) " +
-            "FROM AbstractActor a WHERE a.registrationStatus IN :status " +
-            "AND a.state = com.optimize.common.entities.enums.State.ENABLED " +
-            "ORDER BY a.id DESC")
+    @Query("""
+            SELECT new com.optimize.land.model.dto.ActorRespDto(
+                a.id,
+                a.uin,
+                CASE
+                    WHEN a.type = com.optimize.land.model.enumeration.ActorType.PHYSICAL_PERSON THEN CONCAT(pp.firstname, ' ', pp.lastname)
+                    WHEN a.type = com.optimize.land.model.enumeration.ActorType.INFORMAL_GROUP THEN ig.groupName
+                    WHEN a.type = com.optimize.land.model.enumeration.ActorType.PRIVATE_LEGAL_ENTITY THEN ple.companyName
+                    WHEN a.type = com.optimize.land.model.enumeration.ActorType.PUBLIC_LEGAL_ENTITY THEN pub.name
+                    ELSE ''
+                END,
+                a.type,
+                a.role,
+                a.registrationStatus,
+                a.statusObservation)
+            FROM AbstractActor a
+            LEFT JOIN a.physicalPerson pp
+            LEFT JOIN a.informalGroup ig
+            LEFT JOIN a.privateLegalEntity ple
+            LEFT JOIN a.publicLegalEntity pub
+            WHERE a.registrationStatus IN :status
+            AND a.state = com.optimize.common.entities.enums.State.ENABLED
+            ORDER BY a.id DESC
+            """)
     Page<ActorRespDto> findByRegistrationStatusIn(@Param("status") List<RegistrationStatus> status, Pageable pageable);
 
-    @Query("SELECT new com.optimize.land.model.dto.ActorRespDto(" +
-            "a.id, " +
-            "a.uin, " +
-            "CASE " +
-            "WHEN a.type = com.optimize.land.model.enumeration.ActorType.PHYSICAL_PERSON THEN CONCAT(a.physicalPerson.firstname, ' ', a.physicalPerson.lastname) " +
-            "WHEN a.type = com.optimize.land.model.enumeration.ActorType.INFORMAL_GROUP THEN a.informalGroup.groupName " +
-            "WHEN a.type = com.optimize.land.model.enumeration.ActorType.PRIVATE_LEGAL_ENTITY THEN a.privateLegalEntity.companyName " +
-            "WHEN a.type = com.optimize.land.model.enumeration.ActorType.PUBLIC_LEGAL_ENTITY THEN a.publicLegalEntity.name " +
-            "ELSE '' END, " +
-            "a.type, " +
-            "a.role, " +
-            "a.registrationStatus, " +
-            "a.statusObservation) " +
-            "FROM AbstractActor a WHERE a.registrationStatus IN :status " +
-            "AND a.operatorAgent = :operatorAgent " +
-            "AND a.state = com.optimize.common.entities.enums.State.ENABLED " +
-            "ORDER BY a.id DESC")
+    @Query("""
+            SELECT new com.optimize.land.model.dto.ActorRespDto(
+                a.id,
+                a.uin,
+                CASE
+                    WHEN a.type = com.optimize.land.model.enumeration.ActorType.PHYSICAL_PERSON THEN CONCAT(pp.firstname, ' ', pp.lastname)
+                    WHEN a.type = com.optimize.land.model.enumeration.ActorType.INFORMAL_GROUP THEN ig.groupName
+                    WHEN a.type = com.optimize.land.model.enumeration.ActorType.PRIVATE_LEGAL_ENTITY THEN ple.companyName
+                    WHEN a.type = com.optimize.land.model.enumeration.ActorType.PUBLIC_LEGAL_ENTITY THEN pub.name
+                    ELSE ''
+                END,
+                a.type,
+                a.role,
+                a.registrationStatus,
+                a.statusObservation)
+            FROM AbstractActor a
+            LEFT JOIN a.physicalPerson pp
+            LEFT JOIN a.informalGroup ig
+            LEFT JOIN a.privateLegalEntity ple
+            LEFT JOIN a.publicLegalEntity pub
+            WHERE a.registrationStatus IN :status
+            AND a.operatorAgent = :operatorAgent
+            AND a.state = com.optimize.common.entities.enums.State.ENABLED
+            ORDER BY a.id DESC
+            """)
     Page<ActorRespDto> findByRegistrationStatusInAndOperatorAgent(@Param("status") List<RegistrationStatus> status, @Param("operatorAgent") String operatorAgent, Pageable pageable);
 
-    @Query("SELECT new com.optimize.land.model.dto.ActorRespDto(" +
-            "a.id, " +
-            "a.uin, " +
-            "CASE " +
-            "WHEN a.type = com.optimize.land.model.enumeration.ActorType.PHYSICAL_PERSON THEN CONCAT(a.physicalPerson.firstname, ' ', a.physicalPerson.lastname) " +
-            "WHEN a.type = com.optimize.land.model.enumeration.ActorType.INFORMAL_GROUP THEN a.informalGroup.groupName " +
-            "WHEN a.type = com.optimize.land.model.enumeration.ActorType.PRIVATE_LEGAL_ENTITY THEN a.privateLegalEntity.companyName " +
-            "WHEN a.type = com.optimize.land.model.enumeration.ActorType.PUBLIC_LEGAL_ENTITY THEN a.publicLegalEntity.name " +
-            "ELSE '' END, " +
-            "a.type, " +
-            "a.role, " +
-            "a.registrationStatus, " +
-            "a.statusObservation) " +
-            "FROM AbstractActor a WHERE a.registrationStatus IN :status " +
-            "AND a.state = com.optimize.common.entities.enums.State.ENABLED " +
-            "ORDER BY a.id DESC")
+    @Query("""
+            SELECT new com.optimize.land.model.dto.ActorRespDto(
+                a.id,
+                a.uin,
+                CASE
+                    WHEN a.type = com.optimize.land.model.enumeration.ActorType.PHYSICAL_PERSON THEN CONCAT(pp.firstname, ' ', pp.lastname)
+                    WHEN a.type = com.optimize.land.model.enumeration.ActorType.INFORMAL_GROUP THEN ig.groupName
+                    WHEN a.type = com.optimize.land.model.enumeration.ActorType.PRIVATE_LEGAL_ENTITY THEN ple.companyName
+                    WHEN a.type = com.optimize.land.model.enumeration.ActorType.PUBLIC_LEGAL_ENTITY THEN pub.name
+                    ELSE ''
+                END,
+                a.type,
+                a.role,
+                a.registrationStatus,
+                a.statusObservation)
+            FROM AbstractActor a
+            LEFT JOIN a.physicalPerson pp
+            LEFT JOIN a.informalGroup ig
+            LEFT JOIN a.privateLegalEntity ple
+            LEFT JOIN a.publicLegalEntity pub
+            WHERE a.registrationStatus IN :status
+            AND a.state = com.optimize.common.entities.enums.State.ENABLED
+            ORDER BY a.id DESC
+            """)
     List<ActorRespDto> findByRegistrationStatusIn(@Param("status") List<RegistrationStatus> status);
 
-    @Query("SELECT new com.optimize.land.model.dto.ActorRespDto(" +
-            "a.id, " +
-            "a.uin, " +
-            "CASE " +
-            "WHEN a.type = com.optimize.land.model.enumeration.ActorType.PHYSICAL_PERSON THEN CONCAT(a.physicalPerson.firstname, ' ', a.physicalPerson.lastname) " +
-            "WHEN a.type = com.optimize.land.model.enumeration.ActorType.INFORMAL_GROUP THEN a.informalGroup.groupName " +
-            "WHEN a.type = com.optimize.land.model.enumeration.ActorType.PRIVATE_LEGAL_ENTITY THEN a.privateLegalEntity.companyName " +
-            "WHEN a.type = com.optimize.land.model.enumeration.ActorType.PUBLIC_LEGAL_ENTITY THEN a.publicLegalEntity.name " +
-            "ELSE '' END, " +
-            "a.type, " +
-            "a.role, " +
-            "a.registrationStatus, " +
-            "a.statusObservation) " +
-            "FROM AbstractActor a WHERE a.registrationStatus IN :status " +
-            "AND a.operatorAgent = :operatorAgent " +
-            "AND a.state = com.optimize.common.entities.enums.State.ENABLED " +
-            "ORDER BY a.id DESC")
+    @Query("""
+            SELECT new com.optimize.land.model.dto.ActorRespDto(
+                a.id,
+                a.uin,
+                CASE
+                    WHEN a.type = com.optimize.land.model.enumeration.ActorType.PHYSICAL_PERSON THEN CONCAT(pp.firstname, ' ', pp.lastname)
+                    WHEN a.type = com.optimize.land.model.enumeration.ActorType.INFORMAL_GROUP THEN ig.groupName
+                    WHEN a.type = com.optimize.land.model.enumeration.ActorType.PRIVATE_LEGAL_ENTITY THEN ple.companyName
+                    WHEN a.type = com.optimize.land.model.enumeration.ActorType.PUBLIC_LEGAL_ENTITY THEN pub.name
+                    ELSE ''
+                END,
+                a.type,
+                a.role,
+                a.registrationStatus,
+                a.statusObservation)
+            FROM AbstractActor a
+            LEFT JOIN a.physicalPerson pp
+            LEFT JOIN a.informalGroup ig
+            LEFT JOIN a.privateLegalEntity ple
+            LEFT JOIN a.publicLegalEntity pub
+            WHERE a.registrationStatus IN :status
+            AND a.operatorAgent = :operatorAgent
+            AND a.state = com.optimize.common.entities.enums.State.ENABLED
+            ORDER BY a.id DESC
+            """)
     List<ActorRespDto> findByRegistrationStatusInAndOperatorAgent(@Param("status") List<RegistrationStatus> status, @Param("operatorAgent") String operatorAgent);
 }
