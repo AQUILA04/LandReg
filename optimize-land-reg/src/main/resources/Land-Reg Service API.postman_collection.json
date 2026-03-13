@@ -1,0 +1,5078 @@
+{
+	"info": {
+		"_postman_id": "0d691726-d409-4a87-b276-ec5df1e76771",
+		"name": "Land-Reg Service API",
+		"description": "API pour la gestion des acteurs et des constatations",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20165416",
+		"_collection_link": "https://restless-station-709002.postman.co/workspace/2fc0950f-7183-460b-8df3-ca7c45023965/collection/20165416-0d691726-d409-4a87-b276-ec5df1e76771?action=share&source=collection_link&creator=20165416"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "v1",
+					"item": [
+						{
+							"name": "users",
+							"item": [
+								{
+									"name": "{id}",
+									"item": [
+										{
+											"name": "get One",
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/v1/users/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"users",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "<long>",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "OK",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/v1/users/:id",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"v1",
+																"users",
+																":id"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{}"
+												},
+												{
+													"name": "Forbidden",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/v1/users/:id",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"v1",
+																"users",
+																":id"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "Forbidden",
+													"code": 403,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+												}
+											]
+										},
+										{
+											"name": "update",
+											"request": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"email\": \"<string>\",\n  \"firstname\": \"<string>\",\n  \"gender\": \"<string>\",\n  \"lastname\": \"<string>\",\n  \"phone\": \"<string>\",\n  \"id\": \"<long>\",\n  \"permissions\": [\n    {\n      \"id\": \"<long>\",\n      \"name\": \"<string>\",\n      \"defaultName\": \"<string>\"\n    },\n    {\n      \"id\": \"<long>\",\n      \"name\": \"<string>\",\n      \"defaultName\": \"<string>\"\n    }\n  ],\n  \"username\": \"<string>\",\n  \"profilName\": \"<string>\",\n  \"profil\": {\n    \"laborum0\": {}\n  }\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/v1/users/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"users",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "<long>",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "OK",
+													"originalRequest": {
+														"method": "PUT",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"email\": \"<string>\",\n  \"firstname\": \"<string>\",\n  \"gender\": \"<string>\",\n  \"lastname\": \"<string>\",\n  \"phone\": \"<string>\",\n  \"id\": \"<long>\",\n  \"permissions\": [\n    {\n      \"id\": \"<long>\",\n      \"name\": \"<string>\",\n      \"defaultName\": \"<string>\"\n    },\n    {\n      \"id\": \"<long>\",\n      \"name\": \"<string>\",\n      \"defaultName\": \"<string>\"\n    }\n  ],\n  \"username\": \"<string>\",\n  \"profilName\": \"<string>\",\n  \"profil\": {\n    \"laborum0\": {}\n  }\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/api/v1/users/:id",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"v1",
+																"users",
+																":id"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{}"
+												},
+												{
+													"name": "Forbidden",
+													"originalRequest": {
+														"method": "PUT",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"email\": \"<string>\",\n  \"firstname\": \"<string>\",\n  \"gender\": \"<string>\",\n  \"lastname\": \"<string>\",\n  \"phone\": \"<string>\",\n  \"id\": \"<long>\",\n  \"permissions\": [\n    {\n      \"id\": \"<long>\",\n      \"name\": \"<string>\",\n      \"defaultName\": \"<string>\"\n    },\n    {\n      \"id\": \"<long>\",\n      \"name\": \"<string>\",\n      \"defaultName\": \"<string>\"\n    }\n  ],\n  \"username\": \"<string>\",\n  \"profilName\": \"<string>\",\n  \"profil\": {\n    \"laborum0\": {}\n  }\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/api/v1/users/:id",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"v1",
+																"users",
+																":id"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "Forbidden",
+													"code": 403,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "profil",
+									"item": [
+										{
+											"name": "add",
+											"item": [
+												{
+													"name": "add Profil",
+													"request": {
+														"method": "POST",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"id\": \"<long>\",\n  \"name\": \"<string>\",\n  \"permissions\": [\n    {\n      \"id\": \"<long>\",\n      \"name\": \"<string>\",\n      \"defaultName\": \"<string>\"\n    },\n    {\n      \"id\": \"<long>\",\n      \"name\": \"<string>\",\n      \"defaultName\": \"<string>\"\n    }\n  ],\n  \"isLocked\": \"<boolean>\"\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/api/v1/users/profil/add",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"v1",
+																"users",
+																"profil",
+																"add"
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "OK",
+															"originalRequest": {
+																"method": "POST",
+																"header": [
+																	{
+																		"key": "Content-Type",
+																		"value": "application/json"
+																	},
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"body": {
+																	"mode": "raw",
+																	"raw": "{\n  \"id\": \"<long>\",\n  \"name\": \"<string>\",\n  \"permissions\": [\n    {\n      \"id\": \"<long>\",\n      \"name\": \"<string>\",\n      \"defaultName\": \"<string>\"\n    },\n    {\n      \"id\": \"<long>\",\n      \"name\": \"<string>\",\n      \"defaultName\": \"<string>\"\n    }\n  ],\n  \"isLocked\": \"<boolean>\"\n}",
+																	"options": {
+																		"raw": {
+																			"headerFamily": "json",
+																			"language": "json"
+																		}
+																	}
+																},
+																"url": {
+																	"raw": "{{baseUrl}}/api/v1/users/profil/add",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"api",
+																		"v1",
+																		"users",
+																		"profil",
+																		"add"
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{}"
+														},
+														{
+															"name": "Forbidden",
+															"originalRequest": {
+																"method": "POST",
+																"header": [
+																	{
+																		"key": "Content-Type",
+																		"value": "application/json"
+																	},
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"body": {
+																	"mode": "raw",
+																	"raw": "{\n  \"id\": \"<long>\",\n  \"name\": \"<string>\",\n  \"permissions\": [\n    {\n      \"id\": \"<long>\",\n      \"name\": \"<string>\",\n      \"defaultName\": \"<string>\"\n    },\n    {\n      \"id\": \"<long>\",\n      \"name\": \"<string>\",\n      \"defaultName\": \"<string>\"\n    }\n  ],\n  \"isLocked\": \"<boolean>\"\n}",
+																	"options": {
+																		"raw": {
+																			"headerFamily": "json",
+																			"language": "json"
+																		}
+																	}
+																},
+																"url": {
+																	"raw": "{{baseUrl}}/api/v1/users/profil/add",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"api",
+																		"v1",
+																		"users",
+																		"profil",
+																		"add"
+																	]
+																}
+															},
+															"status": "Forbidden",
+															"code": 403,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+														}
+													]
+												}
+											]
+										},
+										{
+											"name": "add-permissions",
+											"item": [
+												{
+													"name": "add Profil Permission",
+													"request": {
+														"method": "PATCH",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"permissions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"profilId\": \"<long>\"\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/api/v1/users/profil/add-permissions",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"v1",
+																"users",
+																"profil",
+																"add-permissions"
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "OK",
+															"originalRequest": {
+																"method": "PATCH",
+																"header": [
+																	{
+																		"key": "Content-Type",
+																		"value": "application/json"
+																	},
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"body": {
+																	"mode": "raw",
+																	"raw": "{\n  \"permissions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"profilId\": \"<long>\"\n}",
+																	"options": {
+																		"raw": {
+																			"headerFamily": "json",
+																			"language": "json"
+																		}
+																	}
+																},
+																"url": {
+																	"raw": "{{baseUrl}}/api/v1/users/profil/add-permissions",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"api",
+																		"v1",
+																		"users",
+																		"profil",
+																		"add-permissions"
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{}"
+														},
+														{
+															"name": "Forbidden",
+															"originalRequest": {
+																"method": "PATCH",
+																"header": [
+																	{
+																		"key": "Content-Type",
+																		"value": "application/json"
+																	},
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"body": {
+																	"mode": "raw",
+																	"raw": "{\n  \"permissions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"profilId\": \"<long>\"\n}",
+																	"options": {
+																		"raw": {
+																			"headerFamily": "json",
+																			"language": "json"
+																		}
+																	}
+																},
+																"url": {
+																	"raw": "{{baseUrl}}/api/v1/users/profil/add-permissions",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"api",
+																		"v1",
+																		"users",
+																		"profil",
+																		"add-permissions"
+																	]
+																}
+															},
+															"status": "Forbidden",
+															"code": 403,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+														}
+													]
+												}
+											]
+										},
+										{
+											"name": "all",
+											"item": [
+												{
+													"name": "get All User Profils 1",
+													"request": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/v1/users/profil/all",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"v1",
+																"users",
+																"profil",
+																"all"
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "OK",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/api/v1/users/profil/all",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"api",
+																		"v1",
+																		"users",
+																		"profil",
+																		"all"
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{}"
+														},
+														{
+															"name": "Forbidden",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/api/v1/users/profil/all",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"api",
+																		"v1",
+																		"users",
+																		"profil",
+																		"all"
+																	]
+																}
+															},
+															"status": "Forbidden",
+															"code": 403,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+														}
+													]
+												}
+											]
+										},
+										{
+											"name": "get All User Profils",
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/v1/users/profil?page=<integer>&size=<integer>&sort=<string>,<string>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"users",
+														"profil"
+													],
+													"query": [
+														{
+															"key": "page",
+															"value": "<integer>",
+															"description": "(Required) "
+														},
+														{
+															"key": "size",
+															"value": "<integer>",
+															"description": "(Required) "
+														},
+														{
+															"key": "sort",
+															"value": "<string>,<string>",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "OK",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/v1/users/profil?page=<integer>&size=<integer>&sort=<string>,<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"v1",
+																"users",
+																"profil"
+															],
+															"query": [
+																{
+																	"key": "page",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "size",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "sort",
+																	"value": "<string>,<string>",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{}"
+												},
+												{
+													"name": "Forbidden",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/v1/users/profil?page=<integer>&size=<integer>&sort=<string>,<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"v1",
+																"users",
+																"profil"
+															],
+															"query": [
+																{
+																	"key": "page",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "size",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "sort",
+																	"value": "<string>,<string>",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"status": "Forbidden",
+													"code": 403,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "change-password",
+									"item": [
+										{
+											"name": "change Password",
+											"request": {
+												"method": "PATCH",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"newPassword\": \"<string>\",\n  \"oldPassword\": \"<string>\",\n  \"username\": \"<string>\",\n  \"id\": \"<long>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/v1/users/change-password",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"users",
+														"change-password"
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "OK",
+													"originalRequest": {
+														"method": "PATCH",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"newPassword\": \"<string>\",\n  \"oldPassword\": \"<string>\",\n  \"username\": \"<string>\",\n  \"id\": \"<long>\"\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/api/v1/users/change-password",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"v1",
+																"users",
+																"change-password"
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{}"
+												},
+												{
+													"name": "Forbidden",
+													"originalRequest": {
+														"method": "PATCH",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"newPassword\": \"<string>\",\n  \"oldPassword\": \"<string>\",\n  \"username\": \"<string>\",\n  \"id\": \"<long>\"\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/api/v1/users/change-password",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"v1",
+																"users",
+																"change-password"
+															]
+														}
+													},
+													"status": "Forbidden",
+													"code": 403,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "permission",
+									"item": [
+										{
+											"name": "all",
+											"item": [
+												{
+													"name": "get All User Permissions",
+													"request": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/v1/users/permission/all",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"v1",
+																"users",
+																"permission",
+																"all"
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "OK",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/api/v1/users/permission/all",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"api",
+																		"v1",
+																		"users",
+																		"permission",
+																		"all"
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{}"
+														},
+														{
+															"name": "Forbidden",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/api/v1/users/permission/all",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"api",
+																		"v1",
+																		"users",
+																		"permission",
+																		"all"
+																	]
+																}
+															},
+															"status": "Forbidden",
+															"code": 403,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+														}
+													]
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "get All Users",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/users?page=<integer>&size=<integer>&sort=<string>,<string>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"users"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "<integer>",
+													"description": "(Required) "
+												},
+												{
+													"key": "size",
+													"value": "<integer>",
+													"description": "(Required) "
+												},
+												{
+													"key": "sort",
+													"value": "<string>,<string>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/v1/users?page=<integer>&size=<integer>&sort=<string>,<string>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"users"
+													],
+													"query": [
+														{
+															"key": "page",
+															"value": "<integer>",
+															"description": "(Required) "
+														},
+														{
+															"key": "size",
+															"value": "<integer>",
+															"description": "(Required) "
+														},
+														{
+															"key": "sort",
+															"value": "<string>,<string>",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										},
+										{
+											"name": "Forbidden",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/v1/users?page=<integer>&size=<integer>&sort=<string>,<string>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"users"
+													],
+													"query": [
+														{
+															"key": "page",
+															"value": "<integer>",
+															"description": "(Required) "
+														},
+														{
+															"key": "size",
+															"value": "<integer>",
+															"description": "(Required) "
+														},
+														{
+															"key": "sort",
+															"value": "<string>,<string>",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "licences",
+					"item": [
+						{
+							"name": "validate",
+							"item": [
+								{
+									"name": "validate Licence",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "<string>",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/licences/validate",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"licences",
+												"validate"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "<string>",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/licences/validate",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"licences",
+														"validate"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "<boolean>"
+										},
+										{
+											"name": "Forbidden",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "<string>",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/licences/validate",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"licences",
+														"validate"
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "renew",
+							"item": [
+								{
+									"name": "renew Licence",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "<string>",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/licences/renew",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"licences",
+												"renew"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "<string>",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/licences/renew",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"licences",
+														"renew"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "<string>"
+										},
+										{
+											"name": "Forbidden",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "<string>",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/licences/renew",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"licences",
+														"renew"
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "initialize",
+							"item": [
+								{
+									"name": "initialize Licences",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/licences/initialize?numberOfLicences=<integer>&type=<string>&passCode=<string>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"licences",
+												"initialize"
+											],
+											"query": [
+												{
+													"key": "numberOfLicences",
+													"value": "<integer>",
+													"description": "(Required) "
+												},
+												{
+													"key": "type",
+													"value": "<string>",
+													"description": "(Required) "
+												},
+												{
+													"key": "passCode",
+													"value": "<string>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/licences/initialize?numberOfLicences=<integer>&type=<string>&passCode=<string>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"licences",
+														"initialize"
+													],
+													"query": [
+														{
+															"key": "numberOfLicences",
+															"value": "<integer>",
+															"description": "(Required) "
+														},
+														{
+															"key": "type",
+															"value": "<string>",
+															"description": "(Required) "
+														},
+														{
+															"key": "passCode",
+															"value": "<string>",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "[\n  {\n    \"id\": \"<long>\",\n    \"activationCode\": \"<string>\",\n    \"expirationDate\": \"<date>\",\n    \"renewable\": \"<boolean>\",\n    \"used\": \"<boolean>\"\n  },\n  {\n    \"id\": \"<long>\",\n    \"activationCode\": \"<string>\",\n    \"expirationDate\": \"<date>\",\n    \"renewable\": \"<boolean>\",\n    \"used\": \"<boolean>\"\n  }\n]"
+										},
+										{
+											"name": "Forbidden",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/licences/initialize?numberOfLicences=<integer>&type=<string>&passCode=<string>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"licences",
+														"initialize"
+													],
+													"query": [
+														{
+															"key": "numberOfLicences",
+															"value": "<integer>",
+															"description": "(Required) "
+														},
+														{
+															"key": "type",
+															"value": "<string>",
+															"description": "(Required) "
+														},
+														{
+															"key": "passCode",
+															"value": "<string>",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "deploy",
+							"item": [
+								{
+									"name": "deploy",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"activationCode\": \"<string>\",\n  \"societyName\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/licences/deploy",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"licences",
+												"deploy"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"activationCode\": \"<string>\",\n  \"societyName\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/licences/deploy",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"licences",
+														"deploy"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "<string>"
+										},
+										{
+											"name": "Forbidden",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"activationCode\": \"<string>\",\n  \"societyName\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/licences/deploy",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"licences",
+														"deploy"
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "create",
+							"item": [
+								{
+									"name": "create Licence",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "<string>",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/licences/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"licences",
+												"create"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "<string>",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/licences/create",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"licences",
+														"create"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"id\": \"<long>\",\n  \"activationCode\": \"<string>\",\n  \"expirationDate\": \"<date>\",\n  \"renewable\": \"<boolean>\",\n  \"used\": \"<boolean>\"\n}"
+										},
+										{
+											"name": "Forbidden",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "<string>",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/licences/create",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"licences",
+														"create"
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "auth",
+					"item": [
+						{
+							"name": "signup",
+							"item": [
+								{
+									"name": "register User",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{bearerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"firstname\": \"<string>\",\n  \"gender\": \"<string>\",\n  \"lastname\": \"<string>\",\n  \"password\": \"<string>\",\n  \"phone\": \"<string>\",\n  \"profilId\": \"<long>\",\n  \"username\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/auth/signup",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"signup"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													},
+													{
+														"description": "Added as a part of security scheme: bearer",
+														"key": "Authorization",
+														"value": "Bearer <token>"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"email\": \"<string>\",\n  \"firstname\": \"<string>\",\n  \"gender\": \"<string>\",\n  \"lastname\": \"<string>\",\n  \"password\": \"<string>\",\n  \"phone\": \"<string>\",\n  \"profilId\": \"<long>\",\n  \"username\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/auth/signup",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"auth",
+														"signup"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										},
+										{
+											"name": "Forbidden",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													},
+													{
+														"description": "Added as a part of security scheme: bearer",
+														"key": "Authorization",
+														"value": "Bearer <token>"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"email\": \"<string>\",\n  \"firstname\": \"<string>\",\n  \"gender\": \"<string>\",\n  \"lastname\": \"<string>\",\n  \"password\": \"<string>\",\n  \"phone\": \"<string>\",\n  \"profilId\": \"<long>\",\n  \"username\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/auth/signup",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"auth",
+														"signup"
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "signin",
+							"item": [
+								{
+									"name": "authenticate User",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{bearerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"password\": \"<string>\",\n  \"username\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/auth/signin",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"signin"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													},
+													{
+														"description": "Added as a part of security scheme: bearer",
+														"key": "Authorization",
+														"value": "Bearer <token>"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"password\": \"<string>\",\n  \"username\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/auth/signin",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"auth",
+														"signin"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										},
+										{
+											"name": "Forbidden",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													},
+													{
+														"description": "Added as a part of security scheme: bearer",
+														"key": "Authorization",
+														"value": "Bearer <token>"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"password\": \"<string>\",\n  \"username\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/auth/signin",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"auth",
+														"signin"
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "refreshtoken",
+							"item": [
+								{
+									"name": "refreshtoken",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{bearerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"refreshToken\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/auth/refreshtoken",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"refreshtoken"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													},
+													{
+														"description": "Added as a part of security scheme: bearer",
+														"key": "Authorization",
+														"value": "Bearer <token>"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"refreshToken\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/auth/refreshtoken",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"auth",
+														"refreshtoken"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										},
+										{
+											"name": "Forbidden",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													},
+													{
+														"description": "Added as a part of security scheme: bearer",
+														"key": "Authorization",
+														"value": "Bearer <token>"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"refreshToken\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/auth/refreshtoken",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"auth",
+														"refreshtoken"
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "test",
+					"item": [
+						{
+							"name": "user",
+							"item": [
+								{
+									"name": "user Access",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/test/user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"test",
+												"user"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/test/user",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"test",
+														"user"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "<string>"
+										},
+										{
+											"name": "Forbidden",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/test/user",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"test",
+														"user"
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "mod",
+							"item": [
+								{
+									"name": "moderator Access",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/test/mod",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"test",
+												"mod"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/test/mod",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"test",
+														"mod"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "<string>"
+										},
+										{
+											"name": "Forbidden",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/test/mod",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"test",
+														"mod"
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "all",
+							"item": [
+								{
+									"name": "all Access",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/test/all",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"test",
+												"all"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/test/all",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"test",
+														"all"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "<string>"
+										},
+										{
+											"name": "Forbidden",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/test/all",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"test",
+														"all"
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "admin",
+							"item": [
+								{
+									"name": "admin Access",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/test/admin",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"test",
+												"admin"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/test/admin",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"test",
+														"admin"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "<string>"
+										},
+										{
+											"name": "Forbidden",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/test/admin",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"test",
+														"admin"
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "lang-reg",
+			"item": [
+				{
+					"name": "api",
+					"item": [
+						{
+							"name": "v1",
+							"item": [
+								{
+									"name": "synchro-histories",
+									"item": [
+										{
+											"name": "init-synchro",
+											"item": [
+												{
+													"name": "init Synchro",
+													"request": {
+														"method": "POST",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"synchroCandidateCount\": \"<integer>\",\n  \"totalOfflineCount\": \"<integer>\",\n  \"id\": \"<long>\",\n  \"batchNumber\": \"<string>\",\n  \"totalReceivedCount\": \"<integer>\",\n  \"successPacketCount\": \"<integer>\",\n  \"failedPacketCount\": \"<integer>\",\n  \"duplicatedPacketCount\": \"<integer>\",\n  \"pendingPacketCount\": \"<integer>\",\n  \"packetsNumber\": \"<string>\",\n  \"initDate\": \"<date>\",\n  \"firstPacketDate\": \"<date>\",\n  \"isFinished\": \"<boolean>\",\n  \"operatorAgent\": \"<string>\",\n  \"synchroStatus\": \"PENDING\",\n  \"lastPacketDate\": \"<dateTime>\"\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/synchro-histories/init-synchro",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"synchro-histories",
+																"init-synchro"
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "OK",
+															"originalRequest": {
+																"method": "POST",
+																"header": [
+																	{
+																		"key": "Content-Type",
+																		"value": "application/json"
+																	},
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"body": {
+																	"mode": "raw",
+																	"raw": "{\n  \"synchroCandidateCount\": \"<integer>\",\n  \"totalOfflineCount\": \"<integer>\",\n  \"id\": \"<long>\",\n  \"batchNumber\": \"<string>\",\n  \"totalReceivedCount\": \"<integer>\",\n  \"successPacketCount\": \"<integer>\",\n  \"failedPacketCount\": \"<integer>\",\n  \"duplicatedPacketCount\": \"<integer>\",\n  \"pendingPacketCount\": \"<integer>\",\n  \"packetsNumber\": \"<string>\",\n  \"initDate\": \"<date>\",\n  \"firstPacketDate\": \"<date>\",\n  \"isFinished\": \"<boolean>\",\n  \"operatorAgent\": \"<string>\",\n  \"synchroStatus\": \"PENDING\",\n  \"lastPacketDate\": \"<dateTime>\"\n}",
+																	"options": {
+																		"raw": {
+																			"headerFamily": "json",
+																			"language": "json"
+																		}
+																	}
+																},
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/synchro-histories/init-synchro",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"synchro-histories",
+																		"init-synchro"
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"207 MULTI_STATUS\",\n  \"statusCode\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"service\": \"<string>\",\n  \"data\": {}\n}"
+														},
+														{
+															"name": "Forbidden",
+															"originalRequest": {
+																"method": "POST",
+																"header": [
+																	{
+																		"key": "Content-Type",
+																		"value": "application/json"
+																	},
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"body": {
+																	"mode": "raw",
+																	"raw": "{\n  \"synchroCandidateCount\": \"<integer>\",\n  \"totalOfflineCount\": \"<integer>\",\n  \"id\": \"<long>\",\n  \"batchNumber\": \"<string>\",\n  \"totalReceivedCount\": \"<integer>\",\n  \"successPacketCount\": \"<integer>\",\n  \"failedPacketCount\": \"<integer>\",\n  \"duplicatedPacketCount\": \"<integer>\",\n  \"pendingPacketCount\": \"<integer>\",\n  \"packetsNumber\": \"<string>\",\n  \"initDate\": \"<date>\",\n  \"firstPacketDate\": \"<date>\",\n  \"isFinished\": \"<boolean>\",\n  \"operatorAgent\": \"<string>\",\n  \"synchroStatus\": \"PENDING\",\n  \"lastPacketDate\": \"<dateTime>\"\n}",
+																	"options": {
+																		"raw": {
+																			"headerFamily": "json",
+																			"language": "json"
+																		}
+																	}
+																},
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/synchro-histories/init-synchro",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"synchro-histories",
+																		"init-synchro"
+																	]
+																}
+															},
+															"status": "Forbidden",
+															"code": 403,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+														}
+													]
+												}
+											]
+										},
+										{
+											"name": "{id}",
+											"item": [
+												{
+													"name": "get One 1",
+													"request": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/synchro-histories/:id",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"synchro-histories",
+																":id"
+															],
+															"variable": [
+																{
+																	"key": "id",
+																	"value": "<long>",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "OK",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/synchro-histories/:id",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"synchro-histories",
+																		":id"
+																	],
+																	"variable": [
+																		{
+																			"key": "id"
+																		}
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"207 MULTI_STATUS\",\n  \"statusCode\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"service\": \"<string>\",\n  \"data\": {}\n}"
+														},
+														{
+															"name": "Forbidden",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/synchro-histories/:id",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"synchro-histories",
+																		":id"
+																	],
+																	"variable": [
+																		{
+																			"key": "id"
+																		}
+																	]
+																}
+															},
+															"status": "Forbidden",
+															"code": 403,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+														}
+													]
+												},
+												{
+													"name": "delete Soft",
+													"request": {
+														"method": "DELETE",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/synchro-histories/:id",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"synchro-histories",
+																":id"
+															],
+															"variable": [
+																{
+																	"key": "id",
+																	"value": "<long>",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "OK",
+															"originalRequest": {
+																"method": "DELETE",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/synchro-histories/:id",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"synchro-histories",
+																		":id"
+																	],
+																	"variable": [
+																		{
+																			"key": "id"
+																		}
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"207 MULTI_STATUS\",\n  \"statusCode\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"service\": \"<string>\",\n  \"data\": {}\n}"
+														},
+														{
+															"name": "Forbidden",
+															"originalRequest": {
+																"method": "DELETE",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/synchro-histories/:id",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"synchro-histories",
+																		":id"
+																	],
+																	"variable": [
+																		{
+																			"key": "id"
+																		}
+																	]
+																}
+															},
+															"status": "Forbidden",
+															"code": 403,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+														}
+													]
+												}
+											]
+										},
+										{
+											"name": "all",
+											"item": [
+												{
+													"name": "get All 3",
+													"request": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/synchro-histories/all",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"synchro-histories",
+																"all"
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "OK",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/synchro-histories/all",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"synchro-histories",
+																		"all"
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"207 MULTI_STATUS\",\n  \"statusCode\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"service\": \"<string>\",\n  \"data\": {}\n}"
+														},
+														{
+															"name": "Forbidden",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/synchro-histories/all",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"synchro-histories",
+																		"all"
+																	]
+																}
+															},
+															"status": "Forbidden",
+															"code": 403,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+														}
+													]
+												}
+											]
+										},
+										{
+											"name": "get All 2",
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/lang-reg/api/v1/synchro-histories?page=<integer>&size=<integer>&sort=<string>,<string>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"lang-reg",
+														"api",
+														"v1",
+														"synchro-histories"
+													],
+													"query": [
+														{
+															"key": "page",
+															"value": "<integer>",
+															"description": "(Required) "
+														},
+														{
+															"key": "size",
+															"value": "<integer>",
+															"description": "(Required) "
+														},
+														{
+															"key": "sort",
+															"value": "<string>,<string>",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "OK",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/synchro-histories?page=<integer>&size=<integer>&sort=<string>,<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"synchro-histories"
+															],
+															"query": [
+																{
+																	"key": "page",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "size",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "sort",
+																	"value": "<string>,<string>",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"status\": \"207 MULTI_STATUS\",\n  \"statusCode\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"service\": \"<string>\",\n  \"data\": {}\n}"
+												},
+												{
+													"name": "Forbidden",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/synchro-histories?page=<integer>&size=<integer>&sort=<string>,<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"synchro-histories"
+															],
+															"query": [
+																{
+																	"key": "page",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "size",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "sort",
+																	"value": "<string>,<string>",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"status": "Forbidden",
+													"code": 403,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "constatations",
+									"item": [
+										{
+											"name": "{id}",
+											"item": [
+												{
+													"name": "get One 2",
+													"request": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/constatations/:id",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"constatations",
+																":id"
+															],
+															"variable": [
+																{
+																	"key": "id",
+																	"value": "<long>",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "OK",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/constatations/:id",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"constatations",
+																		":id"
+																	],
+																	"variable": [
+																		{
+																			"key": "id"
+																		}
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"207 MULTI_STATUS\",\n  \"statusCode\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"service\": \"<string>\",\n  \"data\": {}\n}"
+														},
+														{
+															"name": "Forbidden",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/constatations/:id",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"constatations",
+																		":id"
+																	],
+																	"variable": [
+																		{
+																			"key": "id"
+																		}
+																	]
+																}
+															},
+															"status": "Forbidden",
+															"code": 403,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+														}
+													]
+												},
+												{
+													"name": "delete Soft 1",
+													"request": {
+														"method": "DELETE",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/constatations/:id",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"constatations",
+																":id"
+															],
+															"variable": [
+																{
+																	"key": "id",
+																	"value": "<long>",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "OK",
+															"originalRequest": {
+																"method": "DELETE",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/constatations/:id",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"constatations",
+																		":id"
+																	],
+																	"variable": [
+																		{
+																			"key": "id"
+																		}
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"207 MULTI_STATUS\",\n  \"statusCode\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"service\": \"<string>\",\n  \"data\": {}\n}"
+														},
+														{
+															"name": "Forbidden",
+															"originalRequest": {
+																"method": "DELETE",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/constatations/:id",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"constatations",
+																		":id"
+																	],
+																	"variable": [
+																		{
+																			"key": "id"
+																		}
+																	]
+																}
+															},
+															"status": "Forbidden",
+															"code": 403,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+														}
+													]
+												}
+											]
+										},
+										{
+											"name": "all",
+											"item": [
+												{
+													"name": "get All 4",
+													"request": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/constatations/all",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"constatations",
+																"all"
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "OK",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/constatations/all",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"constatations",
+																		"all"
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"207 MULTI_STATUS\",\n  \"statusCode\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"service\": \"<string>\",\n  \"data\": {}\n}"
+														},
+														{
+															"name": "Forbidden",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/constatations/all",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"constatations",
+																		"all"
+																	]
+																}
+															},
+															"status": "Forbidden",
+															"code": 403,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+														}
+													]
+												}
+											]
+										},
+										{
+											"name": "get All",
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/lang-reg/api/v1/constatations?page=<integer>&size=<integer>&sort=<string>,<string>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"lang-reg",
+														"api",
+														"v1",
+														"constatations"
+													],
+													"query": [
+														{
+															"key": "page",
+															"value": "<integer>",
+															"description": "(Required) "
+														},
+														{
+															"key": "size",
+															"value": "<integer>",
+															"description": "(Required) "
+														},
+														{
+															"key": "sort",
+															"value": "<string>,<string>",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "OK",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/constatations?page=<integer>&size=<integer>&sort=<string>,<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"constatations"
+															],
+															"query": [
+																{
+																	"key": "page",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "size",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "sort",
+																	"value": "<string>,<string>",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"status\": \"207 MULTI_STATUS\",\n  \"statusCode\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"service\": \"<string>\",\n  \"data\": {}\n}"
+												},
+												{
+													"name": "Forbidden",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/constatations?page=<integer>&size=<integer>&sort=<string>,<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"constatations"
+															],
+															"query": [
+																{
+																	"key": "page",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "size",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "sort",
+																	"value": "<string>,<string>",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"status": "Forbidden",
+													"code": 403,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+												}
+											]
+										},
+										{
+											"name": "create",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"id\": \"<long>\",\n  \"nup\": \"<string>\",\n  \"region\": \"<string>\",\n  \"prefecture\": \"<string>\",\n  \"commune\": \"<string>\",\n  \"canton\": \"<string>\",\n  \"locality\": \"<string>\",\n  \"personType\": \"TRADITIONAL_CHIEF\",\n  \"uin\": \"<string>\",\n  \"hasConflict\": \"<boolean>\",\n  \"firstCheckListOperation\": {\n    \"id\": \"<long>\",\n    \"mayorUIN\": \"<string>\",\n    \"traditionalChiefUIN\": \"<string>\",\n    \"notableUIN\": \"<string>\",\n    \"geometerUIN\": \"<string>\",\n    \"ownerUIN\": \"<string>\",\n    \"borderingList\": [\n      {\n        \"id\": \"<long>\",\n        \"cardinalPoint\": \"NORTH_WEST\",\n        \"uin\": \"<string>\",\n        \"checkListOperation\": {\n          \"value\": \"<Circular reference to #/components/schemas/CheckListOperationDto detected>\"\n        }\n      },\n      {\n        \"id\": \"<long>\",\n        \"cardinalPoint\": \"SOUTH_WEST\",\n        \"uin\": \"<string>\",\n        \"checkListOperation\": {\n          \"value\": \"<Circular reference to #/components/schemas/CheckListOperationDto detected>\"\n        }\n      }\n    ],\n    \"interestedThirdPartyUIN\": \"<string>\"\n  },\n  \"lastCheckListOperation\": {\n    \"id\": \"<long>\",\n    \"mayorUIN\": \"<string>\",\n    \"traditionalChiefUIN\": \"<string>\",\n    \"notableUIN\": \"<string>\",\n    \"geometerUIN\": \"<string>\",\n    \"ownerUIN\": \"<string>\",\n    \"borderingList\": [\n      {\n        \"id\": \"<long>\",\n        \"cardinalPoint\": \"NORTH_EAST\",\n        \"uin\": \"<string>\",\n        \"checkListOperation\": {\n          \"value\": \"<Circular reference to #/components/schemas/CheckListOperationDto detected>\"\n        }\n      },\n      {\n        \"id\": \"<long>\",\n        \"cardinalPoint\": \"SOUTH_EAST\",\n        \"uin\": \"<string>\",\n        \"checkListOperation\": {\n          \"value\": \"<Circular reference to #/components/schemas/CheckListOperationDto detected>\"\n        }\n      }\n    ],\n    \"interestedThirdPartyUIN\": \"<string>\"\n  },\n  \"conflict\": {\n    \"id\": \"<long>\",\n    \"conflictParty\": \"TIERS\",\n    \"firstConflictPartyNUP\": \"<string>\",\n    \"firstConflictPartyOccupationDurationInMonth\": \"<string>\",\n    \"secondConflictPartyNUP\": \"<string>\",\n    \"secondConflictPartyOccupationDurationInMonth\": \"<string>\",\n    \"conflictObject\": \"<string>\",\n    \"rightClaimed\": \"<string>\",\n    \"rightClaimedOrigin\": \"<string>\",\n    \"institutionInvolved\": \"<string>\",\n    \"seizureProof\": \"<string>\",\n    \"exhibitAndEvidence\": \"<string>\",\n    \"photoOfProof\": \"<string>\",\n    \"procedureStatus\": \"<string>\",\n    \"settlementDate\": \"<date>\",\n    \"settlementCompromiseNature\": \"<string>\",\n    \"settlementActor\": \"<string>\",\n    \"regulationWitnesses\": \"<string>\",\n    \"finalDecisionProof\": \"<string>\",\n    \"settlementProofPhoto\": \"<string>\",\n    \"rightRestrictionType\": \"<string>\",\n    \"currentlyUseFor\": \"<string>\",\n    \"agriculturalDevelopmentType\": \"<string>\",\n    \"pointOfAttention\": \"<string>\"\n  }\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/lang-reg/api/v1/constatations",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"lang-reg",
+														"api",
+														"v1",
+														"constatations"
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "OK",
+													"originalRequest": {
+														"method": "POST",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"id\": \"<long>\",\n  \"nup\": \"<string>\",\n  \"region\": \"<string>\",\n  \"prefecture\": \"<string>\",\n  \"commune\": \"<string>\",\n  \"canton\": \"<string>\",\n  \"locality\": \"<string>\",\n  \"personType\": \"TRADITIONAL_CHIEF\",\n  \"uin\": \"<string>\",\n  \"hasConflict\": \"<boolean>\",\n  \"firstCheckListOperation\": {\n    \"id\": \"<long>\",\n    \"mayorUIN\": \"<string>\",\n    \"traditionalChiefUIN\": \"<string>\",\n    \"notableUIN\": \"<string>\",\n    \"geometerUIN\": \"<string>\",\n    \"ownerUIN\": \"<string>\",\n    \"borderingList\": [\n      {\n        \"id\": \"<long>\",\n        \"cardinalPoint\": \"NORTH_WEST\",\n        \"uin\": \"<string>\",\n        \"checkListOperation\": {\n          \"value\": \"<Circular reference to #/components/schemas/CheckListOperationDto detected>\"\n        }\n      },\n      {\n        \"id\": \"<long>\",\n        \"cardinalPoint\": \"SOUTH_WEST\",\n        \"uin\": \"<string>\",\n        \"checkListOperation\": {\n          \"value\": \"<Circular reference to #/components/schemas/CheckListOperationDto detected>\"\n        }\n      }\n    ],\n    \"interestedThirdPartyUIN\": \"<string>\"\n  },\n  \"lastCheckListOperation\": {\n    \"id\": \"<long>\",\n    \"mayorUIN\": \"<string>\",\n    \"traditionalChiefUIN\": \"<string>\",\n    \"notableUIN\": \"<string>\",\n    \"geometerUIN\": \"<string>\",\n    \"ownerUIN\": \"<string>\",\n    \"borderingList\": [\n      {\n        \"id\": \"<long>\",\n        \"cardinalPoint\": \"NORTH_EAST\",\n        \"uin\": \"<string>\",\n        \"checkListOperation\": {\n          \"value\": \"<Circular reference to #/components/schemas/CheckListOperationDto detected>\"\n        }\n      },\n      {\n        \"id\": \"<long>\",\n        \"cardinalPoint\": \"SOUTH_EAST\",\n        \"uin\": \"<string>\",\n        \"checkListOperation\": {\n          \"value\": \"<Circular reference to #/components/schemas/CheckListOperationDto detected>\"\n        }\n      }\n    ],\n    \"interestedThirdPartyUIN\": \"<string>\"\n  },\n  \"conflict\": {\n    \"id\": \"<long>\",\n    \"conflictParty\": \"TIERS\",\n    \"firstConflictPartyNUP\": \"<string>\",\n    \"firstConflictPartyOccupationDurationInMonth\": \"<string>\",\n    \"secondConflictPartyNUP\": \"<string>\",\n    \"secondConflictPartyOccupationDurationInMonth\": \"<string>\",\n    \"conflictObject\": \"<string>\",\n    \"rightClaimed\": \"<string>\",\n    \"rightClaimedOrigin\": \"<string>\",\n    \"institutionInvolved\": \"<string>\",\n    \"seizureProof\": \"<string>\",\n    \"exhibitAndEvidence\": \"<string>\",\n    \"photoOfProof\": \"<string>\",\n    \"procedureStatus\": \"<string>\",\n    \"settlementDate\": \"<date>\",\n    \"settlementCompromiseNature\": \"<string>\",\n    \"settlementActor\": \"<string>\",\n    \"regulationWitnesses\": \"<string>\",\n    \"finalDecisionProof\": \"<string>\",\n    \"settlementProofPhoto\": \"<string>\",\n    \"rightRestrictionType\": \"<string>\",\n    \"currentlyUseFor\": \"<string>\",\n    \"agriculturalDevelopmentType\": \"<string>\",\n    \"pointOfAttention\": \"<string>\"\n  }\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/constatations",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"constatations"
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"status\": \"207 MULTI_STATUS\",\n  \"statusCode\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"service\": \"<string>\",\n  \"data\": {}\n}"
+												},
+												{
+													"name": "Forbidden",
+													"originalRequest": {
+														"method": "POST",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"id\": \"<long>\",\n  \"nup\": \"<string>\",\n  \"region\": \"<string>\",\n  \"prefecture\": \"<string>\",\n  \"commune\": \"<string>\",\n  \"canton\": \"<string>\",\n  \"locality\": \"<string>\",\n  \"personType\": \"TRADITIONAL_CHIEF\",\n  \"uin\": \"<string>\",\n  \"hasConflict\": \"<boolean>\",\n  \"firstCheckListOperation\": {\n    \"id\": \"<long>\",\n    \"mayorUIN\": \"<string>\",\n    \"traditionalChiefUIN\": \"<string>\",\n    \"notableUIN\": \"<string>\",\n    \"geometerUIN\": \"<string>\",\n    \"ownerUIN\": \"<string>\",\n    \"borderingList\": [\n      {\n        \"id\": \"<long>\",\n        \"cardinalPoint\": \"NORTH_WEST\",\n        \"uin\": \"<string>\",\n        \"checkListOperation\": {\n          \"value\": \"<Circular reference to #/components/schemas/CheckListOperationDto detected>\"\n        }\n      },\n      {\n        \"id\": \"<long>\",\n        \"cardinalPoint\": \"SOUTH_WEST\",\n        \"uin\": \"<string>\",\n        \"checkListOperation\": {\n          \"value\": \"<Circular reference to #/components/schemas/CheckListOperationDto detected>\"\n        }\n      }\n    ],\n    \"interestedThirdPartyUIN\": \"<string>\"\n  },\n  \"lastCheckListOperation\": {\n    \"id\": \"<long>\",\n    \"mayorUIN\": \"<string>\",\n    \"traditionalChiefUIN\": \"<string>\",\n    \"notableUIN\": \"<string>\",\n    \"geometerUIN\": \"<string>\",\n    \"ownerUIN\": \"<string>\",\n    \"borderingList\": [\n      {\n        \"id\": \"<long>\",\n        \"cardinalPoint\": \"NORTH_EAST\",\n        \"uin\": \"<string>\",\n        \"checkListOperation\": {\n          \"value\": \"<Circular reference to #/components/schemas/CheckListOperationDto detected>\"\n        }\n      },\n      {\n        \"id\": \"<long>\",\n        \"cardinalPoint\": \"SOUTH_EAST\",\n        \"uin\": \"<string>\",\n        \"checkListOperation\": {\n          \"value\": \"<Circular reference to #/components/schemas/CheckListOperationDto detected>\"\n        }\n      }\n    ],\n    \"interestedThirdPartyUIN\": \"<string>\"\n  },\n  \"conflict\": {\n    \"id\": \"<long>\",\n    \"conflictParty\": \"TIERS\",\n    \"firstConflictPartyNUP\": \"<string>\",\n    \"firstConflictPartyOccupationDurationInMonth\": \"<string>\",\n    \"secondConflictPartyNUP\": \"<string>\",\n    \"secondConflictPartyOccupationDurationInMonth\": \"<string>\",\n    \"conflictObject\": \"<string>\",\n    \"rightClaimed\": \"<string>\",\n    \"rightClaimedOrigin\": \"<string>\",\n    \"institutionInvolved\": \"<string>\",\n    \"seizureProof\": \"<string>\",\n    \"exhibitAndEvidence\": \"<string>\",\n    \"photoOfProof\": \"<string>\",\n    \"procedureStatus\": \"<string>\",\n    \"settlementDate\": \"<date>\",\n    \"settlementCompromiseNature\": \"<string>\",\n    \"settlementActor\": \"<string>\",\n    \"regulationWitnesses\": \"<string>\",\n    \"finalDecisionProof\": \"<string>\",\n    \"settlementProofPhoto\": \"<string>\",\n    \"rightRestrictionType\": \"<string>\",\n    \"currentlyUseFor\": \"<string>\",\n    \"agriculturalDevelopmentType\": \"<string>\",\n    \"pointOfAttention\": \"<string>\"\n  }\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/constatations",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"constatations"
+															]
+														}
+													},
+													"status": "Forbidden",
+													"code": 403,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "actors",
+									"item": [
+										{
+											"name": "bio-auth",
+											"item": [
+												{
+													"name": "bio Authentication",
+													"request": {
+														"method": "POST",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"uin\": \"<string>\",\n  \"fingerprint\": \"<string>\",\n  \"rid\": \"<string>\",\n  \"role\": \"PUBLIC_LEGAL_ENTITY\"\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/actors/bio-auth",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"actors",
+																"bio-auth"
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "OK",
+															"originalRequest": {
+																"method": "POST",
+																"header": [
+																	{
+																		"key": "Content-Type",
+																		"value": "application/json"
+																	},
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"body": {
+																	"mode": "raw",
+																	"raw": "{\n  \"uin\": \"<string>\",\n  \"fingerprint\": \"<string>\",\n  \"rid\": \"<string>\",\n  \"role\": \"PUBLIC_LEGAL_ENTITY\"\n}",
+																	"options": {
+																		"raw": {
+																			"headerFamily": "json",
+																			"language": "json"
+																		}
+																	}
+																},
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/actors/bio-auth",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"actors",
+																		"bio-auth"
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"207 MULTI_STATUS\",\n  \"statusCode\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"service\": \"<string>\",\n  \"data\": {}\n}"
+														},
+														{
+															"name": "Forbidden",
+															"originalRequest": {
+																"method": "POST",
+																"header": [
+																	{
+																		"key": "Content-Type",
+																		"value": "application/json"
+																	},
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"body": {
+																	"mode": "raw",
+																	"raw": "{\n  \"uin\": \"<string>\",\n  \"fingerprint\": \"<string>\",\n  \"rid\": \"<string>\",\n  \"role\": \"PUBLIC_LEGAL_ENTITY\"\n}",
+																	"options": {
+																		"raw": {
+																			"headerFamily": "json",
+																			"language": "json"
+																		}
+																	}
+																},
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/actors/bio-auth",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"actors",
+																		"bio-auth"
+																	]
+																}
+															},
+															"status": "Forbidden",
+															"code": 403,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+														}
+													]
+												}
+											]
+										},
+										{
+											"name": "{id}",
+											"item": [
+												{
+													"name": "get One 3",
+													"request": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/actors/:id",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"actors",
+																":id"
+															],
+															"variable": [
+																{
+																	"key": "id",
+																	"value": "<long>",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "OK",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/actors/:id",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"actors",
+																		":id"
+																	],
+																	"variable": [
+																		{
+																			"key": "id"
+																		}
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"207 MULTI_STATUS\",\n  \"statusCode\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"service\": \"<string>\",\n  \"data\": {}\n}"
+														},
+														{
+															"name": "Forbidden",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/actors/:id",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"actors",
+																		":id"
+																	],
+																	"variable": [
+																		{
+																			"key": "id"
+																		}
+																	]
+																}
+															},
+															"status": "Forbidden",
+															"code": 403,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+														}
+													]
+												},
+												{
+													"name": "delete Soft 2",
+													"request": {
+														"method": "DELETE",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/actors/:id",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"actors",
+																":id"
+															],
+															"variable": [
+																{
+																	"key": "id",
+																	"value": "<long>",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "OK",
+															"originalRequest": {
+																"method": "DELETE",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/actors/:id",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"actors",
+																		":id"
+																	],
+																	"variable": [
+																		{
+																			"key": "id"
+																		}
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"207 MULTI_STATUS\",\n  \"statusCode\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"service\": \"<string>\",\n  \"data\": {}\n}"
+														},
+														{
+															"name": "Forbidden",
+															"originalRequest": {
+																"method": "DELETE",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/actors/:id",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"actors",
+																		":id"
+																	],
+																	"variable": [
+																		{
+																			"key": "id"
+																		}
+																	]
+																}
+															},
+															"status": "Forbidden",
+															"code": 403,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+														}
+													]
+												}
+											]
+										},
+										{
+											"name": "by-status",
+											"item": [
+												{
+													"name": "get All By Status",
+													"request": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/actors/by-status?status=FAILED&page=<integer>&size=<integer>&sort=<string>,<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"actors",
+																"by-status"
+															],
+															"query": [
+																{
+																	"key": "status",
+																	"value": "FAILED",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "page",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "size",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "sort",
+																	"value": "<string>,<string>",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "OK",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/actors/by-status?status=FAILED&page=<integer>&size=<integer>&sort=<string>,<string>",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"actors",
+																		"by-status"
+																	],
+																	"query": [
+																		{
+																			"key": "status",
+																			"value": "FAILED",
+																			"description": "(Required) "
+																		},
+																		{
+																			"key": "page",
+																			"value": "<integer>",
+																			"description": "(Required) "
+																		},
+																		{
+																			"key": "size",
+																			"value": "<integer>",
+																			"description": "(Required) "
+																		},
+																		{
+																			"key": "sort",
+																			"value": "<string>,<string>",
+																			"description": "(Required) "
+																		}
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"207 MULTI_STATUS\",\n  \"statusCode\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"service\": \"<string>\",\n  \"data\": {}\n}"
+														},
+														{
+															"name": "Forbidden",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/actors/by-status?status=FAILED&page=<integer>&size=<integer>&sort=<string>,<string>",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"actors",
+																		"by-status"
+																	],
+																	"query": [
+																		{
+																			"key": "status",
+																			"value": "FAILED",
+																			"description": "(Required) "
+																		},
+																		{
+																			"key": "page",
+																			"value": "<integer>",
+																			"description": "(Required) "
+																		},
+																		{
+																			"key": "size",
+																			"value": "<integer>",
+																			"description": "(Required) "
+																		},
+																		{
+																			"key": "sort",
+																			"value": "<string>,<string>",
+																			"description": "(Required) "
+																		}
+																	]
+																}
+															},
+															"status": "Forbidden",
+															"code": 403,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+														}
+													]
+												}
+											]
+										},
+										{
+											"name": "all",
+											"item": [
+												{
+													"name": "get All 5",
+													"request": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/actors/all",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"actors",
+																"all"
+															]
+														}
+													},
+													"response": [
+														{
+															"name": "OK",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/actors/all",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"actors",
+																		"all"
+																	]
+																}
+															},
+															"status": "OK",
+															"code": 200,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"207 MULTI_STATUS\",\n  \"statusCode\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"service\": \"<string>\",\n  \"data\": {}\n}"
+														},
+														{
+															"name": "Forbidden",
+															"originalRequest": {
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "*/*"
+																	}
+																],
+																"url": {
+																	"raw": "{{baseUrl}}/lang-reg/api/v1/actors/all",
+																	"host": [
+																		"{{baseUrl}}"
+																	],
+																	"path": [
+																		"lang-reg",
+																		"api",
+																		"v1",
+																		"actors",
+																		"all"
+																	]
+																}
+															},
+															"status": "Forbidden",
+															"code": 403,
+															"_postman_previewlanguage": "text",
+															"header": [
+																{
+																	"key": "Content-Type",
+																	"value": "*/*"
+																}
+															],
+															"cookie": [],
+															"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+														}
+													]
+												}
+											]
+										},
+										{
+											"name": "get All 1",
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/lang-reg/api/v1/actors?page=<integer>&size=<integer>&sort=<string>,<string>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"lang-reg",
+														"api",
+														"v1",
+														"actors"
+													],
+													"query": [
+														{
+															"key": "page",
+															"value": "<integer>",
+															"description": "(Required) "
+														},
+														{
+															"key": "size",
+															"value": "<integer>",
+															"description": "(Required) "
+														},
+														{
+															"key": "sort",
+															"value": "<string>,<string>",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "OK",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/actors?page=<integer>&size=<integer>&sort=<string>,<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"actors"
+															],
+															"query": [
+																{
+																	"key": "page",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "size",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "sort",
+																	"value": "<string>,<string>",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"status\": \"207 MULTI_STATUS\",\n  \"statusCode\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"service\": \"<string>\",\n  \"data\": {}\n}"
+												},
+												{
+													"name": "Forbidden",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/actors?page=<integer>&size=<integer>&sort=<string>,<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"actors"
+															],
+															"query": [
+																{
+																	"key": "page",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "size",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																},
+																{
+																	"key": "sort",
+																	"value": "<string>,<string>",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"status": "Forbidden",
+													"code": 403,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+												}
+											]
+										},
+										{
+											"name": "register",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"id\": \"<long>\",\n  \"physicalPerson\": {\n    \"address\": \"<string>\",\n    \"birthDate\": \"<date>\",\n    \"email\": \"<string>\",\n    \"firstname\": \"<string>\",\n    \"lastname\": \"<string>\",\n    \"maritalStatus\": \"MARIE\",\n    \"nationality\": \"<string>\",\n    \"placeOfBirth\": \"<string>\",\n    \"primaryPhone\": \"<string>\",\n    \"profession\": \"<string>\",\n    \"registrationStatus\": \"ACTOR\",\n    \"sex\": \"FEMININ\",\n    \"socioCulturalGroup\": \"<string>\",\n    \"id\": \"<long>\",\n    \"otherProfession\": \"<string>\",\n    \"secondaryPhone\": \"<string>\",\n    \"hasHandicap\": \"<boolean>\",\n    \"handicapType\": \"<string>\",\n    \"otherHandicapType\": \"<string>\",\n    \"hasIDDoc\": \"<boolean>\",\n    \"identificationDocType\": \"<string>\",\n    \"otherIdentificationDocType\": \"<string>\",\n    \"identificationDocNumber\": \"<string>\",\n    \"identificationDocPhoto\": \"<string>\",\n    \"identificationDocPhotoContentType\": \"<string>\",\n    \"witnessUIN\": \"<string>\",\n    \"statusObservation\": \"<string>\",\n    \"rid\": \"<string>\",\n    \"synchroBatchNumber\": \"<string>\",\n    \"synchroPacketNumber\": \"<string>\"\n  },\n  \"informalGroup\": {\n    \"address\": \"<string>\",\n    \"email\": \"<string>\",\n    \"groupName\": \"<string>\",\n    \"groupType\": \"<string>\",\n    \"mandatePhotoContentType\": \"<string>\",\n    \"phoneNumber\": \"<string>\",\n    \"representativeFullname\": \"<string>\",\n    \"representativeUIN\": \"<string>\",\n    \"secondaryRepresentativeFullname\": \"<string>\",\n    \"secondaryRepresentativeUIN\": \"<string>\",\n    \"thirdRepresentativeFullname\": \"<string>\",\n    \"thirdRepresentativeUIN\": \"<string>\",\n    \"id\": \"<long>\",\n    \"uin\": \"<string>\",\n    \"secondaryPhoneNumber\": \"<string>\",\n    \"mandatePhoto\": \"<string>\"\n  },\n  \"privateLegalEntity\": {\n    \"acronym\": \"<string>\",\n    \"address\": \"<string>\",\n    \"companyCreatedDate\": \"<date>\",\n    \"companyName\": \"<string>\",\n    \"identificationDocPhotoContentType\": \"<string>\",\n    \"mainActivity\": \"<string>\",\n    \"phoneNumber\": \"<string>\",\n    \"representativeFullname\": \"<string>\",\n    \"representativeUIN\": \"<string>\",\n    \"id\": \"<long>\",\n    \"uin\": \"<string>\",\n    \"secondaryPhoneNumber\": \"<string>\",\n    \"email\": \"<string>\",\n    \"entityType\": \"COOPERATIVE_AGRICOLE\",\n    \"identificationDocType\": \"<string>\",\n    \"identificationDocNumber\": \"<string>\",\n    \"identificationDocPhoto\": \"<string>\",\n    \"rid\": \"<string>\"\n  },\n  \"publicLegalEntity\": {\n    \"publicEntityType\": \"ETABLISSEMENT_PUBLIC\",\n    \"id\": \"<long>\",\n    \"uin\": \"<string>\"\n  },\n  \"uin\": \"<string>\",\n  \"synchroBatchNumber\": \"<string>\",\n  \"synchroPacketNumber\": \"<string>\",\n  \"role\": \"OWNER_OR_REPRESENTATIVE\",\n  \"type\": \"PUBLIC_LEGAL_ENTITY\",\n  \"fingerprintStores\": [\n    {\n      \"fingerName\": \"RING\",\n      \"fingerprintImage\": \"<string>\",\n      \"handType\": \"LEFT\",\n      \"id\": \"<long>\",\n      \"rid\": \"<string>\",\n      \"fingerprintImageContentType\": \"<string>\",\n      \"actor\": {\n        \"value\": \"<Circular reference to #/components/schemas/ActorDto detected>\"\n      }\n    },\n    {\n      \"fingerName\": \"INDEX\",\n      \"fingerprintImage\": \"<string>\",\n      \"handType\": \"LEFT\",\n      \"id\": \"<long>\",\n      \"rid\": \"<string>\",\n      \"fingerprintImageContentType\": \"<string>\",\n      \"actor\": {\n        \"value\": \"<Circular reference to #/components/schemas/ActorDto detected>\"\n      }\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/lang-reg/api/v1/actors",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"lang-reg",
+														"api",
+														"v1",
+														"actors"
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "OK",
+													"originalRequest": {
+														"method": "POST",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"id\": \"<long>\",\n  \"physicalPerson\": {\n    \"address\": \"<string>\",\n    \"birthDate\": \"<date>\",\n    \"email\": \"<string>\",\n    \"firstname\": \"<string>\",\n    \"lastname\": \"<string>\",\n    \"maritalStatus\": \"MARIE\",\n    \"nationality\": \"<string>\",\n    \"placeOfBirth\": \"<string>\",\n    \"primaryPhone\": \"<string>\",\n    \"profession\": \"<string>\",\n    \"registrationStatus\": \"ACTOR\",\n    \"sex\": \"FEMININ\",\n    \"socioCulturalGroup\": \"<string>\",\n    \"id\": \"<long>\",\n    \"otherProfession\": \"<string>\",\n    \"secondaryPhone\": \"<string>\",\n    \"hasHandicap\": \"<boolean>\",\n    \"handicapType\": \"<string>\",\n    \"otherHandicapType\": \"<string>\",\n    \"hasIDDoc\": \"<boolean>\",\n    \"identificationDocType\": \"<string>\",\n    \"otherIdentificationDocType\": \"<string>\",\n    \"identificationDocNumber\": \"<string>\",\n    \"identificationDocPhoto\": \"<string>\",\n    \"identificationDocPhotoContentType\": \"<string>\",\n    \"witnessUIN\": \"<string>\",\n    \"statusObservation\": \"<string>\",\n    \"rid\": \"<string>\",\n    \"synchroBatchNumber\": \"<string>\",\n    \"synchroPacketNumber\": \"<string>\"\n  },\n  \"informalGroup\": {\n    \"address\": \"<string>\",\n    \"email\": \"<string>\",\n    \"groupName\": \"<string>\",\n    \"groupType\": \"<string>\",\n    \"mandatePhotoContentType\": \"<string>\",\n    \"phoneNumber\": \"<string>\",\n    \"representativeFullname\": \"<string>\",\n    \"representativeUIN\": \"<string>\",\n    \"secondaryRepresentativeFullname\": \"<string>\",\n    \"secondaryRepresentativeUIN\": \"<string>\",\n    \"thirdRepresentativeFullname\": \"<string>\",\n    \"thirdRepresentativeUIN\": \"<string>\",\n    \"id\": \"<long>\",\n    \"uin\": \"<string>\",\n    \"secondaryPhoneNumber\": \"<string>\",\n    \"mandatePhoto\": \"<string>\"\n  },\n  \"privateLegalEntity\": {\n    \"acronym\": \"<string>\",\n    \"address\": \"<string>\",\n    \"companyCreatedDate\": \"<date>\",\n    \"companyName\": \"<string>\",\n    \"identificationDocPhotoContentType\": \"<string>\",\n    \"mainActivity\": \"<string>\",\n    \"phoneNumber\": \"<string>\",\n    \"representativeFullname\": \"<string>\",\n    \"representativeUIN\": \"<string>\",\n    \"id\": \"<long>\",\n    \"uin\": \"<string>\",\n    \"secondaryPhoneNumber\": \"<string>\",\n    \"email\": \"<string>\",\n    \"entityType\": \"COOPERATIVE_AGRICOLE\",\n    \"identificationDocType\": \"<string>\",\n    \"identificationDocNumber\": \"<string>\",\n    \"identificationDocPhoto\": \"<string>\",\n    \"rid\": \"<string>\"\n  },\n  \"publicLegalEntity\": {\n    \"publicEntityType\": \"ETABLISSEMENT_PUBLIC\",\n    \"id\": \"<long>\",\n    \"uin\": \"<string>\"\n  },\n  \"uin\": \"<string>\",\n  \"synchroBatchNumber\": \"<string>\",\n  \"synchroPacketNumber\": \"<string>\",\n  \"role\": \"OWNER_OR_REPRESENTATIVE\",\n  \"type\": \"PUBLIC_LEGAL_ENTITY\",\n  \"fingerprintStores\": [\n    {\n      \"fingerName\": \"RING\",\n      \"fingerprintImage\": \"<string>\",\n      \"handType\": \"LEFT\",\n      \"id\": \"<long>\",\n      \"rid\": \"<string>\",\n      \"fingerprintImageContentType\": \"<string>\",\n      \"actor\": {\n        \"value\": \"<Circular reference to #/components/schemas/ActorDto detected>\"\n      }\n    },\n    {\n      \"fingerName\": \"INDEX\",\n      \"fingerprintImage\": \"<string>\",\n      \"handType\": \"LEFT\",\n      \"id\": \"<long>\",\n      \"rid\": \"<string>\",\n      \"fingerprintImageContentType\": \"<string>\",\n      \"actor\": {\n        \"value\": \"<Circular reference to #/components/schemas/ActorDto detected>\"\n      }\n    }\n  ]\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/actors",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"actors"
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"status\": \"207 MULTI_STATUS\",\n  \"statusCode\": \"<integer>\",\n  \"message\": \"<string>\",\n  \"service\": \"<string>\",\n  \"data\": {}\n}"
+												},
+												{
+													"name": "Forbidden",
+													"originalRequest": {
+														"method": "POST",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "*/*"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"id\": \"<long>\",\n  \"physicalPerson\": {\n    \"address\": \"<string>\",\n    \"birthDate\": \"<date>\",\n    \"email\": \"<string>\",\n    \"firstname\": \"<string>\",\n    \"lastname\": \"<string>\",\n    \"maritalStatus\": \"MARIE\",\n    \"nationality\": \"<string>\",\n    \"placeOfBirth\": \"<string>\",\n    \"primaryPhone\": \"<string>\",\n    \"profession\": \"<string>\",\n    \"registrationStatus\": \"ACTOR\",\n    \"sex\": \"FEMININ\",\n    \"socioCulturalGroup\": \"<string>\",\n    \"id\": \"<long>\",\n    \"otherProfession\": \"<string>\",\n    \"secondaryPhone\": \"<string>\",\n    \"hasHandicap\": \"<boolean>\",\n    \"handicapType\": \"<string>\",\n    \"otherHandicapType\": \"<string>\",\n    \"hasIDDoc\": \"<boolean>\",\n    \"identificationDocType\": \"<string>\",\n    \"otherIdentificationDocType\": \"<string>\",\n    \"identificationDocNumber\": \"<string>\",\n    \"identificationDocPhoto\": \"<string>\",\n    \"identificationDocPhotoContentType\": \"<string>\",\n    \"witnessUIN\": \"<string>\",\n    \"statusObservation\": \"<string>\",\n    \"rid\": \"<string>\",\n    \"synchroBatchNumber\": \"<string>\",\n    \"synchroPacketNumber\": \"<string>\"\n  },\n  \"informalGroup\": {\n    \"address\": \"<string>\",\n    \"email\": \"<string>\",\n    \"groupName\": \"<string>\",\n    \"groupType\": \"<string>\",\n    \"mandatePhotoContentType\": \"<string>\",\n    \"phoneNumber\": \"<string>\",\n    \"representativeFullname\": \"<string>\",\n    \"representativeUIN\": \"<string>\",\n    \"secondaryRepresentativeFullname\": \"<string>\",\n    \"secondaryRepresentativeUIN\": \"<string>\",\n    \"thirdRepresentativeFullname\": \"<string>\",\n    \"thirdRepresentativeUIN\": \"<string>\",\n    \"id\": \"<long>\",\n    \"uin\": \"<string>\",\n    \"secondaryPhoneNumber\": \"<string>\",\n    \"mandatePhoto\": \"<string>\"\n  },\n  \"privateLegalEntity\": {\n    \"acronym\": \"<string>\",\n    \"address\": \"<string>\",\n    \"companyCreatedDate\": \"<date>\",\n    \"companyName\": \"<string>\",\n    \"identificationDocPhotoContentType\": \"<string>\",\n    \"mainActivity\": \"<string>\",\n    \"phoneNumber\": \"<string>\",\n    \"representativeFullname\": \"<string>\",\n    \"representativeUIN\": \"<string>\",\n    \"id\": \"<long>\",\n    \"uin\": \"<string>\",\n    \"secondaryPhoneNumber\": \"<string>\",\n    \"email\": \"<string>\",\n    \"entityType\": \"COOPERATIVE_AGRICOLE\",\n    \"identificationDocType\": \"<string>\",\n    \"identificationDocNumber\": \"<string>\",\n    \"identificationDocPhoto\": \"<string>\",\n    \"rid\": \"<string>\"\n  },\n  \"publicLegalEntity\": {\n    \"publicEntityType\": \"ETABLISSEMENT_PUBLIC\",\n    \"id\": \"<long>\",\n    \"uin\": \"<string>\"\n  },\n  \"uin\": \"<string>\",\n  \"synchroBatchNumber\": \"<string>\",\n  \"synchroPacketNumber\": \"<string>\",\n  \"role\": \"OWNER_OR_REPRESENTATIVE\",\n  \"type\": \"PUBLIC_LEGAL_ENTITY\",\n  \"fingerprintStores\": [\n    {\n      \"fingerName\": \"RING\",\n      \"fingerprintImage\": \"<string>\",\n      \"handType\": \"LEFT\",\n      \"id\": \"<long>\",\n      \"rid\": \"<string>\",\n      \"fingerprintImageContentType\": \"<string>\",\n      \"actor\": {\n        \"value\": \"<Circular reference to #/components/schemas/ActorDto detected>\"\n      }\n    },\n    {\n      \"fingerName\": \"INDEX\",\n      \"fingerprintImage\": \"<string>\",\n      \"handType\": \"LEFT\",\n      \"id\": \"<long>\",\n      \"rid\": \"<string>\",\n      \"fingerprintImageContentType\": \"<string>\",\n      \"actor\": {\n        \"value\": \"<Circular reference to #/components/schemas/ActorDto detected>\"\n      }\n    }\n  ]\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/lang-reg/api/v1/actors",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"lang-reg",
+																"api",
+																"v1",
+																"actors"
+															]
+														}
+													},
+													"status": "Forbidden",
+													"code": 403,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"status\": \"<integer>\",\n  \"localDate\": \"<date>\",\n  \"message\": \"<string>\",\n  \"description\": \"<string>\"\n}"
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8081"
+		}
+	]
+}
