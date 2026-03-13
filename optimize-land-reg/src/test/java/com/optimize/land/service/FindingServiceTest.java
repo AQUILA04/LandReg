@@ -5,7 +5,9 @@ import com.optimize.common.entities.exception.ApplicationException;
 import com.optimize.common.securities.models.User;
 import com.optimize.common.securities.security.services.UserService;
 import com.optimize.land.model.dto.FindingDto;
+import com.optimize.land.model.entity.Bordering;
 import com.optimize.land.model.entity.CheckListOperation;
+import com.optimize.land.model.entity.Conflict;
 import com.optimize.land.model.entity.Finding;
 import com.optimize.land.model.enumeration.SynchroType;
 import com.optimize.land.model.mapper.FindingMapper;
@@ -24,6 +26,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -54,9 +58,14 @@ class FindingServiceTest {
     private User currentUser;
     private FindingDto findingDto;
     private Finding finding;
+    private Conflict conflict;
+    private Set<Bordering> borderings;
 
     @BeforeEach
     void setUp() {
+        // Initialize user with empty roles/profils if needed, or mock specific behavior
+        // The User constructor used here: User(firstName, lastName, gender, email, phoneNumber, username, password)
+        // Adjust if your User object needs specific roles set for 'is(ProfilConstant...)' to work.
         currentUser = new User("Test", "User", "MALE", "test@test.com", "12345678", "testuser", "password");
 
         findingDto = new FindingDto();
@@ -65,47 +74,118 @@ class FindingServiceTest {
 
         finding = new Finding();
         finding.setId(1L);
-        finding.setFirstCheckListOperation(new CheckListOperation());
-        finding.setLastCheckListOperation(new CheckListOperation());
+        // Ensure checklist operations are initialized to avoid NPE if service calls methods on them
+        CheckListOperation op1 = new CheckListOperation();
+        CheckListOperation op2 = new CheckListOperation();
+        
+        borderings = new HashSet<>();
+        Bordering b1 = new Bordering();
+        b1.setId(1L);
+        borderings.add(b1);
+        op1.setBorderingList(borderings);
+        op2.setBorderingList(borderings);
+
+        finding.setFirstCheckListOperation(op1);
+        finding.setLastCheckListOperation(op2);
+
+        conflict = new Conflict();
+        conflict.setId(1L);
+        finding.setConflict(conflict);
+        finding.setHasConflict(true);
     }
 
     @Test
     void register_Success() {
+        // Given
         when(userService.getCurrentUser()).thenReturn(currentUser);
         when(findingMapper.toEntity(findingDto)).thenReturn(finding);
-        when(checkListOperationService.create(any())).thenReturn(new CheckListOperation());
+        when(checkListOperationService.create(any(CheckListOperation.class))).thenReturn(new CheckListOperation());
+        // Mock the repository save to return the finding
         when(repository.save(any(Finding.class))).thenReturn(finding);
 
+        // When
         Long id = findingService.register(findingDto);
 
+        // Then
         assertNotNull(id);
         assertEquals(1L, id);
+        assertEquals(conflict, finding.getConflict());
+        assertFalse(finding.getFirstCheckListOperation().getBorderingList().isEmpty());
+
+        // Verify interactions
         verify(synchroHistoryService).receivedPacket("batch123", "packet1", SynchroType.FINDING);
-        verify(checkListOperationService, times(2)).create(any());
+        // create is called twice (first and last checklist operation)
+        verify(checkListOperationService, times(2)).create(any(CheckListOperation.class));
         verify(repository).save(finding);
     }
 
     @Test
     void register_ThrowsException() {
+        // Given
+        // Force an exception during mapping to simulate failure
         when(findingMapper.toEntity(findingDto)).thenThrow(new RuntimeException("Mapping error"));
 
+        // When/Then
         ApplicationException exception = assertThrows(ApplicationException.class, () -> findingService.register(findingDto));
 
         assertTrue(exception.getMessage().contains("Une Erreur S'est produite lors de l'enregistrement de la constatation"));
         verify(synchroHistoryService).failedPacket("batch123", "packet1");
+        // Ensure save is never called if exception occurs early
+        verify(repository, never()).save(any(Finding.class));
+    }
+
+    @Test
+    void updateFinding_Success() {
+        // Given
+        when(userService.getCurrentUser()).thenReturn(currentUser);
+        when(findingMapper.toEntity(findingDto)).thenReturn(finding);
+        when(checkListOperationService.update(any(CheckListOperation.class))).thenReturn(new CheckListOperation());
+        when(repository.saveAndFlush(any(Finding.class))).thenReturn(finding);
+
+        // When
+        Long id = findingService.updateFinding(findingDto);
+
+        // Then
+        assertNotNull(id);
+        assertEquals(1L, id);
+        assertEquals(conflict, finding.getConflict());
+        assertFalse(finding.getFirstCheckListOperation().getBorderingList().isEmpty());
+
+        // Verify interactions
+        verify(synchroHistoryService).receivedPacket("batch123", "packet1", SynchroType.FINDING);
+        // update is called twice (first and last checklist operation)
+        verify(checkListOperationService, times(2)).update(any(CheckListOperation.class));
+        verify(repository).saveAndFlush(finding);
+    }
+
+    @Test
+    void updateFinding_ThrowsException() {
+        // Given
+        when(findingMapper.toEntity(findingDto)).thenThrow(new RuntimeException("Mapping error"));
+
+        // When/Then
+        ApplicationException exception = assertThrows(ApplicationException.class, () -> findingService.updateFinding(findingDto));
+
+        assertTrue(exception.getMessage().contains("Une Erreur S'est produite lors de la modification de la constatation"));
+        verify(synchroHistoryService).failedPacket("batch123", "packet1");
+        verify(repository, never()).saveAndFlush(any(Finding.class));
     }
 
     @Test
     void getAllToProjection_AsAdmin() {
-        // Admin user does not have LAND_AGENT_OPERATOR profile
+        // Given
+        // The currentUser created in setUp() typically doesn't have LAND_AGENT_OPERATOR profile unless added.
+        // Assuming default User has no profiles or different profiles.
         when(userService.getCurrentUser()).thenReturn(currentUser);
 
         Page<FindingProjection> expectedPage = new PageImpl<>(Collections.emptyList());
         Pageable pageable = PageRequest.of(0, 10);
         when(repository.findByStateOrderByIdDesc(State.ENABLED, pageable)).thenReturn(expectedPage);
 
+        // When
         Page<FindingProjection> result = findingService.getAllToProjection(pageable);
 
+        // Then
         assertEquals(expectedPage, result);
         verify(repository).findByStateOrderByIdDesc(State.ENABLED, pageable);
     }

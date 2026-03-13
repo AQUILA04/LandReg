@@ -25,6 +25,11 @@ public class FindingController extends BaseController<Finding, Long> {
         return new ResponseEntity<>(success(getService().register(findingDto), "Constatation create success", HttpStatus.CREATED), HttpStatus.CREATED);
     }
 
+    @PutMapping
+    public ResponseEntity<Response> update(@RequestBody @Valid FindingDto findingDto) {
+        return new ResponseEntity<>(success(getService().updateFinding(findingDto), "Constatation update success", HttpStatus.OK), HttpStatus.OK);
+    }
+
     @GetMapping
     @Override
     public ResponseEntity<Response> getAll(Pageable pageable) {

@@ -2,7 +2,6 @@ package com.optimize.land.service;
 
 import com.optimize.common.entities.enums.State;
 import com.optimize.common.entities.exception.ApplicationException;
-import com.optimize.common.entities.repository.GenericRepository;
 import com.optimize.common.entities.service.GenericService;
 import com.optimize.common.securities.models.User;
 import com.optimize.common.securities.security.services.UserService;
@@ -55,6 +54,23 @@ public class FindingService extends GenericService<Finding, Long> {
             throw new ApplicationException("Une Erreur S'est produite lors de l'enregistrement de la constatation: ", e.getMessage());
         }
 
+    }
+
+    @Transactional
+    public Long updateFinding(@NotNull FindingDto findingDto) {
+        this.synchroHistoryService.receivedPacket(findingDto.getSynchroBatchNumber(), findingDto.getSynchroPacketNumber(), SynchroType.FINDING);
+        try {
+            //findingDto.validateFirstAndLastCheckListOperations();
+            Finding finding = findingMapper.toEntity(findingDto);
+            this.checkListOperationService.update(finding.getFirstCheckListOperation());
+            this.checkListOperationService.update(finding.getLastCheckListOperation());
+            finding.setOperatorAgent(userService.getCurrentUser().getUsername());
+            update(finding);
+            return finding.getId();
+        } catch (Exception e) {
+            this.synchroHistoryService.failedPacket(findingDto.getSynchroBatchNumber(), findingDto.getSynchroPacketNumber());
+            throw new ApplicationException("Une Erreur S'est produite lors de la modification de la constatation: ", e.getMessage());
+        }
     }
 
     public Page<FindingProjection> getAllToProjection(Pageable pageable) {
