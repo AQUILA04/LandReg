@@ -20,5 +20,7 @@ public interface BaseActorRepository<A extends AbstractActor, I extends Serializ
     @Override
     Optional<A> findById(I i);
 
+    boolean existsByUin(String uin);
+
     Page<A> findByRegistrationStatusAndStateOrderByIdDesc(RegistrationStatus status, State state, Pageable pageable);
 }

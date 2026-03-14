@@ -1,0 +1,350 @@
+````mermaid
+
+classDiagram
+    class AbstractActor {
+        -Long id
+        -String uin
+        -String name
+        -String phone
+        -RegistrationStatus registrationStatus
+        -String statusObservation
+        -String rid
+        -String synchroBatchNumber
+        -String synchroPacketNumber
+        -RoleActor role
+        -ActorType type
+        -String operatorAgent
+        +validateUniqueActorType()
+        +updateFingerprint()
+        +addRid(String rid)
+        +toActorModel() ActorModel
+        +actorTypeIs(ActorType) boolean
+        +fingerprintMandatoryCheck()
+        +addNameAndPhone()
+    }
+
+    class Actor {
+        +addUin(String uin)
+    }
+
+    class Registration {
+    }
+
+    class Person {
+        -Long id
+        -String lastname
+        -String firstname
+        -Sex sex
+        -String uin
+        -MaritalStatus maritalStatus
+        -LocalDate birthDate
+        -String placeOfBirth
+        -String nationality
+        -String profession
+        -String otherProfession
+        -String address
+        -String primaryPhone
+        -String secondaryPhone
+        -String email
+        -Boolean hasHandicap
+        -String socioCulturalGroup
+        -String handicapType
+        -String otherHandicapType
+        -Boolean hasIDDoc
+        -String witnessUIN
+        -String role
+        -RegistrationStatus registrationStatus
+        -String statusObservation
+        -String rid
+        -String synchroBatchNumber
+        -String synchroPacketNumber
+        +getFullName() String
+        +setUp()
+    }
+
+    class InformalGroup {
+        -Long id
+        -String uin
+        -String groupName
+        -String address
+        -String phoneNumber
+        -String secondaryPhoneNumber
+        -String email
+        -String groupType
+        -String representativeUIN
+        -String representativeFullname
+        -String secondaryRepresentativeUIN
+        -String secondaryRepresentativeFullname
+        -String thirdRepresentativeUIN
+        -String thirdRepresentativeFullname
+        -byte[] mandatePhoto
+        -String mandatePhotoContentType
+    }
+
+    class PrivateLegalEntity {
+        -Long id
+        -String uin
+        -String companyName
+        -String address
+        -String phoneNumber
+        -String secondaryPhoneNumber
+        -String email
+        -PrivateEntityType entityType
+        -String mainActivity
+        -String acronym
+        -LocalDate companyCreatedDate
+        -String representativeUIN
+        -String representativeFullname
+        -String rid
+        +getIdentificationDoc() IdentificationDoc
+    }
+
+    class PublicLegalEntity {
+        -Long id
+        -String uin
+        -PublicEntityType publicEntityType
+        -String phoneNumber
+        -String name
+    }
+
+    class IdentificationDoc {
+        -Long id
+        -String identificationDocType
+        -String otherIdentificationDocType
+        -String identificationDocNumber
+        -byte[] identificationDocPhoto
+        -String identificationDocPhotoContentType
+        +isNull() boolean
+    }
+
+    class Finding {
+        -Long id
+        -String nup
+        -String region
+        -String prefecture
+        -String commune
+        -String canton
+        -String locality
+        -ActorType personType
+        -String uin
+        -Boolean hasConflict
+        -String surface
+        -String landForm
+        -String synchroBatchNumber
+        -String synchroPacketNumber
+        -String operatorAgent
+    }
+
+    class CheckListOperation {
+        -Long id
+        -String mayorUIN
+        -String traditionalChiefUIN
+        -String notableUIN
+        -String geometerUIN
+        -String ownerUIN
+        -String interestedThirdPartyUIN
+        -String topographerUIN
+        -String socialLandAgentUIN
+        -String tiersUIN
+        -String tiersRole
+        +setUp()
+        +addBordering(Bordering bordering)
+        +removeChild(Bordering bordering)
+        +setBorderingList(Set~Bordering~ borderingList)
+    }
+
+    class Bordering {
+        -Long id
+        -CardinalPoint cardinalPoint
+        -String uin
+    }
+
+    class Conflict {
+        -Long id
+        -String conflictParty
+        -String firstConflictPartyNUP
+        -String firstConflictPartyOccupationDurationInMonth
+        -String secondConflictPartyNUP
+        -String secondConflictPartyOccupationDurationInMonth
+        -String conflictObject
+        -String rightClaimed
+        -String rightClaimedOrigin
+        -String institutionInvolved
+        -String seizureProof
+        -String exhibitAndEvidence
+        -byte[] photoOfProof
+        -String procedureStatus
+        -LocalDate settlementDate
+        -String settlementCompromiseNature
+        -String settlementActor
+        -String regulationWitnesses
+        -String finalDecisionProof
+        -byte[] settlementProofPhoto
+        -String rightRestrictionType
+        -String currentlyUseFor
+        -String agriculturalDevelopmentType
+        -String pointOfAttention
+        -String modeAcquisition
+        -String siHeritageDeQui
+        -LocalDate siHeritageDateDeces
+        -Integer girlCount
+        -Integer boyCount
+        -LocalDate dateAcquisition
+        -String typePreuveAcquisition
+        -byte[] photoPreuveAcquisition
+        -byte[] photoTemoignage
+        -byte[] photoFicheTemoignage
+    }
+
+    class FingerprintStore {
+        -Long id
+        -String rid
+        -HandType handType
+        -Finger fingerName
+        -byte[] fingerprintImage
+        -String fingerprintImageContentType
+        -String fingerStr
+    }
+
+    class FingerprintMatchingHistory {
+        -Long id
+        -String rid
+        -Boolean foundMatch
+        -String matchedRID
+        -MatchingHistoryStatus status
+        +addFeedback(RegistrationProcessorFeedback feedback) FingerprintMatchingHistory
+    }
+
+    class SynchroHistory {
+        -Long id
+        -String batchNumber
+        -Integer totalOfflineCount
+        -Integer synchroCandidateCount
+        -Integer totalReceivedCount
+        -Integer successPacketCount
+        -Integer failedPacketCount
+        -Integer duplicatedPacketCount
+        -Integer pendingPacketCount
+        -String packetsNumber
+        -LocalDate initDate
+        -LocalDate firstPacketDate
+        -Boolean isFinished
+        -String operatorAgent
+        -SynchroStatus synchroStatus
+        -ZonedDateTime lastPacketDate
+        -SynchroType type
+        +incrementReceived()
+        +incrementDuplicated()
+        +incrementFailed()
+        +incrementSuccess()
+        +addPacketNumber(String packetNumber)
+    }
+
+    class User {
+        -Long id
+        -String firstname
+        -String lastname
+        -String gender
+        -String phone
+        -String email
+        +getUsername() String
+        +getPassword() String
+        +getPermissions() Set~UserPermission~
+        +addProfile(UserProfil profil)
+        +getProfil() Map
+        +getProfilName() String
+        +is(String profileName) boolean
+    }
+
+    class UserAccount {
+        -Long id
+        -String username
+        -String password
+        -Boolean active
+        -String activationKey
+        -String passwordUpdateKey
+        -LocalDateTime passwordUpdateTime
+        -Integer failedConnexionAttempt
+        +setUp()
+        +getUserProfilId() Long
+        +getProfileName() String
+    }
+
+    class UserProfil {
+        -Long id
+        -String name
+        +addPermissions(Set~UserPermission~ permissions)
+        +getPermissions() Set~UserPermission~
+        +isLocked() boolean
+    }
+
+    class UserPermission {
+        -Long id
+        -String name
+        -String defaultName
+    }
+
+    class AccountPermission {
+        -Long id
+    }
+
+    class ProfilPermission {
+        -Long id
+    }
+
+    class RefreshToken {
+        -long id
+        -String token
+        -Instant expiryDate
+    }
+
+    class DeploymentLicence {
+        -Long id
+        -String societyName
+        -String activationCode
+        -LocalDate issuedDate
+        -LocalDate renewDate
+        +from(DeploymentRequest request) DeploymentLicence
+        +renew(String activationCode)
+    }
+
+    class Licence {
+        -Long id
+        -String activationCode
+        -LocalDate expirationDate
+        -boolean renewable
+        -boolean used
+    }
+
+    class Parameter {
+        -Long id
+        -String key
+        -String value
+        -String description
+    }
+
+    AbstractActor <|-- Actor
+    AbstractActor <|-- Registration
+    AbstractActor o-- Person
+    AbstractActor o-- InformalGroup
+    AbstractActor o-- PrivateLegalEntity
+    AbstractActor o-- PublicLegalEntity
+    AbstractActor o-- FingerprintStore
+
+    Person o-- IdentificationDoc
+    PrivateLegalEntity o-- IdentificationDoc
+
+    Finding o-- CheckListOperation : firstCheckListOperation
+    Finding o-- CheckListOperation : lastCheckListOperation
+    Finding o-- Conflict
+    CheckListOperation o-- Bordering
+
+    User o-- UserAccount
+    UserAccount o-- UserProfil
+    UserAccount o-- AccountPermission
+    UserProfil o-- ProfilPermission
+    AccountPermission o-- UserPermission
+    ProfilPermission o-- UserPermission
+    RefreshToken o-- User
+
+````

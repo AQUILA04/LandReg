@@ -1,0 +1,28 @@
+# This configuration is intended for development purpose, it's **your** responsibility to harden it for production
+name: afismaster
+services:
+  mongodb:
+    image: mongo:8.0.3
+    restart: always
+    # If you want to expose these ports outside your dev PC,
+    # remove the "127.0.0.1:" prefix
+    ports:
+      - 127.0.0.1:27017:27017
+    # volumes:
+    #   - ~/volumes/jhipster/AfisMaster/mongodb/:/data/db/
+    healthcheck:
+      test: ['CMD', 'echo', '''db.runCommand("ping").ok''', '|', 'mongo', 'localhost:27017/test', '--quiet']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    ports:
+      - "8091:8081" # Port pour Mongo Express UI
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin
+      ME_CONFIG_MONGODB_SERVER: mongodb
+    depends_on:
+      - mongodb      

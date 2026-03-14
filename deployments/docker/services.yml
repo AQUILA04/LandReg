@@ -1,0 +1,57 @@
+# This configuration is intended for development purpose, it's **your** responsibility to harden it for production
+name: afismaster
+services:
+  mongodb:
+    extends:
+      file: ./mongodb.yml
+      service: mongodb
+  mongo-express:
+    extends:
+      file: ./mongodb.yml
+      service: mongo-express    
+  keycloak:
+    extends:
+      file: ./keycloak.yml
+      service: keycloak
+  consul:
+    extends:
+      file: ./consul.yml
+      service: consul
+  consul-config-loader:
+    extends:
+      file: ./consul.yml
+      service: consul-config-loader
+  kafka:
+    extends:
+      file: ./kafka.yml
+      service: kafka
+  zookeeper:
+    extends:
+      file: ./kafka.yml
+      service: zookeeper
+  kafka-ui:
+    extends:
+      file: ./kafka.yml
+      service: kafka-ui    
+  admin:
+    image: slydeveloper/spring-boot-admin
+    environment:
+      - SPRING_BOOT_ADMIN_TITLE=LANG REG BACKEND ADMIN BOARD
+    volumes:
+      - ./application-docker.properties:/opt/spring-boot-admin-docker/application-docker.properties
+    ports:
+      - 1111:1111
+    healthcheck:
+      test: "curl -sS http://localhost:1111/health"
+      interval: 1s
+      timeout: 60s
+      retries: 120
+    container_name: spring_boot_admin_docker
+  postgres:
+    extends:
+      file: ./postgresql.yml
+      service: postgres
+  pgadmin:
+    extends:
+      file: ./postgresql.yml
+      service: pgadmin      

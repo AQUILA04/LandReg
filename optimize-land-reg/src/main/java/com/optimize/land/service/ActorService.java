@@ -158,7 +158,7 @@ public class ActorService extends GenericService<AbstractActor, Long> {
         Actor actor = new Actor();
                 actor = actorMapper.registrationToActor(registration);
         log.info("SETTING UIN FOR ACTOR {}", actor);
-        actor.addUin(UniqueIDGenerator.generateUIN());
+        actor.addUin(getUniqueUin());
         getRepository().delete(registration);
         create(actor);
         synchroHistoryService.successPacket(actor.getSynchroBatchNumber(), actor.getSynchroPacketNumber());
@@ -329,6 +329,15 @@ public class ActorService extends GenericService<AbstractActor, Long> {
 
     public void putInQueue()  {
 
+    }
+
+    private String getUniqueUin() {
+        String finalUin;
+        do {
+            finalUin = UniqueIDGenerator.generateUIN();
+
+        }while (getRepository().existsByUin(finalUin));
+        return finalUin;
     }
 
     public boolean existsByRid(String rid) {

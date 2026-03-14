@@ -1,0 +1,33 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: olr_recette_db
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: 12345678
+      PGOPTIONS: "-c listen_addresses='*'"
+      - "POSTGRES_LOGGING=true"
+      - "PGLOG=/var/log/postgresql/postgresql.log"
+    ports:
+      - "5464:5464"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
+      - ./postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./logs:/var/log/postgresql  # Monte les logs vers l’hôte
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    ports:
+      - "8093:80" # Expose pgAdmin 4 sur le port 8080
+    environment:
+      PGADMIN_DEFAULT_EMAIL: francis.ahonsou@gmail.com # Email pour se connecter à pgAdmin
+      PGADMIN_DEFAULT_PASSWORD: Admin1234       # Mot de passe pour pgAdmin
+    depends_on:
+      - postgres      
+
+volumes:
+  pgdata:  
