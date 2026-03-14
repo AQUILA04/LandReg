@@ -201,11 +201,11 @@ public interface ActorRepository extends BaseActorRepository<AbstractActor, Long
                 a.registrationStatus,
                 a.statusObservation)
             FROM AbstractActor a
-            WHERE (LOWER(a.name) = :keyword OR
-                        LOWER(a.uin) = :keyword OR
-                        LOWER(a.phone) = :keyword OR
-                        LOWER(a.operatorAgent) = :keyword OR
-                        LOWER(a.rid) = :keyword)
+            WHERE (LOWER(a.name) LIKE :keyword OR
+                        LOWER(a.uin) LIKE :keyword OR
+                        LOWER(a.phone) LIKE :keyword OR
+                        LOWER(a.operatorAgent) LIKE :keyword OR
+                        LOWER(a.rid) LIKE :keyword)
             AND a.state = com.optimize.common.entities.enums.State.ENABLED
             ORDER BY a.id DESC
             """)

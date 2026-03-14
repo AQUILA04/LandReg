@@ -120,8 +120,9 @@ public class ActorService extends GenericService<AbstractActor, Long> {
 
     }
 
-    public Page<ActorRespDto> search(String keyword, Pageable pageable) {
-        return getRepository().searchByKeyword(keyword, pageable);
+    public Page<ActorRespDto> search(@NotNull(message = "Le mot clé de la recherche est obligatoire !") String keyword, Pageable pageable) {
+        final String keywordFinal = "%" + keyword.toLowerCase().trim() + "%";
+        return getRepository().searchByKeyword(keywordFinal, pageable);
     }
 
     private void checkUnicity(ActorDto actorDto) {
