@@ -39,6 +39,8 @@ public abstract class AbstractActor extends Auditable<String> {
 
     @Column(name = "uin", unique = true)
     protected String uin;
+    private String name;
+    private String phone;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -74,6 +76,11 @@ public abstract class AbstractActor extends Auditable<String> {
                     Objects.nonNull(privateLegalEntity) && Objects.nonNull(publicLegalEntity)) {
                 throw new CustomValidationException("Au moins une valeur pour le type d'acteur est obligatoire !");
             }
+    }
+
+    @PrePersist
+    private void setUp() {
+        this.addNameAndPhone();
     }
 
     public void updateFingerprint() {
@@ -145,6 +152,25 @@ public abstract class AbstractActor extends Auditable<String> {
         if (actorTypeIs(ActorType.PHYSICAL_PERSON) && Objects.isNull(this.fingerprintStores)) {
             throw new CustomValidationException("Les données d'empreintes digitales sont obligatoires pour une personne physique !");
         }
+    }
+
+    public void addNameAndPhone() {
+        if (Objects.isNull(name)) {
+            if(actorTypeIs(ActorType.PHYSICAL_PERSON) && Objects.nonNull(this.physicalPerson)) {
+                this.name = this.physicalPerson.getFullName();
+                this.phone = this.physicalPerson.getPrimaryPhone();
+            } else if (actorTypeIs(ActorType.INFORMAL_GROUP) && Objects.nonNull(this.informalGroup)) {
+                this.name = this.informalGroup.getGroupName();
+                this.phone = this.informalGroup.getPhoneNumber();
+            } else if (actorTypeIs(ActorType.PRIVATE_LEGAL_ENTITY) && Objects.nonNull(this.privateLegalEntity)) {
+                this.name = this.privateLegalEntity.getCompanyName();
+                this.phone = this.privateLegalEntity.getPhoneNumber();
+            } else {
+                this.name = this.publicLegalEntity.getName();
+                this.phone = this.publicLegalEntity.getPhoneNumber();
+            }
+        }
+
     }
 
     @Override

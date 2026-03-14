@@ -4,9 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.optimize.common.entities.config.CustomMessageSource;
 import com.optimize.common.entities.controller.BaseController;
 import com.optimize.common.entities.util.Response;
-import com.optimize.land.model.dto.ActorDto;
-import com.optimize.land.model.dto.BioAuthDto;
-import com.optimize.land.model.dto.UINWrapper;
+import com.optimize.land.model.dto.*;
 import com.optimize.land.model.entity.AbstractActor;
 import com.optimize.land.model.enumeration.RegistrationStatus;
 import com.optimize.land.service.ActorService;
@@ -16,7 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
 
 @RestController
 @RequestMapping("land-reg/api/v1/actors")
@@ -68,6 +68,19 @@ public class ActorController extends BaseController<AbstractActor, Long> {
     @PostMapping(value = "uin-details")
     public ResponseEntity<Response> getUINDetails(@RequestBody @Valid UINWrapper uinWrapper) {
         return new ResponseEntity<>(success(getService().getUINDetails(uinWrapper), "success get UIN details"), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "uin/{uin}")
+    public ResponseEntity<Response> getUIN(@PathVariable String uin) {
+        UINWrapper uinWrapper = new UINWrapper();
+        uinWrapper.setUinList(Set.of(uin));
+        Optional<ActorModel> optional = getService().getUINDetails(uinWrapper).stream().findFirst();
+        return new ResponseEntity<>(success(optional.orElse(null), "success get UIN details"), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "search")
+    public ResponseEntity<Response> search(@RequestBody @Valid SearchDto dto, Pageable pageable) {
+        return new ResponseEntity<>(success(getService().search(dto.keyword(), pageable), "success search by keyword"), HttpStatus.OK);
     }
 
     @PutMapping(value = "{id}")

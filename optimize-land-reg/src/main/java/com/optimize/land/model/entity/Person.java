@@ -160,7 +160,7 @@ public class Person extends Auditable<String> {
     @PrePersist
     @PreUpdate
     public void setUp() {
-        if (Objects.nonNull(hasIDDoc) && Boolean.FALSE.equals(hasIDDoc)) {
+        if (Objects.nonNull(hasIDDoc) && !hasIDDoc) {
             this.identificationDoc = null;
         }
 

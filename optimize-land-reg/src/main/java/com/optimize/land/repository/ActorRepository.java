@@ -189,4 +189,25 @@ public interface ActorRepository extends BaseActorRepository<AbstractActor, Long
             ORDER BY a.id DESC
             """)
     List<ActorRespDto> findByRegistrationStatusInAndOperatorAgent(@Param("status") List<RegistrationStatus> status, @Param("operatorAgent") String operatorAgent);
+
+
+    @Query("""
+            SELECT new com.optimize.land.model.dto.ActorRespDto(
+                a.id,
+                a.uin,
+                a.name,
+                a.type,
+                a.role,
+                a.registrationStatus,
+                a.statusObservation)
+            FROM AbstractActor a
+            WHERE (LOWER(a.name) = :keyword OR
+                        LOWER(a.uin) = :keyword OR
+                        LOWER(a.phone) = :keyword OR
+                        LOWER(a.operatorAgent) = :keyword OR
+                        LOWER(a.rid) = :keyword)
+            AND a.state = com.optimize.common.entities.enums.State.ENABLED
+            ORDER BY a.id DESC
+            """)
+    Page<ActorRespDto> searchByKeyword(@Param("keyword") String keyword, Pageable pageable);
 }

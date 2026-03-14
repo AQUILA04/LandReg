@@ -4,6 +4,10 @@ spring:
     version: 1.0.0
   profiles:
     active: recette
+  flyway:
+    enabled: false
+    locations: classpath:db/migration
+    baseline-on-migrate: true
 #  config:
 #    import: optional:file:${user.home}/.optimize-land-reg/config/application.yml
   docker:
