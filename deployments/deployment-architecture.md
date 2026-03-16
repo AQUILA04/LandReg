@@ -80,6 +80,70 @@ W1 ..> Mon_Srv : Logs/Metrics
 
 ```
 
+### Mermaid
+
+```mermaid
+graph TB
+    title["Architecture de Déploiement Production - LandReg & AFIS System"]
+    
+    subgraph DB_Srv["Database Server (Ubuntu 22.04) - 8GB RAM | 500GB SSD"]
+        Postgres[(PostgreSQL)]
+        Mongo[(MongoDB)]
+    end
+    
+    subgraph Mid_Srv["Middleware Server (Ubuntu 22.04) - 16GB RAM | 200GB SSD"]
+        Kafka[Apache Kafka]
+        ZK[Zookeeper]
+        Redis[Redis]
+    end
+    
+    subgraph API_Srv["Backend API Server (Ubuntu 22.04) - 8GB RAM | 100GB SSD"]
+        LandReg[optimize-land-reg.jar]
+    end
+    
+    subgraph AFIS_M_Srv["AFIS Master Server (Ubuntu 22.04) - 16GB RAM | 100GB SSD"]
+        AfisMaster[afis-master.jar]
+    end
+    
+    subgraph AFIS_Cluster["AFIS Worker Cluster"]
+        subgraph W1["AFIS Worker 1 (Ubuntu 22.04) - 16GB RAM | 100GB SSD"]
+            AfisSvc1[afis-service.jar - Worker 1]
+        end
+        subgraph Wn["AFIS Worker n (Ubuntu 22.04) - 16GB RAM | 100GB SSD"]
+            AfisSvcn[afis-service.jar - Worker n]
+        end
+    end
+    
+    subgraph Mon_Srv["Monitoring Server (Ubuntu 22.04) - 16GB RAM | 100GB SSD"]
+        Grafana[Grafana]
+        Prom[Prometheus]
+        ELK[ELK Stack]
+    end
+    
+    %% Relations principales
+    LandReg -- "JDBC (Port 5432)" --> Postgres
+    LandReg -- "Produce Events (Port 9092)" --> Kafka
+    
+    AfisMaster -- "Persistence (Port 27017)" --> Mongo
+    AfisMaster -- "Orchestration (Port 9092)" --> Kafka
+    
+    AfisSvc1 -- "Consume/Produce (Port 9092)" --> Kafka
+    AfisSvcn -- "Consume/Produce (Port 9092)" --> Kafka
+    AfisSvc1 -- "Caching (Port 6379)" --> Redis
+    
+    %% Monitoring
+    DB_Srv -.-> Prom
+    Mid_Srv -.-> Prom
+    API_Srv -.-> Mon_Srv
+    AFIS_M_Srv -.-> Mon_Srv
+    W1 -.-> Mon_Srv
+    
+    %% Note pour la scalabilité
+    Wn_note("Scalabilité : 1 worker / 20 000 empreintes")
+    style Wn_note fill:#fff,stroke:#333,stroke-dasharray: 5 5
+    Wn_note -.-> Wn
+```
+
 ---
 
 ### Détails Techniques des Serveurs (Ubuntu 22.04+)
