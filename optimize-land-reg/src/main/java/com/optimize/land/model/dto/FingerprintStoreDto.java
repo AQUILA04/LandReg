@@ -62,4 +62,18 @@ public class FingerprintStoreDto {
     public boolean isNull() {
         return Objects.isNull(fingerprintImage);
     }
+
+    @Override
+    public String toString() {
+        String toStringFingerprint = Objects.nonNull(fingerprintImage) && fingerprintImage.length() > 255 ? this.fingerprintImage.substring(0, 255) + "..." : "";
+        return "FingerprintStoreDto{" +
+                "id=" + id +
+                ", rid='" + rid + '\'' +
+                ", handType=" + handType +
+                ", fingerName=" + fingerName +
+                ", fingerprintImage='" + toStringFingerprint + '\'' +
+                ", fingerprintImageContentType='" + fingerprintImageContentType + '\'' +
+                ", fingerStr='" + fingerStr + '\'' +
+                '}';
+    }
 }

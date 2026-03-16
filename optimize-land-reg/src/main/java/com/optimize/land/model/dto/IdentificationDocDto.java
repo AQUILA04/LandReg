@@ -29,4 +29,17 @@ public class IdentificationDocDto {
                 !StringUtils.hasText(identificationDocType) &&
                 Objects.isNull(identificationDocPhoto);
     }
+
+    @Override
+    public String toString() {
+        String imageData = Objects.nonNull(identificationDocPhoto) && identificationDocPhoto.length() > 255 ? identificationDocPhoto.substring(0, 255) + "..." : "";
+        return "IdentificationDocDto{" +
+                "id=" + id +
+                ", identificationDocType='" + identificationDocType + '\'' +
+                ", otherIdentificationDocType='" + otherIdentificationDocType + '\'' +
+                ", identificationDocNumber='" + identificationDocNumber + '\'' +
+                ", identificationDocPhoto='" + imageData + '\'' +
+                ", identificationDocPhotoContentType='" + identificationDocPhotoContentType + '\'' +
+                '}';
+    }
 }
