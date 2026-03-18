@@ -26,11 +26,11 @@ public class FindingDto {
     private String uin;
     @NotNull(message = "vous devez renseignez si la parcelle a un conflit ou pas !")
     private Boolean hasConflict;
-    @Valid
-    @NotNull(message = "Le checklist avant opération est obligatoire !")
+    //@Valid
+    //@NotNull(message = "Le checklist avant opération est obligatoire !")
     private CheckListOperationDto firstCheckListOperation;
-    @Valid
-    @NotNull(message = "Le checklist après opération est obligatoire !")
+    //@Valid
+    //@NotNull(message = "Le checklist après opération est obligatoire !")
     private CheckListOperationDto lastCheckListOperation;
     private String surface;
     private ConflictDto conflict;
@@ -44,6 +44,12 @@ public class FindingDto {
         }
         this.firstCheckListOperation.uniqueUINByActorCheck();
         this.lastCheckListOperation.uniqueUINByActorCheck();
+    }
+
+    public void checkListShouldBeNonNullForCreation() {
+        if (this.firstCheckListOperation == null || this.lastCheckListOperation == null) {
+            throw new CustomValidationException("Les check-list sont obligatoire pour la création de constatation !");
+        }
     }
 
 }

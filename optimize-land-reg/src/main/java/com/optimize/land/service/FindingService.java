@@ -18,6 +18,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+
 @Service
 @Transactional(readOnly = true)
 public class FindingService extends GenericService<Finding, Long> {
@@ -43,6 +45,7 @@ public class FindingService extends GenericService<Finding, Long> {
         this.synchroHistoryService.receivedPacket(findingDto.getSynchroBatchNumber(), findingDto.getSynchroPacketNumber(), SynchroType.FINDING);
         try {
             //findingDto.validateFirstAndLastCheckListOperations();
+            findingDto.checkListShouldBeNonNullForCreation();
             Finding finding = findingMapper.toEntity(findingDto);
             this.checkListOperationService.create(finding.getFirstCheckListOperation());
             this.checkListOperationService.create(finding.getLastCheckListOperation());
@@ -62,8 +65,19 @@ public class FindingService extends GenericService<Finding, Long> {
         try {
             //findingDto.validateFirstAndLastCheckListOperations();
             Finding finding = findingMapper.toEntity(findingDto);
-            this.checkListOperationService.update(finding.getFirstCheckListOperation());
-            this.checkListOperationService.update(finding.getLastCheckListOperation());
+            Finding oldOne = getById(findingDto.getId());
+            if (Objects.nonNull(findingDto.getFirstCheckListOperation())) {
+                this.checkListOperationService.update(finding.getFirstCheckListOperation());
+            } else {
+                finding.setFirstCheckListOperation(oldOne.getFirstCheckListOperation());
+            }
+            if (Objects.nonNull(findingDto.getLastCheckListOperation())) {
+                this.checkListOperationService.update(finding.getLastCheckListOperation());
+            } else {
+                finding.setLastCheckListOperation(oldOne.getLastCheckListOperation());
+            }
+
+
             finding.setOperatorAgent(userService.getCurrentUser().getUsername());
             update(finding);
             return finding.getId();
