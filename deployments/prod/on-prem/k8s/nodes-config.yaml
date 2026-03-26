@@ -1,0 +1,94 @@
+# Configuration des Nodes Kubernetes
+# ============================================
+# IMPORTANT: Ce fichier doit être personnalisé selon votre infrastructure
+# Les noms des nodes doivent correspondre à vos serveurs réels
+# ============================================
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: node-config
+  namespace: default
+  labels:
+    app: landreg
+    component: infrastructure
+data:
+  # ============================================
+  # NODE SELECTORS - Modifier selon vos nodes
+  # ============================================
+  # Les labels ci-dessous doivent correspondre aux labels appliqués aux nodes
+  
+  database-nodes: "node-type=database"
+  middleware-nodes: "node-type=middleware"
+  api-nodes: "node-type=api"
+  afis-master-nodes: "node-type=afis-master"
+  afis-worker-nodes: "node-type=afis-worker"
+  monitoring-nodes: "node-type=monitoring"
+
+---
+# ============================================
+# NODE SELECTOR EXAMPLES - Commandes pour appliquer
+# ============================================
+# Ces commandes montrent comment labelliser vos nodes
+# Executer ces commandes après avoir adapté les noms de nodes
+# ============================================
+#
+# # Identifier vos nodes
+# kubectl get nodes
+#
+# # Appliquer les labels (adapter <NODE_NAME> à vos nodes)
+# kubectl label node <NODE_NAME> node-type=database
+# kubectl label node <NODE_NAME> node-type=middleware
+# kubectl label node <NODE_NAME> node-type=api
+# kubectl label node <NODE_NAME> node-type=afis-master
+# kubectl label node <NODE_NAME> node-type=afis-worker
+# kubectl label node <NODE_NAME> node-type=monitoring
+#
+# # Vérifier les labels
+# kubectl get nodes --show-labels
+#
+---
+# ============================================
+# INVENTAIRE INFRASTRUCTURE - A COMPLETER
+# ============================================
+# Remplacer les valeurs entre <> par vos informations réelles
+# ============================================
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: infrastructure-config
+  namespace: default
+  labels:
+    app: landreg
+    component: infrastructure
+data:
+  # ============================================
+  # SERVEURS - IPs/Noms à configurer
+  # ============================================
+  # MASTER_NODE_1: "<MASTER_NODE_IP>"
+  # MASTER_NODE_2: "<MASTER_NODE_IP>"
+  # WORKER_NODE_1: "<WORKER_NODE_IP>"
+  # WORKER_NODE_2: "<WORKER_NODE_IP>"
+  # WORKER_NODE_3: "<WORKER_NODE_IP>"
+  
+  # ============================================
+  # STOCKAGE - Configuration NFS/CIFS
+  # ============================================
+  # NFS_SERVER: "<NFS_SERVER_IP>"
+  # NFS_PATH: "/exports/landreg"
+  
+  # ============================================
+  # RESEAU
+  # ============================================
+  # POD_CIDR: "10.244.0.0/16"
+  # SERVICE_CIDR: "10.96.0.0/12"
+  # CLUSTER_DNS: "10.96.0.10"
+  
+  # ============================================
+  # DOMAINES (si ingress configuré)
+  # ============================================
+  # API_DOMAIN: "api.landreg.local"
+  # GRAFANA_DOMAIN: "grafana.landreg.local"
+  # PROMETHEUS_DOMAIN: "prometheus.landreg.local"
+  # KIBANA_DOMAIN: "kibana.landreg.local"

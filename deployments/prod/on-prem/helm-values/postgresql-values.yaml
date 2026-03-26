@@ -1,0 +1,72 @@
+namespace: database
+global:
+  storageClass: standard
+
+image:
+  registry: docker.io
+  repository: bitnami/postgresql
+  tag: 14.11.0-debian-11-r3
+  pullPolicy: IfNotPresent
+
+replicaCount: 2
+
+architecture: replication
+
+persistence:
+  enabled: true
+  size: 100Gi
+  storageClass: standard
+  mountPath: /bitnami/postgresql
+
+resources:
+  requests:
+    memory: "4Gi"
+    cpu: "1000m"
+  limits:
+    memory: "8Gi"
+    cpu: "2000m"
+
+commonConfiguration:
+  maxConnections: "200"
+  sharedBuffers: "2GB"
+  effectiveCacheSize: "6GB"
+  maintenanceWorkMem: "512MB"
+  checkpointCompletionTarget: "0.9"
+  walBuffers: "16MB"
+  defaultStatisticsTarget: "100"
+  randomPageCost: "1.1"
+  effectiveIoConcurrency: "200"
+  workMem: "10MB"
+  minWalSize: "1GB"
+  maxWalSize: "4GB"
+
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    namespace: monitoring
+    interval: 30s
+
+service:
+  type: ClusterIP
+
+postgresqlDatabase: landreg
+postgresqlUsername: landreg_user
+
+secretDefinitions:
+  existingSecret: db-secrets
+
+securityContext:
+  enabled: true
+  fsGroup: 1001
+
+podSecurityContext:
+  enabled: true
+  fsGroup: 1001
+
+podLabels:
+  tier: data
+
+serviceAccount:
+  create: false
+  name: default

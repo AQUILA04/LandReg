@@ -1,0 +1,71 @@
+# Common Helm Values - Installé automatiquement
+# ============================================
+# Ces composants sont déployés automatiquement par bootstrap
+# car ils sont requis pour le bon fonctionnement de LandReg
+# ============================================
+
+# Ingress Controller - Nginx
+nginx-ingress:
+  controller:
+    replicaCount: 1
+    service:
+      type: LoadBalancer
+      externalTrafficPolicy: Local
+    publishService:
+      enabled: true
+    resources:
+      requests:
+        cpu: 100m
+        memory: 90Mi
+      limits:
+        cpu: 500m
+        memory: 256Mi
+    nodeSelector:
+      node-type: api
+    tolerations:
+    - key: "node-type"
+      operator: "Equal"
+      value: "api"
+      effect: "NoSchedule"
+  defaultBackend:
+    enabled: true
+    resources:
+      requests:
+        cpu: 10m
+        memory: 20Mi
+      limits:
+        cpu: 100m
+        memory: 50Mi
+
+# MetalLB
+metallb:
+  controller:
+    replicas: 1
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        cpu: 500m
+        memory: 256Mi
+  speaker:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 50Mi
+      limits:
+        cpu: 500m
+        memory: 200Mi
+
+# Local Path Provisioner (Storage)
+local-path-provisioner:
+  nodePathMap:
+  - name: default
+    paths:
+    - /var/lib/rancher/k3s/storage
+  - name: storage
+    paths:
+    - /opt/storage
+  storageClass:
+    defaultClass: true
+    reclaimPolicy: Retain

@@ -1,0 +1,70 @@
+namespace: monitoring
+global:
+  storageClass: standard
+
+image: docker.elastic.co/elasticsearch/elasticsearch
+imageTag: 8.11.3
+imagePullPolicy: IfNotPresent
+
+replicas: 2
+
+minimumMasterNodes: 1
+
+persistence:
+  enabled: true
+  size: 50Gi
+  storageClass: standard
+  accessMode: ReadWriteOnce
+
+resources:
+  requests:
+    memory: "4Gi"
+    cpu: "1000m"
+  limits:
+    memory: "8Gi"
+    cpu: "2000m"
+
+esJavaOpts: "-Xmx4g -Xms4g"
+
+podSecurityContext:
+  enabled: true
+  fsGroup: 1000
+
+securityContext:
+  enabled: true
+  runAsUser: 1000
+
+tolerations:
+- key: "node-type"
+  operator: "Equal"
+  value: "monitoring"
+  effect: "NoSchedule"
+
+nodeSelector:
+  node-type: monitoring
+
+service:
+  type: ClusterIP
+  httpPort: 9200
+  transportPort: 9300
+
+ingress:
+  enabled: false
+
+protocol: http
+
+config:
+  cluster.name: landreg-elasticsearch
+  discovery.type: single-node
+  xpack.security.enabled: false
+  network.host: "0.0.0.0"
+
+extraEnvs:
+- name: discovery.type
+  value: single-node
+
+volumeClaimTemplate:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 100Gi

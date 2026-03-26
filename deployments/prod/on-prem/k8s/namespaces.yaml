@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: database
+  labels:
+    name: database
+    tier: data
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: middleware
+  labels:
+    name: middleware
+    tier: middleware
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: backend
+  labels:
+    name: backend
+    tier: application
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: afis
+  labels:
+    name: afis
+    tier: processing
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: monitoring
+  labels:
+    name: monitoring
+    tier: observability

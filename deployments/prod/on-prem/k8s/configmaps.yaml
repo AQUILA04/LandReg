@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: database-config
+  namespace: backend
+data:
+  postgres-host: "postgres-postgresql.database.svc.cluster.local"
+  postgres-port: "5432"
+  postgres-database: "landreg"
+  mongodb-host: "mongodb.mongodb.database.svc.cluster.local"
+  mongodb-port: "27017"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-config
+  namespace: backend
+data:
+  bootstrap-servers: "kafka.middleware.svc.cluster.local:9092"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-config
+  namespace: backend
+data:
+  host: "redis-master.middleware.svc.cluster.local"
+  port: "6379"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-config
+  namespace: middleware
+data:
+  bootstrap-servers: "kafka.middleware.svc.cluster.local:9092"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-config
+  namespace: middleware
+data:
+  host: "redis-master.middleware.svc.cluster.local"
+  port: "6379"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongodb-config
+  namespace: afis
+data:
+  host: "mongodb.mongodb.database.svc.cluster.local"
+  port: "27017"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-config
+  namespace: afis
+data:
+  bootstrap-servers: "kafka.middleware.svc.cluster.local:9092"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secrets
+  namespace: database
+type: Opaque
+stringData:
+  postgres-password: "${POSTGRES_PASSWORD}"
+  mongodb-password: "${MONGODB_PASSWORD}"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secrets
+  namespace: backend
+type: Opaque
+stringData:
+  postgres-password: "${POSTGRES_PASSWORD}"
+  mongodb-password: "${MONGODB_PASSWORD}"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secrets
+  namespace: afis
+type: Opaque
+stringData:
+  mongodb-password: "${MONGODB_PASSWORD}"

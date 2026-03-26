@@ -61,7 +61,7 @@ public class FindingService extends GenericService<Finding, Long> {
 
     @Transactional
     public Long updateFinding(@NotNull FindingDto findingDto) {
-        this.synchroHistoryService.receivedPacket(findingDto.getSynchroBatchNumber(), findingDto.getSynchroPacketNumber(), SynchroType.FINDING);
+        //this.synchroHistoryService.receivedPacket(findingDto.getSynchroBatchNumber(), findingDto.getSynchroPacketNumber(), SynchroType.FINDING);
         try {
             //findingDto.validateFirstAndLastCheckListOperations();
             Finding finding = findingMapper.toEntity(findingDto);
@@ -82,7 +82,7 @@ public class FindingService extends GenericService<Finding, Long> {
             update(finding);
             return finding.getId();
         } catch (Exception e) {
-            this.synchroHistoryService.failedPacket(findingDto.getSynchroBatchNumber(), findingDto.getSynchroPacketNumber());
+            //this.synchroHistoryService.failedPacket(findingDto.getSynchroBatchNumber(), findingDto.getSynchroPacketNumber());
             throw new ApplicationException("Une Erreur S'est produite lors de la modification de la constatation: ", e.getMessage());
         }
     }

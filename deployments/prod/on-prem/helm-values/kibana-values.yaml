@@ -1,0 +1,51 @@
+namespace: monitoring
+global:
+  storageClass: gp3
+
+image: docker.elastic.co/kibana/kibana
+imageTag: 8.11.3
+imagePullPolicy: IfNotPresent
+
+replicas: 1
+
+resources:
+  requests:
+    memory: "1Gi"
+    cpu: "500m"
+  limits:
+    memory: "2Gi"
+    cpu: "1000m"
+
+tolerations:
+- key: "node-type"
+  operator: "Equal"
+  value: "monitoring"
+  effect: "NoSchedule"
+
+nodeSelector:
+  node-type: monitoring
+
+service:
+  type: ClusterIP
+  port: 5601
+
+ingress:
+  enabled: false
+
+protocol: http
+
+elasticsearchHosts: "http://elasticsearch-master:9200"
+
+configuration:
+  server.name: kibana
+  server.host: "0.0.0.0"
+  server.publicBaseUrl: "http://kibana.monitoring.svc:5601"
+  elasticsearch.requestTimeout: 60000
+
+podSecurityContext:
+  enabled: true
+  fsGroup: 1000
+
+securityContext:
+  enabled: true
+  runAsUser: 1000

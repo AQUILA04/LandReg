@@ -1,0 +1,71 @@
+namespace: middleware
+global:
+  storageClass: standard
+
+image:
+  registry: docker.io
+  repository: bitnami/redis
+  tag: 7.2.4-debian-11-r1
+  pullPolicy: IfNotPresent
+
+architecture: replication
+
+master:
+  count: 1
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass: standard
+  resources:
+    requests:
+      memory: "2Gi"
+      cpu: "500m"
+    limits:
+      memory: "4Gi"
+      cpu: "1000m"
+  podLabels:
+    tier: middleware
+
+replica:
+  replicaCount: 2
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass: standard
+  resources:
+    requests:
+      memory: "2Gi"
+      cpu: "500m"
+    limits:
+      memory: "4Gi"
+      cpu: "1000m"
+  podLabels:
+    tier: middleware
+
+service:
+  type: ClusterIP
+
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    namespace: monitoring
+    interval: 30s
+
+securityContext:
+  enabled: true
+  fsGroup: 1001
+
+podSecurityContext:
+  enabled: true
+  fsGroup: 1001
+
+serviceAccount:
+  create: false
+  name: default
+
+commonConfiguration: |
+  maxmemory 4gb
+  maxmemory-policy allkeys-lru
+  appendonly yes
+  appendfsync everysec

@@ -1,0 +1,88 @@
+namespace: monitoring
+global:
+  rbac:
+    create: true
+    pspEnabled: false
+
+alertmanager:
+  enabled: true
+  alertmanagerSpec:
+    replicas: 2
+    retention: 120h
+    resources:
+      requests:
+        memory: "1Gi"
+        cpu: "500m"
+      limits:
+        memory: "2Gi"
+        cpu: "1000m"
+
+nodeExporter:
+  enabled: true
+  tolerations:
+  - key: "node-type"
+    operator: "Equal"
+    value: "monitoring"
+    effect: "NoSchedule"
+
+pushgateway:
+  enabled: false
+
+server:
+  replicas: 2
+  persistentVolume:
+    enabled: true
+    size: 100Gi
+    storageClass: gp3
+  resources:
+    requests:
+      memory: "4Gi"
+      cpu: "1000m"
+    limits:
+      memory: "8Gi"
+      cpu: "2000m"
+  tolerations:
+  - key: "node-type"
+    operator: "Equal"
+    value: "monitoring"
+    effect: "NoSchedule"
+  retention: 15d
+  retentionSize: 90GB
+
+prometheus-node-exporter:
+  tolerations:
+  - key: "node-type"
+    operator: "Equal"
+    value: "monitoring"
+    effect: "NoSchedule"
+
+serverFiles:
+  alerting_rules.yml:
+    groups:
+    - name: landreg_alerts
+      interval: 30s
+      rules:
+      - alert: HighCpuUsage
+        expr: node_cpu_seconds_total > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage detected"
+      - alert: HighMemoryUsage
+        expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes < 0.2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage detected"
+
+serviceAccounts:
+  alertmanager:
+    create: false
+  nodeExporter:
+    create: false
+  pushgateway:
+    create: false
+  server:
+    create: false

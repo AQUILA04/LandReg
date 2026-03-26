@@ -1,0 +1,82 @@
+# Storage Class Configuration
+# ============================================
+# DEFAULT: local-path-provisioner
+# - Fonctionne sans infrastructure externe
+# - Ideal pour développement et petites installations
+# - Stocke les données sur le disque local du node
+#
+# ALTERNATIVES (voir section en bas):
+# - NFS (nfs-subdir-external-provisioner)
+# - Ceph (rook-ceph)
+# - Longhorn
+# ============================================
+
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: standard
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: rancher.io/local-path
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Retain
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: fast
+provisioner: rancher.io/local-path
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Retain
+---
+# ============================================
+# ALTERNATIVES - Décommenter selon votre infra
+# ============================================
+
+# --- NFS ---
+# apiVersion: storage.k8s.io/v1
+# kind: StorageClass
+# metadata:
+#   name: nfs
+# provisioner: k8s-sigs.io/nfs-subdir-external-provisioner
+# parameters:
+#   archiveOnDelete: "false"
+#   onDelete: "delete"
+#   pathPattern: "${.PVC.namespace}/${.PVC.name}"
+# volumeBindingMode: Immediate
+# reclaimPolicy: Retain
+
+# --- Ceph RBD ---
+# apiVersion: storage.k8s.io/v1
+# kind: StorageClass
+# metadata:
+#   name: ceph-rbd
+# provisioner: rook-ceph.rbd.csi.ceph.com
+# parameters:
+#   clusterID: rook-ceph
+#   pool: replicapool
+#   imageFeatures: layering
+#   csi.storage.k8s.io/pvLifecyclePolicy: "Delete"
+#   csi.storage.k8s.io/controllerExpandSecretRef:
+#     name: rook-csi-rbd-provisioner-creds
+#     namespace: rook-ceph
+#   csi.storage.k8s.io/nodeStageSecretRef:
+#     name: rook-csi-rbd-node-creds
+#     namespace: rook-ceph
+# reclaimPolicy: Retain
+# volumeBindingMode: Immediate
+
+# --- Longhorn ---
+# apiVersion: storage.k8s.io/v1
+# kind: StorageClass
+# metadata:
+#   name: longhorn
+# provisioner: driver.longhorn.io
+# parameters:
+#   numberOfReplicas: "2"
+#   staleReplicaTimeout: "2880"
+#   fromBackup: ""
+#   fsType: "ext4"
+#   backupstore:
+#   recurrence:
+#   baseImage:

@@ -1,0 +1,91 @@
+namespace: monitoring
+global:
+  rbac:
+    create: true
+    pspEnabled: false
+
+adminPassword: ADMIN_PASSWORD
+
+persistence:
+  enabled: true
+  size: 10Gi
+  storageClass: standard
+  accessModes:
+    - ReadWriteOnce
+
+resources:
+  requests:
+    memory: "1Gi"
+    cpu: "500m"
+  limits:
+    memory: "2Gi"
+    cpu: "1000m"
+
+tolerations:
+- key: "node-type"
+  operator: "Equal"
+  value: "monitoring"
+  effect: "NoSchedule"
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-type
+          operator: In
+          values:
+          - monitoring
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+
+datasources:
+  secretName: grafana-datasources
+  defaultDatasourceEnabled: true
+
+datasourcesSettings:
+  secureJsonData:
+    httpHeaderValue1: "Bearer ACCESS_TOKEN"
+
+dashboardProviders:
+  enabled: true
+
+dashboardProvidersMapping:
+  default:
+    folder: "LandReg"
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      path: /var/lib/grafana/dashboards/default
+
+dashboards:
+  default:
+    jvm-micrometer:
+      gnetId: 4701
+      revision: 1
+      datasource: Prometheus
+    kafka:
+      gnetId: 7589
+      revision: 3
+      datasource: Prometheus
+    postgresql:
+      gnetId: 9628
+      revision: 3
+      datasource: Prometheus
+    mongodb:
+      gnetId: 2583
+      revision: 4
+      datasource: Prometheus
+    kubernetes-pods:
+      url: https://grafana.com/api/dashboards/3146/revisions/4/download
+      datasource: Prometheus
+
+serviceAccount:
+  create: true
+  name: grafana

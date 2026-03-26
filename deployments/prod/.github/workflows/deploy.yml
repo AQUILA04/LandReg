@@ -1,0 +1,300 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'deployments/prod/**'
+      - 'backend-api/**'
+      - 'afis-master/**'
+      - 'afis-service/**'
+  workflow_dispatch:
+    inputs:
+      deploy_terraform:
+        description: 'Deploy Terraform Infrastructure'
+        required: false
+        default: 'false'
+        type: boolean
+      deploy_applications:
+        description: 'Deploy Applications'
+        required: false
+        default: 'true'
+        type: boolean
+
+env:
+  AWS_REGION: eu-west-3
+  EKS_CLUSTER: landreg-afis-cluster
+  TERRAFORM_VERSION: 1.6.6
+  KUBECTL_VERSION: 1.28.0
+
+jobs:
+  terraform:
+    name: Terraform Infrastructure
+    runs-on: ubuntu-latest
+    if: github.event.inputs.deploy_terraform == 'true' || github.event.inputs.deploy_terraform == ''
+    environment: production
+    outputs:
+      cluster_endpoint: ${{ steps.terraform.outputs.cluster_endpoint }}
+      cluster_name: ${{ steps.terraform.outputs.cluster_name }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+          terraform_wrapper: true
+
+      - name: Terraform Init
+        id: init
+        run: |
+          cd deployments/prod/terraform
+          terraform init -upgrade
+
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt -check
+
+      - name: Terraform Validate
+        id: validate
+        run: |
+          cd deployments/prod/terraform
+          terraform validate
+
+      - name: Terraform Plan
+        id: plan
+        run: |
+          cd deployments/prod/terraform
+          terraform plan -no-color -out=tfplan
+        continue-on-error: true
+
+      - name: Upload Terraform Plan
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-plan
+          path: deployments/prod/terraform/tfplan
+          retention-days: 7
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        id: terraform
+        run: |
+          cd deployments/prod/terraform
+          terraform apply -auto-approve -no-color
+        env:
+          TF_LOG: INFO
+
+      - name: Update kubeconfig
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: |
+          aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER }}
+
+      - name: Get Outputs
+        id: outputs
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: |
+          cd deployments/prod/terraform
+          echo "cluster_endpoint=$(terraform output -raw cluster_endpoint)" >> $GITHUB_OUTPUT
+          echo "cluster_name=$(terraform output -raw cluster_name)" >> $GITHUB_OUTPUT
+
+  build-backend-api:
+    name: Build Backend API
+    runs-on: ubuntu-latest
+    needs: terraform
+    if: github.event.inputs.deploy_applications != 'false'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push Backend API
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/landreg-backend-api:$IMAGE_TAG ./backend-api
+          docker push $ECR_REGISTRY/landreg-backend-api:$IMAGE_TAG
+          docker tag $ECR_REGISTRY/landreg-backend-api:$IMAGE_TAG $ECR_REGISTRY/landreg-backend-api:latest
+          docker push $ECR_REGISTRY/landreg-backend-api:latest
+
+  build-afis-master:
+    name: Build AFIS Master
+    runs-on: ubuntu-latest
+    needs: terraform
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push AFIS Master
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/landreg-afis-master:$IMAGE_TAG ./afis-master
+          docker push $ECR_REGISTRY/landreg-afis-master:$IMAGE_TAG
+          docker tag $ECR_REGISTRY/landreg-afis-master:$IMAGE_TAG $ECR_REGISTRY/landreg-afis-master:latest
+          docker push $ECR_REGISTRY/landreg-afis-master:latest
+
+  build-afis-service:
+    name: Build AFIS Service
+    runs-on: ubuntu-latest
+    needs: terraform
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push AFIS Service
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/landreg-afis-service:$IMAGE_TAG ./afis-service
+          docker push $ECR_REGISTRY/landreg-afis-service:$IMAGE_TAG
+          docker tag $ECR_REGISTRY/landreg-afis-service:$IMAGE_TAG $ECR_REGISTRY/landreg-afis-service:latest
+          docker push $ECR_REGISTRY/landreg-afis-service:latest
+
+  deploy-applications:
+    name: Deploy Applications
+    runs-on: ubuntu-latest
+    needs: [terraform, build-backend-api, build-afis-master, build-afis-service]
+    if: github.ref == 'refs/heads/main' && github.event.inputs.deploy_applications != 'false'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Update kube config
+        run: |
+          aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER }}
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: '3.14.0'
+
+      - name: Configure Helm repositories
+        run: |
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+          helm repo add grafana https://grafana.github.io/helm-charts
+          helm repo add elastic https://helm.elastic.co
+          helm repo update
+
+      - name: Set deployment variables
+        run: |
+          echo "FINGERPRINT_COUNT=${{ vars.FINGERPRINT_COUNT }}" >> $GITHUB_ENV
+          echo "ADMIN_PASSWORD=${{ secrets.GRAFANA_ADMIN_PASSWORD }}" >> $GITHUB_ENV
+
+      - name: Deploy infrastructure
+        run: |
+          chmod +x ./deployments/prod/scripts/deploy.sh
+          ./deployments/prod/scripts/deploy.sh
+        env:
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+          FINGERPRINT_COUNT: ${{ vars.FINGERPRINT_COUNT }}
+          ADMIN_PASSWORD: ${{ secrets.GRAFANA_ADMIN_PASSWORD }}
+
+      - name: Wait for deployments
+        run: |
+          kubectl rollout status deployment/landreg-api -n backend --timeout=300s
+          kubectl rollout status deployment/afis-master -n afis --timeout=300s
+          kubectl rollout status deployment/afis-worker -n afis --timeout=300s
+
+      - name: Verify deployment
+        run: |
+          kubectl get pods --all-namespaces
+          kubectl get services --all-namespaces
+
+  rollback:
+    name: Rollback Deployment
+    runs-on: ubuntu-latest
+    if: failure() && github.ref == 'refs/heads/main'
+    needs: [deploy-applications]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Update kube config
+        run: |
+          aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER }}
+
+      - name: Rollback deployments
+        run: |
+          kubectl rollout undo deployment/landreg-api -n backend
+          kubectl rollout undo deployment/afis-master -n afis
+          kubectl rollout undo deployment/afis-worker -n afis
+
+      - name: Report rollback
+        run: |
+          echo "Deployment rolled back to previous version"
+          kubectl get pods -n backend,afis

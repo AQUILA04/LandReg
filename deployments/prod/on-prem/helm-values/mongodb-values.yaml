@@ -1,0 +1,65 @@
+namespace: database
+global:
+  storageClass: standard
+
+image:
+  registry: docker.io
+  repository: bitnami/mongodb
+  tag: 5.0.22-debian-11-r4
+  pullPolicy: IfNotPresent
+
+replicaCount: 2
+
+architecture: replicaset
+
+persistence:
+  enabled: true
+  size: 100Gi
+  storageClass: standard
+  mountPath: /bitnami/mongodb
+
+resources:
+  requests:
+    memory: "4Gi"
+    cpu: "1000m"
+  limits:
+    memory: "8Gi"
+    cpu: "2000m"
+
+mongodbDatabase: landreg_afis
+mongodbUsername: landreg_afis_user
+
+auth:
+  existingSecret: db-secrets
+  database: landreg_afis
+
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    namespace: monitoring
+    interval: 30s
+
+service:
+  type: ClusterIP
+
+podLabels:
+  tier: data
+
+securityContext:
+  enabled: true
+  fsGroup: 1001
+
+podSecurityContext:
+  enabled: true
+  fsGroup: 1001
+
+serviceAccount:
+  create: false
+  name: default
+
+replicaSetOptions:
+  settings:
+    chainingAllowed: true
+    heartbeatTimeoutSecs: 10
+    heartbeatIntervalMillis: 2000

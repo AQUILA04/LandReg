@@ -1,0 +1,12 @@
+# LandReg Infrastructure as Code - Production
+
+aws_region         = "eu-west-3"
+environment        = "production"
+project_name       = "landreg-afis"
+cluster_version    = "1.28"
+afis_worker_count  = 3
+fingerprint_count  = 60000
+vpc_cidr           = "10.0.0.0/16"
+availability_zones = ["eu-west-3a", "eu-west-3b"]
+private_subnets    = ["10.0.1.0/24", "10.0.2.0/24"]
+public_subnets     = ["10.0.101.0/24", "10.0.102.0/24"]

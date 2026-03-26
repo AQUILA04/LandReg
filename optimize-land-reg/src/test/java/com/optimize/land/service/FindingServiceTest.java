@@ -140,7 +140,7 @@ class FindingServiceTest {
         assertNotNull(id);
         assertEquals(1L, id);
 
-        verify(synchroHistoryService).receivedPacket("batch123", "packet1", SynchroType.FINDING);
+        //verify(synchroHistoryService).receivedPacket("batch123", "packet1", SynchroType.FINDING);
         verify(checkListOperationService, times(2)).update(any(CheckListOperation.class));
         verify(repository).saveAndFlush(finding);
     }
@@ -152,7 +152,7 @@ class FindingServiceTest {
         ApplicationException exception = assertThrows(ApplicationException.class, () -> findingService.updateFinding(findingDto));
 
         assertTrue(exception.getMessage().contains("Une Erreur S'est produite lors de la modification de la constatation"));
-        verify(synchroHistoryService).failedPacket("batch123", "packet1");
+        //verify(synchroHistoryService).failedPacket("batch123", "packet1");
         verify(repository, never()).saveAndFlush(any(Finding.class));
     }
 

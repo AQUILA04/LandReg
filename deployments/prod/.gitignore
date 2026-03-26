@@ -1,0 +1,66 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+.terraform.lock.hcl
+crash.log
+crash.*.log
+
+# Override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Local .terraform directories
+.terraform/
+
+# .tfvars files (may contain sensitive data)
+*.tfvars
+!terraform.tfvars.example
+
+# CLI configuration files
+.terraformrc
+terraform.rc
+
+# Kubernetes
+kubeconfig*
+*.kubeconfig
+
+# Helm
+.helm/
+*.tgz
+
+# Secrets (never commit)
+*secret*
+*password*
+*credential*
+*.key
+*.p12
+*.pem
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Build artifacts
+*.tar
+*.tar.gz
+*.zip
+
+# Temporary files
+tmp/
+temp/
+*.tmp

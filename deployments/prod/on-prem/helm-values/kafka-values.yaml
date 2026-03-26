@@ -1,0 +1,101 @@
+namespace: middleware
+global:
+  storageClass: standard
+
+image:
+  registry: docker.io
+  repository: bitnami/kafka
+  tag: 3.6.1-debian-11-r1
+  pullPolicy: IfNotPresent
+
+replicaCount: 3
+
+persistence:
+  enabled: true
+  size: 50Gi
+  storageClass: standard
+  mountPath: "/bitnami/kafka"
+
+resources:
+  requests:
+    memory: "4Gi"
+    cpu: "1000m"
+  limits:
+    memory: "8Gi"
+    cpu: "2000m"
+
+kraft:
+  enabled: false
+
+zookeeper:
+  enabled: true
+  replicaCount: 3
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass: gp3
+  resources:
+    requests:
+      memory: "1Gi"
+      cpu: "500m"
+    limits:
+      memory: "2Gi"
+      cpu: "1000m"
+
+service:
+  type: ClusterIP
+
+listeners:
+  client:
+    protocol: PLAINTEXT
+  interbroker:
+    protocol: PLAINTEXT
+  external:
+    protocol: PLAINTEXT
+
+advertisedListeners:
+  client:
+    advertisedListeners: "PLAINTEXT://kafka.middleware.svc.cluster.local:9092"
+
+autoCreateTopics: false
+
+deleteTopicEnable: false
+
+logRetentionBytes: "1073741824"
+
+logRetentionHours: 168
+
+numNetworkThreads: 3
+
+numPartitions: 3
+
+numRecoveryThreadsPerDataDir: 1
+
+offsetsTopicReplicationFactor: 2
+
+transactionStateLogMinIsr: 2
+
+transactionStateLogReplicationFactor: 2
+
+metrics:
+  jmx:
+    enabled: true
+  serviceMonitor:
+    enabled: true
+    namespace: monitoring
+    interval: 30s
+
+podLabels:
+  tier: middleware
+
+securityContext:
+  enabled: true
+  fsGroup: 1001
+
+podSecurityContext:
+  enabled: true
+  fsGroup: 1001
+
+serviceAccount:
+  create: false
+  name: default

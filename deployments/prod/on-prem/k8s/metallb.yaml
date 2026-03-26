@@ -1,0 +1,41 @@
+# MetalLB - LoadBalancer pour On-Premises
+# ============================================
+# DEFAULT: MetalLB (via Helm)
+# - Permet d'utiliser LoadBalancer sur Kubernetes on-premises
+# - Attribution d'IPs depuis un pool défini
+# - Alternative simple à un vrai LoadBalancer cloud
+#
+# CONFIGURATION REQUISE:
+# - Définir le pool d'IPs dans configmap metallb-config
+# - Les IPs doivent être accessibles depuis le réseau
+#
+# ALTERNATIVES:
+# - kube-vip (pour master haute dispo)
+# - Keepalived + HAProxy (traditionnel)
+# ============================================
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: metallb-system
+  labels:
+    app.kubernetes.io/name: metallb
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: metallb-system
+  name: metallb-config
+data:
+  config: |
+    # Pool d'adresses IP pour les services LoadBalancer
+    # MODIFIER: Remplacer par vos IPs disponibles sur le réseau
+    address-pools:
+      primary:
+        protocol: layer2
+        addresses:
+        - 192.168.1.240-192.168.1.250
+      # secondary:
+      #   protocol: layer2
+      #   addresses:
+      #   - 10.0.0.100-10.0.0.150
