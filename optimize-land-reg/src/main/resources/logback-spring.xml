@@ -7,6 +7,10 @@
     <springProperty scope="context" name="activeProfile" source="spring.profiles.active"/>
 <!--    <springProperty scope="context" name="logstashServer" source="logging.logstash.server.url"/>-->
 
+    <springProperty scope="context" name="LOKI_URL" source="loki.url"/>
+    <springProperty scope="context" name="LOKI_USER_ID" source="loki.user-id"/>
+    <springProperty scope="context" name="LOKI_API_KEY" source="loki.api-key"/>
+
     <!-- You can override this to have a custom pattern -->
     <property name="CONSOLE_LOG_PATTERN"
               value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
@@ -121,28 +125,22 @@
         </encoder>
     </appender>
 
-<!--    <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">-->
-<!--        <lokiFlow>-->
-<!--            <batch>-->
-<!--                <timeoutMs>2000</timeoutMs> &lt;!&ndash; Envoi toutes les 2 sec &ndash;&gt;-->
-<!--                <maxItems>1000</maxItems>   &lt;!&ndash; Max 1000 logs par batch &ndash;&gt;-->
-<!--                <maxBytes>1048576</maxBytes> &lt;!&ndash; 1MB max par batch &ndash;&gt;-->
-<!--            </batch>-->
-<!--            <http>-->
-<!--                <url>https://logs-prod-028.grafana.net/loki/api/v1/push</url>-->
-<!--                <user>1114217</user>-->
-<!--                <password>configured</password>-->
-<!--                <connectTimeoutMs>2000</connectTimeoutMs>-->
-<!--                <requestTimeoutMs>5000</requestTimeoutMs>-->
-<!--            </http>-->
-<!--            <label>-->
-<!--                <static>app=${springAppName},env=${activeProfile}</static>-->
-<!--            </label>-->
-<!--        </lokiFlow>-->
-<!--        <encoder>-->
-<!--            <pattern>{"timestamp":"%d{yyyy-MM-dd HH:mm:ss.SSS}","level":"%p","thread":"%t","logger":"%c","message":"%m"}%n</pattern>-->
-<!--        </encoder>-->
-<!--    </appender>-->
+    <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
+        <http>
+            <url>${LOKI_URL}</url>
+            <auth>
+                <username>${LOKI_USER_ID}</username>
+                <password>${LOKI_API_KEY}</password>
+            </auth>
+        </http>
+        <format>
+            <label>
+                <pattern>app=${springAppName},env=${activeProfile}</pattern>
+            </label>
+            <message class="com.github.loki4j.logback.JsonLayout">
+            </message>
+        </format>
+    </appender>
 
 
     <logger name="EventLog" level="DEBUG" additivity="false">
@@ -158,7 +156,7 @@
     <root level="INFO">
         <appender-ref ref="MainRollingFile"/>
         <appender-ref ref="Console"/>
-<!--        <appender-ref ref="LOKI"/>-->
+        <appender-ref ref="LOKI"/>
 <!--        <appender-ref ref="LOGSTASH"/>-->
     </root>
 
