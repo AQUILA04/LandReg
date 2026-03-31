@@ -133,13 +133,32 @@
                 <password>${LOKI_API_KEY}</password>
             </auth>
         </http>
-        <format>
-            <label>
-                <pattern>app=${springAppName},env=${activeProfile}</pattern>
-            </label>
-            <message class="com.github.loki4j.logback.JsonLayout">
+        <labels>
+            app = ${springAppName}
+            env = ${activeProfile}
+        </labels>
+        <message class="com.github.loki4j.logback.JsonLayout">
+            <loggerName>
+                <fieldName>logger</fieldName>
+            </loggerName>
+            <threadName>
+                <fieldName>thread</fieldName>
+            </threadName>
+            <logLevel>
+                <fieldName>level</fieldName>
+            </logLevel>
+            <message>
+                <fieldName>message</fieldName>
             </message>
-        </format>
+            <stackTrace>
+                <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                    <maxDepthPerThrowable>30</maxDepthPerThrowable>
+                    <maxLength>2048</maxLength>
+                    <shortenedClassNameLength>20</shortenedClassNameLength>
+                    <rootCauseFirst>true</rootCauseFirst>
+                </throwableConverter>
+            </stackTrace>
+        </message>
     </appender>
 
 
