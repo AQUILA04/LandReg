@@ -22,3 +22,8 @@ spring:
 
 server:
   port: 0
+
+loki:
+  url: ${LOKI_URL:https://logs-prod-028.grafana.net/loki/api/v1/push}
+  user-id: ${LOKI_USER_ID:1114217}
+  api-key: ${LOKI_API_KEY}

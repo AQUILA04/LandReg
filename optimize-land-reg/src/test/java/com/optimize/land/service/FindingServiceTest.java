@@ -169,4 +169,19 @@ class FindingServiceTest {
         assertEquals(expectedPage, result);
         verify(repository).findByStateOrderByIdDesc(State.ENABLED, pageable);
     }
+
+    @Test
+    void search_Success() {
+        Page<FindingProjection> expectedPage = new PageImpl<>(Collections.emptyList());
+        Pageable pageable = PageRequest.of(0, 10);
+        String keyword = "test";
+        String keywordFinal = "%test%";
+
+        when(repository.searchByKeyword(keywordFinal, pageable)).thenReturn(expectedPage);
+
+        Page<FindingProjection> result = findingService.search(keyword, pageable);
+
+        assertEquals(expectedPage, result);
+        verify(repository).searchByKeyword(keywordFinal, pageable);
+    }
 }

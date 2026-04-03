@@ -6,6 +6,7 @@ import com.optimize.land.model.dto.BorderingDto;
 import com.optimize.land.model.dto.CheckListOperationDto;
 import com.optimize.land.model.dto.ConflictDto;
 import com.optimize.land.model.dto.FindingDto;
+import com.optimize.land.model.dto.SearchDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,8 +78,11 @@ public class FindingControllerITest {
     private com.optimize.common.securities.security.services.UserService userService;
     @MockitoBean
     private DataSource dataSource;
-    @MockitoBean
+    @MockitoBean(extraInterfaces = {})
     private com.optimize.land.service.FindingService findingService;
+
+    @Autowired
+    private com.optimize.land.repository.FindingRepository findingRepository;
 
     @Autowired
     private MockMvc mockMvc;
@@ -92,6 +96,9 @@ public class FindingControllerITest {
     void setUp() {
         com.optimize.common.securities.models.User mockUser = new com.optimize.common.securities.models.User("Test", "User", "MALE", "test@test.com", "12345678", "testuser", "password");
         when(userService.getCurrentUser()).thenReturn(mockUser);
+
+        org.mockito.Mockito.when(findingService.getRepository()).thenReturn(findingRepository);
+        org.mockito.Mockito.doCallRealMethod().when(findingService).search(org.mockito.Mockito.any(String.class), org.mockito.Mockito.any(org.springframework.data.domain.Pageable.class));
 
         findingDto = new FindingDto();
         findingDto.setNup("NUP123");
@@ -192,5 +199,109 @@ public class FindingControllerITest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(findingDto)))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @org.springframework.security.test.context.support.WithMockUser(username = "testuser", roles = {"USER"})
+    void testSearchFinding_SingleMatch_ByNup() throws Exception {
+        createTestFindings();
+        SearchDto searchDto = new SearchDto("NUP002");
+
+        mockMvc.perform(post("/land-reg/api/v1/constatations/search")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(searchDto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.content").isArray())
+                .andExpect(jsonPath("$.data.content.length()").value(1))
+                .andExpect(jsonPath("$.data.content[0].nup").value("NUP002"));
+    }
+
+    @Test
+    @org.springframework.security.test.context.support.WithMockUser(username = "testuser", roles = {"USER"})
+    void testSearchFinding_MultipleMatches_ByLocality() throws Exception {
+        createTestFindings();
+        SearchDto searchDto = new SearchDto("Tokoin");
+
+        mockMvc.perform(post("/land-reg/api/v1/constatations/search")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(searchDto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.content").isArray())
+                .andExpect(jsonPath("$.data.content.length()").value(2));
+    }
+
+    @Test
+    @org.springframework.security.test.context.support.WithMockUser(username = "testuser", roles = {"USER"})
+    void testSearchFinding_CaseInsensitiveMatch_ByRegion() throws Exception {
+        createTestFindings();
+        SearchDto searchDto = new SearchDto("pLaTeaU"); // Match Plateaux
+
+        mockMvc.perform(post("/land-reg/api/v1/constatations/search")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(searchDto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.content").isArray())
+                .andExpect(jsonPath("$.data.content.length()").value(1))
+                .andExpect(jsonPath("$.data.content[0].region").value("Plateaux"));
+    }
+
+    @Test
+    @org.springframework.security.test.context.support.WithMockUser(username = "testuser", roles = {"USER"})
+    void testSearchFinding_NoMatch() throws Exception {
+        createTestFindings();
+        SearchDto searchDto = new SearchDto("Inexistant12345");
+
+        mockMvc.perform(post("/land-reg/api/v1/constatations/search")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(searchDto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.content").isArray())
+                .andExpect(jsonPath("$.data.content").isEmpty());
+    }
+
+    private void createTestFindings() throws Exception {
+        findingRepository.deleteAll();
+
+        com.optimize.land.model.entity.Finding f1 = new com.optimize.land.model.entity.Finding();
+        f1.setNup("NUP001");
+        f1.setRegion("Maritime");
+        f1.setPrefecture("Golfe");
+        f1.setCommune("Lome");
+        f1.setCanton("Aflao Gakli");
+        f1.setLocality("Tokoin");
+        f1.setUin("UIN001");
+        f1.setHasConflict(false);
+        f1.setSurface("500m2");
+        f1.setLandForm("Regulier");
+        f1.setState(com.optimize.common.entities.enums.State.ENABLED);
+        findingRepository.save(f1);
+
+        com.optimize.land.model.entity.Finding f2 = new com.optimize.land.model.entity.Finding();
+        f2.setNup("NUP002");
+        f2.setRegion("Plateaux");
+        f2.setPrefecture("Ogou");
+        f2.setCommune("Atakpame");
+        f2.setCanton("Agou");
+        f2.setLocality("Nyive");
+        f2.setUin("UIN002");
+        f2.setHasConflict(false);
+        f2.setSurface("1000m2");
+        f2.setLandForm("Irregulier");
+        f2.setState(com.optimize.common.entities.enums.State.ENABLED);
+        findingRepository.save(f2);
+
+        com.optimize.land.model.entity.Finding f3 = new com.optimize.land.model.entity.Finding();
+        f3.setNup("NUP003");
+        f3.setRegion("Maritime");
+        f3.setPrefecture("Zio");
+        f3.setCommune("Tsevie");
+        f3.setCanton("Davie");
+        f3.setLocality("Tokoin"); // Same locality as f1
+        f3.setUin("UIN003");
+        f3.setHasConflict(false);
+        f3.setSurface("600m2");
+        f3.setLandForm("Plat");
+        f3.setState(com.optimize.common.entities.enums.State.ENABLED);
+        findingRepository.save(f3);
     }
 }

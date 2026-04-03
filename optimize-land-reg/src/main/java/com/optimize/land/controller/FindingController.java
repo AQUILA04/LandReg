@@ -4,6 +4,7 @@ import com.optimize.common.entities.config.CustomMessageSource;
 import com.optimize.common.entities.controller.BaseController;
 import com.optimize.common.entities.util.Response;
 import com.optimize.land.model.dto.FindingDto;
+import com.optimize.land.model.dto.SearchDto;
 import com.optimize.land.model.entity.Finding;
 import com.optimize.land.service.FindingService;
 import jakarta.validation.Valid;
@@ -60,6 +61,12 @@ public class FindingController extends BaseController<Finding, Long> {
     public ResponseEntity<Response> deleteSoft(@PathVariable Long id) {
         log.info("DELETE CONSTATATION REQUEST BY ID: {}", id);
         return super.deleteSoft(id);
+    }
+
+    @PostMapping(value = "search")
+    public ResponseEntity<Response> search(@RequestBody @Valid SearchDto dto, Pageable pageable) {
+        log.info("SEARCH CONSTATATION REQUEST: {}", dto);
+        return new ResponseEntity<>(success(getService().search(dto.keyword(), pageable), "success search by keyword"), HttpStatus.OK);
     }
 
     @Override
