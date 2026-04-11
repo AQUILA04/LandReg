@@ -365,8 +365,18 @@
         <artifactId>imgscalr-lib</artifactId>
         <version>4.2</version>
       </dependency>
+        <!-- Grafana Loki logging -->
+        <dependency>
+            <groupId>com.github.loki4j</groupId>
+            <artifactId>loki-logback-appender</artifactId>
+            <version>1.5.1</version>
+        </dependency>
+        <!-- Janino for conditional logback configuration -->
+        <dependency>
+            <groupId>org.codehaus.janino</groupId>
+            <artifactId>janino</artifactId>
+        </dependency>
     </dependencies>
-
     <build>
         <defaultGoal>spring-boot:run</defaultGoal>
         <resources>

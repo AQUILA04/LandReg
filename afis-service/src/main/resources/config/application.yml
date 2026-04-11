@@ -259,3 +259,12 @@ afis-service:
 # ===================================================================
 
 # application:
+
+# ===================================================================
+# Grafana Loki configuration (optional - app starts without it)
+# Set LOKI_API_KEY env var to enable log shipping to Grafana Cloud
+# ===================================================================
+loki:
+  url: ${LOKI_URL:https://logs-prod-028.grafana.net/loki/api/v1/push}
+  user-id: ${LOKI_USER_ID:1114217}
+  api-key: ${LOKI_API_KEY:}
