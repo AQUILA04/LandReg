@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContextException;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,19 +23,21 @@ public class AfisFeedbackConsumer {
 
 
     @KafkaListener(topics = "afis-master-feedback-topic", groupId = "afis-master", containerFactory = "kafkaListenerContainerFactory")
-    public void receiveAFISFeedback (String message) throws JsonProcessingException {
+    public void receiveAFISFeedback(String message, Acknowledgment acknowledgment) throws JsonProcessingException {
         log.info("RECEIVING MATCHING FEEDBACK: {}", message );
         RegistrationProcessorFeedback feedback = new ObjectMapper().readValue(message, RegistrationProcessorFeedback.class);
         try {
             if (fingerprintMatchingHistoryService.feedbackUpdate(feedback) && actorService.existsByRid(feedback.getRid())) {
                 log.info("AFTER MATCHING OPERATION STARTING...");
                 actorService.afterMatchingOperation(feedback);
+                acknowledgment.acknowledge();
             } else {
                 log.error("===> FINGERPRINT MATCHING FEEDBACK PROCESSING NOT FOUND {}", feedback);
                 throw new ApplicationContextException("FINGERPRINT MATCHING FEEDBACK PROCESSING NOT FOUND : "+ feedback);
             }
         } catch (Exception e) {
             log.error("MATCHING FEEDBACK ERROR: {}", e.getLocalizedMessage());
+            throw e; // Rethrow to trigger DLQ / Retry logic
         }
     }
 }

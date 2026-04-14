@@ -74,7 +74,7 @@ public class ActorService extends GenericService<AbstractActor, Long> {
     }
 
     @Transactional
-    public synchronized String register(@NotNull ActorDto actorDto) throws JsonProcessingException {
+    public String register(@NotNull ActorDto actorDto) throws JsonProcessingException {
         log.info("ACTOR REGISTRATION: {}, Fingerprint count {}", actorDto.getSynchroBatchNumber(), actorDto.getFingerprintStores().size());
         log.info("ACTOR DTO {}", actorDto);
         if (synchroHistoryService.getRepository().existsByBatchNumberAndPacketsNumberContains(actorDto.getSynchroBatchNumber(), actorDto.getSynchroPacketNumber())) {
