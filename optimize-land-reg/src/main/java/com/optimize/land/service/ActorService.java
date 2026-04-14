@@ -51,6 +51,8 @@ public class ActorService extends GenericService<AbstractActor, Long> {
     private final PublicLegalEntityRepository publicLegalEntityRepository;
     private UserService userService;
 
+    private final OutboxEventRepository outboxEventRepository;
+
     protected ActorService(ActorRepository repository,
                            ActorMapper actorMapper,
                            FingerprintStoreService fingerprintStoreService,
@@ -60,7 +62,8 @@ public class ActorService extends GenericService<AbstractActor, Long> {
                            PersonRepository personRepository,
                            InformalGroupRepository informalGroupRepository,
                            PrivateLegalEntityRepository privateLegalEntityRepository,
-                           PublicLegalEntityRepository publicLegalEntityRepository) {
+                           PublicLegalEntityRepository publicLegalEntityRepository,
+                           OutboxEventRepository outboxEventRepository) {
         super(repository);
         this.actorMapper = actorMapper;
         this.fingerprintStoreService = fingerprintStoreService;
@@ -71,6 +74,7 @@ public class ActorService extends GenericService<AbstractActor, Long> {
         this.informalGroupRepository = informalGroupRepository;
         this.privateLegalEntityRepository = privateLegalEntityRepository;
         this.publicLegalEntityRepository = publicLegalEntityRepository;
+        this.outboxEventRepository = outboxEventRepository;
     }
 
     @Transactional
@@ -262,7 +266,12 @@ public class ActorService extends GenericService<AbstractActor, Long> {
     public void validateLegalEntity(Registration registration) {
         //TODO: gérer ça avec un event
         if (Objects.nonNull(registration.getFingerprintStores()) && !registration.getFingerprintStores().isEmpty() ) {
-            afisClient.sendLegalEntityFingerprint(registration.getFingerprintStores());
+            String response = afisClient.sendLegalEntityFingerprint(registration.getFingerprintStores());
+            if ("FALLBACK_PENDING".equals(response)) {
+                log.info("AFIS API unavailable. Saving Legal Entity Fingerprint Sync to Outbox for RID: {}", registration.getRid());
+                OutboxEvent outboxEvent = new OutboxEvent(registration.getRid(), "LEGAL_ENTITY_FINGERPRINT_SYNC", "PENDING");
+                outboxEventRepository.save(outboxEvent);
+            }
         }
         validate(registration.getRid());
     }
