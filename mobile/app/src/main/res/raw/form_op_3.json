@@ -1,0 +1,190 @@
+[
+  {
+    "name": "modeAcquisition",
+    "type": "spinner",
+    "label": "Mode d’acquisition du droit de propriété",
+    "options": [
+      { "id": 1, "name": "Vente (achat)" },
+      { "id": 2, "name": "Donation" },
+      { "id": 3, "name": "Succession (héritage)" },
+      { "id": 4, "name": "Legs" },
+      { "id": 5, "name": "Échange" },
+      { "id": 6, "name": "Appropriation première" },
+      { "id": 7, "name": "Incorporation / accession" },
+      { "id": 8, "name": "Prescription acquisitive" }
+    ]
+  },
+  {
+    "name": "siHeritageDeQui",
+    "type": "text",
+    "label": "De qui ?",
+    "visibilityCondition": {
+      "ref": "modeAcquisition",
+      "event": "selected",
+      "defaultVisible": false,
+      "elements": [3]
+    }
+  },
+  {
+    "name": "siHeritageDateDeces",
+    "type": "date",
+    "label": "Date de décès de l’ascendant",
+    "visibilityCondition": {
+      "ref": "modeAcquisition",
+      "event": "selected",
+      "defaultVisible": false,
+      "elements": [3]
+    }
+  },
+  {
+    "name": "girlCount",
+    "type": "number",
+    "label": "Nombre d'enfants filles",
+    "visibilityCondition": {
+      "ref": "modeAcquisition",
+      "event": "selected",
+      "defaultVisible": false,
+      "elements": [3]
+    }
+  },
+  {
+    "name": "boyCount",
+    "type": "number",
+    "label": "Nombre d'enfants garçons",
+    "visibilityCondition": {
+      "ref": "modeAcquisition",
+      "event": "selected",
+      "defaultVisible": false,
+      "elements": [3]
+    }
+  },
+  {
+    "name": "dateAcquisition",
+    "type": "date",
+    "label": "Date d'acquisition",
+    "visibilityCondition": {
+      "ref": "modeAcquisition",
+      "event": "selected",
+      "defaultVisible": false,
+      "elements": [1,2,3,4,5]
+    }
+  },
+  {
+    "name": "typePreuveAcquisition",
+    "type": "spinner",
+    "label": "Type de pièce ou élément de preuve du mode d’acquisition du droit de propriété",
+    "options": [
+      { "id": 1, "name": "Attestation de propriété" },
+      { "id": 2, "name": "Titre foncier" },
+      { "id": 3, "name": "Livret foncier" },
+      { "id": 4, "name": "Certificat administratif" },
+      { "id": 5, "name": "Jugement assorti du certificat de non opposition ni appel" },
+      { "id": 6, "name": "Contrat de vente" },
+      { "id": 7, "name": "Acte notarié" },
+      { "id": 8, "name": "Acte de donation" },
+      { "id": 9, "name": "Avis d’imposition" },
+      { "id": 10, "name": "Plan avec 1 tampon" },
+      { "id": 11, "name": "Plan avec 2 tampons" },
+      { "id": 12, "name": "Plan avec 3 tampons" },
+      { "id": 13, "name": "Déclaration verbale" },
+      { "id": 14, "name": "Reçu de vente" },
+      { "id": 15, "name": "Attestation de droit propriété" },
+      { "id": 16, "name": "Présomption" },
+      { "id": -1, "name": "Autre (à préciser)" }
+    ]
+  },
+  {
+    "name": "photoPreuveAcquisition",
+    "type": "file",
+    "extras": ["CAMERA"],
+    "label": "Photo de la preuve du mode d’acquisition",
+    "description": "Prendre une photo de la pièce ou de l’élément de preuve présenté."
+  },
+  {
+    "name": "photoTemoignage",
+    "type": "file",
+    "label": "Photo du témoignage",
+    "extras": ["CAMERA"],
+    "visibilityCondition": {
+      "ref": "typePreuveAcquisition",
+      "event": "selected",
+      "defaultVisible": false,
+      "elements": [13]
+    },
+    "description": "Prendre une photo du propriétaire et de ses témoins avec le propriétaire à l’extrême gauche."
+  },
+  {
+    "name": "photoFicheTemoignage",
+    "type": "file",
+    "extras": ["CAMERA"],
+    "label": "Photo de la fiche de témoignage",
+    "visibilityCondition": {
+      "ref": "typePreuveAcquisition",
+      "event": "selected",
+      "defaultVisible": false,
+      "elements": [13]
+    },
+    "description": "Prendre une photo de la fiche de témoignage si le type de pièce ou élément de preuve est une déclaration verbale."
+  },
+  {
+    "name": "rightRestrictionType",
+    "type": "spinner",
+    "label": "Type de restriction de droit",
+    "options": [
+      { "id": 1, "name": "Aucune" },
+      { "id": 2, "name": "Hypothèque" },
+      { "id": 3, "name": "Interdiction de léguer à ses descendants" },
+      { "id": 4, "name": "Interdiction de vendre" },
+      { "id": 5, "name": "Interdiction de faire une donation" },
+      { "id": 6, "name": "Interdiction de mettre en hypothèque" },
+      {
+        "id": 7,
+        "name": "Obligation de demander / obtenir une autorisation chez d’autres membres de la famille ou du lignage avant de vendre"
+      },
+      { "id": -1, "name": "Autre (à préciser)" }
+    ]
+  },
+  {
+    "name": "currentlyUseFor",
+    "type": "spinner",
+    "label": "Utilisation actuelle de l’immeuble",
+    "extras": ["semi-automatique"],
+    "options": [
+      { "id": 1, "name": "Résidentiel" },
+      { "id": 2, "name": "Commercial" },
+      { "id": 3, "name": "Agricole" },
+      { "id": 4, "name": "Industriel" },
+      { "id": -1, "name": "Autre (à préciser)" }
+    ]
+  },
+  {
+    "name": "agriculturalDevelopmentType",
+    "type": "spinner",
+    "label": "Type de mise en valeur agricole",
+    "options": [
+      { "id": 1, "name": "Exploitation des cultures annuelles ou saisonnières" },
+      { "id": 2, "name": "Jachère" },
+      { "id": 3, "name": "Exploitation des cultures pérennes" },
+      { "id": 4, "name": "Élevage des animaux domestiques ou sauvages" },
+      { "id": 5, "name": "Maintien, enrichissement ou constitution de forêts" },
+      { "id": 6, "name": "Pêche" },
+      { "id": 7, "name": "Aquaculture" },
+      { "id": 8, "name": "Infrastructures et aménagements de cultures irriguées" },
+      { "id": 9, "name": "Jardins botaniques" },
+      { "id": 10, "name": "Parcs zoologiques" },
+      {
+        "id": 11,
+        "name": "Établissement de stockage, de transformation et de commercialisation des produits agricoles, de l’élevage, de la foresterie, de la pêche"
+      },
+      { "id": -1, "name": "Autre activité à caractère rural (à préciser)" }
+    ]
+  },
+  {
+    "name": "pointOfAttention",
+    "type": "text",
+    "lines": 10,
+    "maxLines": 20,
+    "label": "Point d’attention",
+    "extras": ["manuel"]
+  }
+]

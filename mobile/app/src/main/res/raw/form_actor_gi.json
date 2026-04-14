@@ -1,0 +1,76 @@
+[
+  {
+    "name": "uin",
+    "type": "text",
+    "label": "NIU de l'acteur",
+    "extras": [
+      "AUTO_UPPER",
+      "DISABLED"
+    ]
+  },
+  {
+    "name": "groupName",
+    "type": "text",
+    "parseType": "string",
+    "required": true,
+    "label": "Nom du groupe informel*"
+  },
+  {
+    "name": "address",
+    "type": "text",
+    "label": "Adresse"
+  },
+  {
+    "name": "phoneNumber",
+    "type": "phone",
+    "label": "Téléphone 1"
+  },
+  {
+    "name": "secondaryPhoneNumber",
+    "type": "phone",
+    "label": "Téléphone 2"
+  },
+  {
+    "name": "email",
+    "type": "email",
+    "label": "Email"
+  },
+  {
+    "name": "groupType",
+    "type": "spinner",
+    "required": true,
+    "label": "Type de groupe informel",
+    "dataType": "KEY",
+    "options": [
+      { "id": 1, "name": "Collectivité", "key": "COLLECTIVITE" },
+      { "id": 2, "name": "Famille", "key": "FAMILLE"  },
+      { "id": 3, "name": "Ménage", "key": "MENAGE"  },
+      { "id": 4, "name": "Héritier", "key": "HERITIER"  },
+      { "id": 5, "name": "Association / Groupement (sans papier officiel)", "key": "ASSOCIATION" },
+      { "id": 6, "name": "Autre (à préciser)" }
+    ]
+  },
+  {
+    "name": "representativeUIN",
+    "type": "text",
+    "label": "Représentant/mandataire 1"
+  },
+  {
+    "name": "secondaryRepresentativeUIN",
+    "type": "text",
+    "label": "Représentant/mandataire 2"
+  },
+  {
+    "name": "thirdRepresentativeUIN",
+    "type": "text",
+    "label": "Représentant/mandataire 3"
+  },
+  {
+    "name": "mandatePhoto",
+    "type": "file",
+    "label": "Photo du mandat",
+    "extras": [
+      "CAMERA"
+    ]
+  }
+]

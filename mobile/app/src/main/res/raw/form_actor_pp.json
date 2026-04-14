@@ -1,0 +1,389 @@
+[
+  {
+    "name": "uin",
+    "type": "text",
+    "parseType": "string",
+    "label": "NIU de l'acteur",
+    "extras": [
+      "AUTO_UPPER",
+      "DISABLED"
+    ]
+  },
+  {
+    "name": "lastname",
+    "type": "name",
+    "parseType": "string",
+    "label": "Nom*",
+    "extras": [
+      "AUTO_UPPER"
+    ],
+    "required": true
+  },
+  {
+    "name": "firstname",
+    "type": "name",
+    "parseType": "string",
+    "label": "Prénoms*",
+    "extras": [
+      "AUTO_UPPER"
+    ],
+    "required": true
+  },
+  {
+    "name": "sex",
+    "type": "spinner",
+    "label": "Sexe*",
+    "parseType": "string",
+    "dataType": "KEY",
+    "options": [
+      {
+        "id": 1,
+        "name": "Masculin",
+        "key": "MASCULIN"
+      },
+      {
+        "id": 2,
+        "name": "Féminin",
+        "key": "FEMININ"
+      },
+      {
+        "id": 3,
+        "name": "Sans objet",
+        "key": "SANS"
+      }
+    ]
+  },
+  {
+    "name": "maritalStatus",
+    "type": "spinner",
+    "parseType": "string",
+    "label": "Situation matrimoniale*",
+    "dataType": "KEY",
+    "options": [
+      {
+        "id": 1,
+        "name": "Célibataire",
+        "key": "CELIBATAIRE"
+      },
+      {
+        "id": 2,
+        "name": "Union libre",
+        "key": "UNION_LIBRE"
+      },
+      {
+        "id": 3,
+        "name": "Marié",
+        "key": "MARIE"
+      },
+      {
+        "id": 4,
+        "name": "Divorcé",
+        "key": "DIVORCE"
+      },
+      {
+        "id": 5,
+        "name": "Veuf(ve)",
+        "key": "VEUF"
+      }
+    ]
+  },
+  {
+    "name": "birthDate",
+    "type": "date",
+    "parseType": "string",
+    "label": "Date de naissance (jj/mm/aaaa)"
+  },
+  {
+    "name": "age",
+    "type": "number",
+    "label": "Donnez votre âge (Si date naissance non connu)",
+    "extras": ["manuel"]
+  },
+  {
+    "name": "placeOfBirth",
+    "type": "text",
+    "label": "Lieu de naissance"
+  },
+  {
+    "name": "nationality",
+    "type": "spinner",
+    "label": "Nationalité*",
+    "options": [
+      {
+        "id": 1,
+        "name": "Togo"
+      },
+      {
+        "id": 2,
+        "name": "Bénin"
+      }
+    ,
+      {
+        "id": 3,
+        "name": "Niger"
+      }
+    ]
+  },
+  {
+    "name": "profession",
+    "type": "spinner",
+    "label": "Profession",
+    "options": [
+      {
+        "id": 1,
+        "name": "Agriculteur"
+      },
+      {
+        "id": 2,
+        "name": "Éleveur"
+      },
+      {
+        "id": 3,
+        "name": "Pêcheur"
+      },
+      {
+        "id": 4,
+        "name": "Commerçant"
+      },
+      {
+        "id": 5,
+        "name": "Artisan"
+      },
+      {
+        "id": 6,
+        "name": "Fonctionnaire"
+      },
+      {
+        "id": -1,
+        "name": "Autre (À préciser)"
+      }
+    ]
+  },
+  {
+    "name": "address",
+    "type": "text",
+    "label": "Adresse"
+  },
+  {
+    "name": "primaryPhone",
+    "type": "phone",
+    "label": "Téléphone 1 (WhatsApp)"
+  },
+  {
+    "name": "secondaryPhone",
+    "type": "phone",
+    "label": "Téléphone 2"
+  },
+  {
+    "name": "email",
+    "type": "email",
+    "label": "Email"
+  },
+  {
+    "name": "hasHandicap",
+    "type": "radio",
+    "parseType": "boolean",
+    "dataType": "BOOL",
+    "label": "Handicap*",
+    "options": [
+      {
+        "id": 1,
+        "name": "Oui"
+      },
+      {
+        "id": 0,
+        "name": "Non"
+      }
+    ]
+  },
+  {
+    "name": "handicapType",
+    "type": "spinner",
+    "label": "Type de handicap",
+    "visibilityCondition": {
+      "ref": "hasHandicap",
+      "event": "selected",
+      "defaultVisible": false,
+      "elements": [
+        1
+      ]
+    },
+    "options": [
+      {
+        "id": 1,
+        "name": "Moteur"
+      },
+      {
+        "id": 2,
+        "name": "Visuel"
+      },
+      {
+        "id": 3,
+        "name": "Auditif"
+      },
+      {
+        "id": 4,
+        "name": "Mental"
+      },
+      {
+        "id": -1,
+        "name": "Autre (À préciser)"
+      }
+    ]
+  },
+  {
+    "name": "socioCulturalGroup",
+    "type": "spinner",
+    "label": "Groupe socio-culturel",
+    "options": [
+      {
+        "id": 1,
+        "name": "Adja"
+      },
+      {
+        "id": 2,
+        "name": "Ewé"
+      },
+      {
+        "id": 3,
+        "name": "Fon"
+      },
+      {
+        "id": 4,
+        "name": "Kpessi"
+      },
+      {
+        "id": -1,
+        "name": "Autre (À préciser)"
+      }
+    ]
+  },
+  {
+    "name": "hasIDDoc",
+    "type": "radio",
+    "parseType": "boolean",
+    "dataType": "BOOL",
+    "label": "Document d'identification*",
+    "options": [
+      {
+        "id": 1,
+        "name": "Oui"
+      },
+      {
+        "id": 0,
+        "name": "Non"
+      }
+    ]
+  },
+  {
+    "name": "identificationDocType",
+    "type": "spinner",
+    "label": "Type de document d'identification",
+    "visibilityCondition": {
+      "ref": "hasIDDoc",
+      "event": "selected",
+      "defaultVisible": false,
+      "elements": [
+        1
+      ]
+    },
+    "options": [
+      {
+        "id": 1,
+        "name": "Certificat de naissance"
+      },
+      {
+        "id": 2,
+        "name": "Carte d'électeur"
+      },
+      {
+        "id": 3,
+        "name": "Carte d'identité nationale"
+      },
+      {
+        "id": 4,
+        "name": "Passeport togolais"
+      },
+      {
+        "id": 5,
+        "name": "Passeport étranger"
+      },
+      {
+        "id": 6,
+        "name": "Carte militaire d'identité"
+      },
+      {
+        "id": 7,
+        "name": "Carte d'identité consulaire"
+      },
+      {
+        "id": 8,
+        "name": "Carte scolaire"
+      },
+      {
+        "id": 9,
+        "name": "Certificat de nationalité"
+      },
+      {
+        "id": 10,
+        "name": "Certificat de mariage"
+      },
+      {
+        "id": 11,
+        "name": "Livret de famille"
+      },
+      {
+        "id": 12,
+        "name": "Permis de conduire"
+      },
+      {
+        "id": 13,
+        "name": "Attestation de dot"
+      },
+      {
+        "id": -1,
+        "name": "Autre (À préciser)"
+      }
+    ]
+  },
+  {
+    "name": "identificationDocNumber",
+    "type": "text",
+    "label": "Numéro du document d'identification",
+    "visibilityCondition": {
+      "ref": "hasIDDoc",
+      "event": "selected",
+      "defaultVisible": false,
+      "elements": [
+        1
+      ]
+    }
+  },
+  {
+    "name": "identificationDocPhoto",
+    "type": "file",
+    "extras": ["CAMERA"],
+    "label": "Photo du document d'identification",
+    "visibilityCondition": {
+      "ref": "hasIDDoc",
+      "event": "selected",
+      "defaultVisible": false,
+      "elements": [
+        1
+      ]
+    }
+  },
+  {
+    "name": "witnessUIN",
+    "type": "text",
+    "label": "Numéro d'Identification Unique (NIU) du témoin",
+    "visibilityCondition": {
+      "ref": "hasIDDoc",
+      "event": "selected",
+      "defaultVisible": false,
+      "elements": [
+        0
+      ]
+    }
+  }
+]

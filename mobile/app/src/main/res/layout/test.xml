@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- En-tête République Togolaise -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="REPUBLIQUE TOGOLAISE"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/region"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="4dp"
+            android:text="REGION DE ....................................................." />
+
+        <TextView
+            android:id="@+id/prefecture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="4dp"
+            android:text="PREFECTURE DE ....................................................." />
+
+        <TextView
+            android:id="@+id/commune"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="4dp"
+            android:text="COMMUNE DE ....................................................." />
+
+        <!-- Titre principal -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="PROCES VERBAL DE CARTOGRAPHIE, D'ABORNEMENT DES LIMITES,"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="DE CONSTATATION ET D'ENREGISTREMENT DES DROITS FONCIERS"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+
+        <!-- Informations sur la parcelle -->
+        <TextView
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Concernant la parcelle située à :" />
+
+        <TextView
+            android:id="@+id/canton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Canton .........................................................." />
+
+        <TextView
+            android:id="@+id/village"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Village .........................................................." />
+
+        <TextView
+            android:id="@+id/lieu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lieudit .........................................................." />
+
+        <!-- Détails sur le constat -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="L’an deux mille ............ et le ............., nous soussignés, M. / Mme ........................................................."
+            android:textStyle="italic" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Technicien.ne topographe et M. / Mme ......................................................... Agent socio foncier, commissionnés par la mairie de ............" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="En application de l’article 628 et suivants du Code Foncier et Domanial du 14 Juin 2018 et du décret 2024-052/PR du 30 septembre 2024 fixant les conditions, les modalités de délivrance et la valeur juridique du livret foncier :" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Vu les procès-verbaux d’adhésion et d’engagement des populations pour l’opération d’enregistrement systématique des parcelles et des droits fonciers ;" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Vu l’arrêté ............................................................ portant ouverture des travaux d’enregistrement systématique des parcelles et des droits fonciers sur le site d’exploitation du projet de Réforme Foncière et de l’Accroissement de la Productivité Agricole (RAP) ;" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Attendu M. / Mme .......................................................... (Nom et prénoms du propriétaire) et ses limitrophes : les intéressés ayant été dûment prévenus de l’heure et du jour des opérations de cartographie, d’abornement des limites, de constatation et d’enregistrement des droits fonciers de sa parcelle." />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Nous nous sommes transportés sur le terrain et avons trouvé :" />
+
+        <!-- Tableau des informations (déclarant et limites) -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="M. / Mme ................................................................................... Document d’identification N° .............................. type ............................." />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Qualité du déclarant : .......................... (propriétaire, mandataire, autre)" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Demeurant à : ............................................. ; tél : ................................... ; Email : ......................................" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Après avoir reconnu les limites et la consistance générale de la parcelle qui est un terrain de forme .............. (régulière ou irrégulière), limité au Nord par ........................................... ; au Sud par ..................................................... ; à l’Est par ........................................................ ; et à l’Ouest par .............................................. avec une superficie de ........................." />
+
+        <!-- Points d'attention -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Points d'attention :"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/point_attention"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text=""
+            android:textStyle="bold" />
+
+        <!-- Tableau des signatures -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Nom et Prénoms"
+            android:textStyle="bold" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:stretchColumns="1">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:stretchColumns="1">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:stretchColumns="1">
+
+                    <!-- Entête du tableau -->
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="Nom et Prénoms"
+                            android:textStyle="bold"
+                            android:background="#E0E0E0"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="Qualité"
+                            android:textStyle="bold"
+                            android:background="#E0E0E0"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="Signature et Contacts"
+                            android:textStyle="bold"
+                            android:background="#E0E0E0"
+                            android:gravity="center" />
+                    </TableRow>
+
+                    <!-- Ligne 1 -->
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="JOHN DUPONT" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="" />
+                    </TableRow>
+
+                    <!-- Ajout des 9 autres lignes -->
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="JOHN DUPONT" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="" />
+                    </TableRow>
+
+                    <!-- Ligne 3 -->
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="JOHN DUPONT" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="" />
+                    </TableRow>
+
+                    <!-- Lignes restantes -->
+                    <TableRow>
+                        <TextView android:text="JOHN DUPONT" android:padding="8dp" />
+                        <TextView android:text=".........................." android:padding="8dp" />
+                        <TextView android:text=".........................." android:padding="8dp" />
+                    </TableRow>
+                    <TableRow>
+                        <TextView android:text="JOHN DUPONT" android:padding="8dp" />
+                        <TextView android:text=".........................." android:padding="8dp" />
+                        <TextView android:text=".........................." android:padding="8dp" />
+                    </TableRow>
+                    <TableRow>
+                        <TextView android:text="JOHN DUPONT" android:padding="8dp" />
+                        <TextView android:text=".........................." android:padding="8dp" />
+                        <TextView android:text=".........................." android:padding="8dp" />
+                    </TableRow>
+                    <TableRow>
+                        <TextView android:text="JOHN DUPONT" android:padding="8dp" />
+                        <TextView android:text=".........................." android:padding="8dp" />
+                        <TextView android:text=".........................." android:padding="8dp" />
+                    </TableRow>
+                    <TableRow>
+                        <TextView android:text="JOHN DUPONT" android:padding="8dp" />
+                        <TextView android:text=".........................." android:padding="8dp" />
+                        <TextView android:text=".........................." android:padding="8dp" />
+                    </TableRow>
+                    <TableRow>
+                        <TextView android:text="JOHN DUPONT" android:padding="8dp" />
+                        <TextView android:text=".........................." android:padding="8dp" />
+                        <TextView android:text=".........................." android:padding="8dp" />
+                    </TableRow>
+                </TableLayout>
+            </TableLayout>
+        </TableLayout>
+    </LinearLayout>
+</ScrollView>

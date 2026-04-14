@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Permet les connexions en clair (HTTP) pour des adresses spécifiques -->
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- Adresse IP autorisée -->
+        <domain includeSubdomains="true">192.168.0.126</domain>
+    </domain-config>
+
+    <!-- Permet globalement le trafic en clair pour tous les domaines (optionnel) -->
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

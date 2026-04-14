@@ -1,0 +1,43 @@
+[
+  {
+    "name": "uin",
+    "type": "text",
+    "parseType": "string",
+    "label": "NIU de l'acteur",
+    "extras": [
+      "AUTO_UPPER",
+      "DISABLED"
+    ]
+  },
+  {
+    "name": "lastname",
+    "type": "name",
+    "label": "Nom*",
+    "parseType": "string",
+    "extras": [
+      "AUTO_UPPER"
+    ],
+    "required": true
+  },
+  {
+    "name": "firstname",
+    "type": "name",
+    "label": "Prénoms*",
+    "extras": [
+      "AUTO_UPPER"
+    ],
+    "required": true
+  },
+  {
+    "name": "primaryPhone",
+    "type": "phone",
+    "parseType": "string",
+    "label": "Téléphone 1*"
+  },
+  {
+    "name": "secondaryPhone",
+    "type": "phone",
+    "parseType": "string",
+    "label": "Téléphone 2"
+  }
+]

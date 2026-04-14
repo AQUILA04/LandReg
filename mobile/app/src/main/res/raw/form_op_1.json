@@ -1,0 +1,115 @@
+[
+  {
+    "name": "nup",
+    "type": "text",
+    "label": "Numéro parcellaire unique (NUP)*",
+    "required": true,
+    "extras": [
+      "AUTO_UPPER"
+    ],
+    "description": "Saisir manuellement le numéro parcellaire unique et le lire à haute voix pour confirmation par le topographe."
+  },
+  {
+    "name": "surface",
+    "type": "text",
+    "label": "Superficie de la parcelle (en mètre carré)"
+  },
+  {
+    "name": "landForm",
+    "type": "spinner",
+    "label": "Quelle est la forme de la parcelle?",
+    "options": [
+      {
+        "id": 1,
+        "name": "Régulière"
+      },
+      {
+        "id": 2,
+        "name": "Irrégulière"
+      }
+    ]
+  },
+  {
+    "name": "region",
+    "type": "spinner",
+    "label": "Région",
+    "options": [
+      {
+        "id": 1,
+        "name": "MARITIME"
+      },
+      {
+        "id": 2,
+        "name": "PLATEAUX"
+      },
+      {
+        "id": 3,
+        "name": "CENTRALE"
+      },
+      {
+        "id": 4,
+        "name": "KARA"
+      },
+      {
+        "id": 5,
+        "name": "SAVANES"
+      },
+      {
+        "id": 6,
+        "name": "DAGL"
+      }
+    ]
+  },
+  {
+    "name": "prefecture",
+    "type": "spinner",
+    "label": "Prefecture"
+  },
+  {
+    "name": "commune",
+    "type": "spinner",
+    "label": "Commune"
+  },
+  {
+    "name": "canton",
+    "type": "spinner",
+    "label": "Canton"
+  },
+  {
+    "name": "locality",
+    "type": "text",
+    "label": "Village"
+  },
+  {
+    "name": "personType",
+    "type": "spinner",
+    "dataType" : "KEY",
+    "label": "Type de personne",
+    "options": [
+      { "id": 5, "name": "Persone physique", "key":"PHYSICAL_PERSON" },
+      { "id": 2, "name": "Personne morale de droit privé", "key":"PRIVATE_LEGAL_ENTITY" },
+      { "id": 1, "name": "Personne morale de droit public", "key":"PUBLIC_LEGAL_ENTITY" },
+      { "id": 3, "name": "Groupe informel", "key":"INFORMAL_GROUP" }
+    ]
+  },
+  {
+    "name": "uin",
+    "type": "text",
+    "label": "NIU de la personne physique/morale",
+    "required": true
+  },
+
+  {
+    "name": "hasConflict",
+    "type": "radio",
+    "parseType": "boolean",
+    "dataType": "BOOL",
+    "label": "Conflit",
+    "required": true,
+    "options": [
+      { "id": 1, "name": "Oui" },
+      { "id": 0, "name": "Non" }
+    ],
+    "description": "Si conflit = Oui, remplir la fiche d’enregistrement des conflits."
+  }
+]

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- En-tête République Togolaise -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="REPUBLIQUE TOGOLAISE"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/region"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="4dp"
+            android:text="REGION DE ....................................................." />
+
+        <TextView
+            android:id="@+id/prefecture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="4dp"
+            android:text="PREFECTURE DE ....................................................." />
+
+        <TextView
+            android:id="@+id/commune"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="4dp"
+            android:text="COMMUNE DE ....................................................." />
+
+        <!-- Titre principal -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="PROCES VERBAL DE CARTOGRAPHIE, D'ABORNEMENT DES LIMITES,"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="DE CONSTATATION ET D'ENREGISTREMENT DES DROITS FONCIERS"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+
+        <!-- Informations sur la parcelle -->
+        <TextView
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Concernant la parcelle située à :" />
+
+        <TextView
+            android:id="@+id/canton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Canton .........................................................." />
+
+        <TextView
+            android:id="@+id/village"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Village .........................................................." />
+
+        <!-- Détails sur le constat -->
+        <TextView
+            android:id="@+id/topo_and_social"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="L’an deux mille ............ et le ............., nous soussignés, M. / Mme ........................................................."
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/maire_and_social"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Technicien.ne topographe et M. / Mme ......................................................... Agent socio foncier, commissionnés par la mairie de ............" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="En application de l’article 628 et suivants du Code Foncier et Domanial du 14 Juin 2018 et du décret 2024-052/PR du 30 septembre 2024 fixant les conditions, les modalités de délivrance et la valeur juridique du livret foncier :" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Vu les procès-verbaux d’adhésion et d’engagement des populations pour l’opération d’enregistrement systématique des parcelles et des droits fonciers ;" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Vu l’arrêté ............................................................ portant ouverture des travaux d’enregistrement systématique des parcelles et des droits fonciers sur le site d’exploitation du projet de Réforme Foncière et de l’Accroissement de la Productivité Agricole (RAP) ;" />
+
+        <TextView
+            android:id="@+id/proprietaire"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Attendu M. / Mme .......................................................... (Nom et prénoms du propriétaire) et ses limitrophes : les intéressés ayant été dûment prévenus de l’heure et du jour des opérations de cartographie, d’abornement des limites, de constatation et d’enregistrement des droits fonciers de sa parcelle." />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Nous nous sommes transportés sur le terrain et avons trouvé :" />
+
+        <!-- Tableau des informations (déclarant et limites) -->
+        <TextView
+            android:id="@+id/proprietaire_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="M. / Mme ................................................................................... Document d’identification N° .............................. type ............................." />
+
+        <TextView
+            android:id="@+id/quality"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Qualité du déclarant : .......................... (propriétaire, mandataire, autre)" />
+
+        <TextView
+            android:id="@+id/email_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Demeurant à : ............................................. ; tél : ................................... ; Email : ......................................" />
+
+        <TextView
+            android:id="@+id/limitrophe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Après avoir reconnu les limites et la consistance générale de la parcelle qui est un terrain de forme .............. (régulière ou irrégulière), limité au Nord par ........................................... ; au Sud par ..................................................... ; à l’Est par ........................................................ ; et à l’Ouest par .............................................. avec une superficie de ........................." />
+
+        <!-- Points d'attention -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Points d'attention :"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/point_attention"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <!-- Tableau des signatures -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Nom et Prénoms"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/actors_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

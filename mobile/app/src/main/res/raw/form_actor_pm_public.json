@@ -1,0 +1,39 @@
+[
+  {
+    "name": "uin",
+    "type": "text",
+    "parseType": "string",
+    "label": "NIU de l'acteur",
+    "extras": [
+      "AUTO_UPPER",
+      "DISABLED"
+    ]
+  },
+  {
+    "name": "name",
+    "type": "text",
+    "parseType": "string",
+    "required": true,
+    "label": "nom de la personne morale de droit public"
+  },
+  {
+    "name": "phoneNumber",
+    "type": "phone",
+    "parseType": "string",
+    "required": true,
+    "label": "Numéro de la personne morale de droit public"
+  },
+  {
+    "name": "publicEntityType",
+    "type": "spinner",
+    "required": true,
+    "parseType": "string",
+    "label": "Type de la personne morale de droit public",
+    "dataType": "KEY",
+    "options": [
+      { "id": 1, "name": "État", "key": "ETAT" },
+      { "id": 2, "name": "Collectivité territoriale", "key": "COLLECTIVITE_TERRITORIALE" },
+      { "id": 3, "name": "Établissement public", "key": "ETABLISSEMENT_PUBLIC" }
+    ]
+  }
+]

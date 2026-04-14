@@ -1,0 +1,208 @@
+[
+  {
+    "name": "conflictParty",
+    "type": "spinner",
+    "label": "Partie au conflit",
+    "required": true,
+    "options": [
+      { "id": 1, "name": "Propriétaires" },
+      { "id": 2, "name": "Exploitants" },
+      { "id": 3, "name": "Ayants-droits du propriétaire" },
+      { "id": 4, "name": "Ayants-droits de l’exploitant" },
+      { "id": 5, "name": "Tiers" },
+      { "id": 6, "name": "Service public" }
+    ]
+  },
+  {
+    "name": "firstConflictPartyNUP",
+    "type": "text",
+    "label": "NIUP de la partie au conflit 1",
+    "required": true,
+    "description": "(Formulaire personne)"
+  },
+  {
+    "name": "firstConflictPartyOccupationDurationInMonth",
+    "type": "number",
+    "parseType": "integer",
+    "label": "Durée d’occupation de la partie au conflit 1 (en mois)"
+  },
+  {
+    "name": "secondConflictPartyNUP",
+    "type": "text",
+    "label": "NIUP de la partie au conflit 2",
+    "extras": ["semi-automatique"],
+    "description": "(Formulaire personne)"
+  },
+  {
+    "name": "secondConflictPartyOccupationDurationInMonth",
+    "type": "number",
+    "parseType": "integer",
+    "label": "Durée d’occupation de la partie au conflit 2 (en mois)"
+  },
+  {
+    "name": "conflictObject",
+    "type": "spinner",
+    "label": "Objet du conflit",
+    "extras": ["semi-automatique"],
+    "options": [
+      { "id": 1, "name": "Contestation des limites" },
+      { "id": 2, "name": "Contestation de droits" },
+      { "id": -1, "name": "Autre (à préciser)" }
+    ]
+  },
+  {
+    "name": "rightClaimed",
+    "type": "spinner",
+    "label": "Droit revendiqué",
+    "extras": ["semi-automatique"],
+    "options": [
+      { "id": 1, "name": "Droit de propriété" },
+      { "id": 2, "name": "Bail emphytéotique" },
+      { "id": 3, "name": "Bail à construction" },
+      { "id": 4, "name": "Bail à plantation" },
+      { "id": 5, "name": "Droit de superficie" },
+      { "id": 6, "name": "Usufruit" },
+      { "id": 7, "name": "Droit d’usage" },
+      { "id": 8, "name": "Droit d’habitation" },
+      { "id": -1, "name": "Autre (à préciser)" }
+    ]
+  },
+  {
+    "name": "rightClaimedOrigin",
+    "type": "spinner",
+    "label": "Origine du droit revendiqué",
+    "extras": ["semi-automatique"],
+    "options": [
+      { "id": 1, "name": "Héritage" },
+      { "id": 2, "name": "Achat" },
+      { "id": 3, "name": "Donation" },
+      { "id": 4, "name": "Location" },
+      { "id": 5, "name": "Métayage" },
+      { "id": -1, "name": "Autres (à préciser)" }
+    ]
+  },
+  {
+    "name": "institutionInvolved",
+    "type": "spinner",
+    "label": "Institution saisie",
+    "extras": ["semi-automatique"],
+    "options": [
+      { "id": 1, "name": "Instance coutumière" },
+      { "id": 2, "name": "Comité ad hoc" },
+      { "id": 3, "name": "Maison de justice" },
+      { "id": 4, "name": "Instance judiciaire" },
+      { "id": -1, "name": "Autre" }
+    ]
+  },
+  {
+    "name": "seizureProof",
+    "type": "spinner",
+    "label": "Preuve de la saisine",
+    "extras": ["semi-automatique"],
+    "options": [
+      { "id": 1, "name": "Reçu/Récépissé d’enrôlement" },
+      { "id": 2, "name": "Acte d’assignation" },
+      { "id": 3, "name": "Convocation" },
+      { "id": 4, "name": "Procès-verbal de règlement à l’amiable" },
+      { "id": 5, "name": "Requête" },
+      { "id": -1, "name": "Autre (à préciser)" }
+    ]
+  },
+  {
+    "name": "exhibitAndEvidence",
+    "type": "spinner",
+    "label": "Pièce et élément de preuve",
+    "options": [
+      { "id": 1, "name": "Titre foncier" },
+      { "id": 2, "name": "Livret foncier" },
+      { "id": 3, "name": "Acte notarié" },
+      { "id": 4, "name": "Certificat administratif" },
+      { "id": 5, "name": "Avis d’imposition" },
+      { "id": 6, "name": "Plan 1 tampon" },
+      { "id": 7, "name": "Plan 2 tampons" },
+      { "id": 8, "name": "Plan 3 tampons" },
+      { "id": 9, "name": "Jugement assorti du certificat de non opposition ni appel" },
+      { "id": 10, "name": "Contrat de vente" },
+      { "id": 11, "name": "Reçu de vente" },
+      { "id": 12, "name": "Attestation de droit propriété" },
+      { "id": 13, "name": "Acte de donation" },
+      { "id": 14, "name": "Déclaration verbale" },
+      { "id": 15, "name": "Présomption" },
+      { "id": -1, "name": "Autre (à préciser)" }
+    ]
+  },
+  {
+    "name": "photoOfProof",
+    "type": "file",
+    "label": "Photo de la preuve",
+    "extras": ["CAMERA"],
+    "description": "Prendre une photo de la pièce ou de l’élément de preuve."
+  },
+  {
+    "name": "procedureStatus",
+    "type": "spinner",
+    "label": "État d’avancement de la procédure",
+    "extras": ["semi-automatique"],
+    "options": [
+      { "id": 1, "name": "Saisine" },
+      { "id": 2, "name": "Règlement en cours" },
+      { "id": 3, "name": "Règlement non exécuté" },
+      { "id": 4, "name": "Appel" },
+      { "id": 5, "name": "Ne sais pas" }
+    ]
+  },
+  {
+    "name": "settlementDate",
+    "type": "date",
+    "label": "Date de règlement",
+    "extras": ["semi-automatique"]
+  },
+  {
+    "name": "settlementCompromiseNature",
+    "type": "spinner",
+    "label": "Nature du compromis ou du règlement",
+    "extras": ["semi-automatique"],
+    "options": [
+      { "id": 1, "name": "Amiable" },
+      { "id": 2, "name": "Décision de justice" }
+    ]
+  },
+  {
+    "name": "settlementActor",
+    "type": "spinner",
+    "label": "Acteur du règlement",
+    "extras": ["semi-automatique"],
+    "options": [
+      { "id": 1, "name": "Instance coutumière" },
+      { "id": 2, "name": "Comité ad hoc" },
+      { "id": 3, "name": "Maison de justice" },
+      { "id": 4, "name": "Tribunal de première instance" },
+      { "id": 5, "name": "Cour d’appel" },
+      { "id": 6, "name": "Cour suprême" },
+      { "id": -1, "name": "Autre (à préciser)" }
+    ]
+  },
+  {
+    "name": "regulationWitnesses",
+    "type": "text",
+    "label": "Témoins du règlement",
+    "description": "Renseigner les témoins impliqués."
+  },
+  {
+    "name": "finalDecisionProof",
+    "type": "spinner",
+    "label": "Preuve de la décision finale",
+    "extras": ["semi-automatique"],
+    "options": [
+      { "id": 1, "name": "PV de conciliation décision de justice" },
+      { "id": 2, "name": "Accord signé entre les parties (acte sous seing privé)" }
+    ]
+  },
+  {
+    "name": "settlementProofPhoto",
+    "type": "file",
+    "label": "Photo de la preuve du règlement",
+    "extras": ["CAMERA"],
+    "description": "Prendre la photo de la pièce ou de l’élément de preuve associé au règlement."
+  }
+]

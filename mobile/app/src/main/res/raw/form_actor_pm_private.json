@@ -1,0 +1,106 @@
+[
+  {
+    "name": "uin",
+    "type": "text",
+    "parseType": "string",
+    "label": "NIU de l'acteur",
+    "extras": [
+      "AUTO_UPPER",
+      "DISABLED"
+    ]
+  },
+  {
+    "name": "numeroPersonneMorale",
+    "type": "text",
+    "parseType": "string",
+    "label": "Numéro de la personne morale de droit privé"
+  },
+  {
+    "name": "companyName",
+    "type": "text",
+    "parseType": "string",
+    "label": "Raison sociale*",
+    "required": true
+  },
+  {
+    "name": "address",
+    "type": "text",
+    "parseType": "string",
+    "label": "Adresse"
+  },
+  {
+    "name": "phoneNumber",
+    "type": "phone",
+    "parseType": "string",
+    "label": "Téléphone 1"
+  },
+  {
+    "name": "secondaryPhoneNumber",
+    "type": "phone",
+    "parseType": "string",
+    "label": "Téléphone 2"
+  },
+  {
+    "name": "email",
+    "type": "email",
+    "label": "Email"
+  },
+  {
+    "name": "entityType",
+    "type": "spinner",
+    "label": "Type de la personne morale de droit privé",
+    "required": true,
+    "dataType": "KEY",
+    "options": [
+      { "id": 1, "name": "Entreprise" , "key": "ENTREPRISE"},
+      { "id": 2, "name": "Association", "key": "ASSOCIATION" },
+      { "id": 3, "name": "ONG", "key": "ONG" },
+      { "id": 4, "name": "Coopérative agricole", "key": "COOPERATIVE_AGRICOLE" }
+    ]
+  },
+  {
+    "name": "identificationDocType",
+    "type": "spinner",
+    "label": "Type de document d’identification de la personne morale de droit privé",
+    "options": [
+      { "id": 1, "name": "Numéro du registre de commerce (RCCM/NIF)" },
+      { "id": 2, "name": "Récépissé d’association" },
+      { "id": 3, "name": "Récépissé d’ONG" },
+      { "id": 4, "name": "Agrément de coopérative agricole" }
+    ]
+  },
+  {
+    "name": "identificationDocNumber",
+    "type": "text",
+    "label": "Numero du document d’identification de la personne morale de droit prive"
+  },
+  {
+    "name": "identificationDocPhoto",
+    "type": "file",
+    "label": "Numero du document d’identification de la personne morale de droit prive",
+    "extras": ["CAMERA"]
+  },
+  {
+    "name": "mainActivity",
+    "type": "text",
+    "parseType": "string",
+    "label": "Activité principale"
+  },
+  {
+    "name": "acronym",
+    "type": "text",
+    "parseType": "string",
+    "label": "Sigle"
+  },
+  {
+    "name": "companyCreatedDate",
+    "type": "date",
+    "parseType": "string",
+    "label": "Date de création"
+  },
+  {
+    "name": "representative",
+    "type": "text",
+    "label": "Représentant/mandataire"
+  }
+]

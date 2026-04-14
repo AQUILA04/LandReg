@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <RelativeLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:visibility="visible"
+            android:layout_alignParentTop="true">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="@dimen/toolbar_ic_size"
+                android:layout_height="@dimen/toolbar_ic_size"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/back"
+                android:visibility="visible"
+                app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="5dp"
+                android:ellipsize="end"
+                android:textStyle="bold"
+                android:gravity="start"
+                android:maxLines="1"
+                android:text="CheckList avant opérations"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_below="@id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:orientation="vertical"
+                android:layout_centerInParent="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:weightSum="1"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_weight="0.9"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/role"
+                        android:hint="Rôle"
+                        app:endIconMode="dropdown_menu">
+                        <AutoCompleteTextView
+                            android:id="@+id/role_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/field_padding"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <ImageView
+                        android:id="@+id/add_role"
+                        android:layout_gravity="end"
+                        android:layout_marginStart="15dp"
+                        android:background="@drawable/circular_button"
+                        android:src="@drawable/baseline_add_24"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"/>
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="NIU"
+                    android:id="@+id/hint">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/uin"
+                        android:padding="@dimen/field_padding"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/hand"
+                    android:hint="choisir le doigt a scanner"
+                    app:endIconMode="dropdown_menu">
+                    <AutoCompleteTextView
+                        android:id="@+id/hand_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/field_padding"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/fg_icon"
+                    android:id="@+id/finger_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"/>
+
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/scan"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="Scanner"
+                        style="@style/button_style_1"
+                        />
+                    <TextView
+                        android:gravity="center"
+                        android:layout_marginStart="25dp"
+                        android:id="@+id/validate"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="Valider"
+                        style="@style/button_style_1"
+                        />
+                </LinearLayout>
+
+                <GridLayout
+                    android:visibility="gone"
+                    android:layout_marginTop="25dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/gridLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    >
+
+                    <!-- Les carrés -->
+                    <TextView
+                        android:id="@+id/square1"
+                        style="@style/SquareStyle"
+                        android:text="1" />
+                    <TextView
+                        android:id="@+id/square2"
+                        style="@style/SquareStyle"
+                        android:text="2" />
+                    <TextView
+                        android:id="@+id/square3"
+                        style="@style/SquareStyle"
+                        android:text="3" />
+                    <TextView
+                        android:id="@+id/square4"
+                        style="@style/SquareStyle"
+                        android:text="4" />
+                    <TextView
+                        android:id="@+id/square5"
+                        style="@style/SquareStyle"
+                        android:text="5" />
+                    <TextView
+                        android:id="@+id/square6"
+                        style="@style/SquareStyle"
+                        android:text="6" />
+                    <TextView
+                        android:id="@+id/square7"
+                        style="@style/SquareStyle"
+                        android:text="7" />
+                    <TextView
+                        android:id="@+id/square8"
+                        style="@style/SquareStyle"
+                        android:text="8" />
+                    <TextView
+                        android:id="@+id/square9"
+                        style="@style/SquareStyle"
+                        android:text="9" />
+                    <TextView
+                        android:visibility="invisible"
+                        style="@style/SquareStyle"
+                        android:text="10" />
+                    <TextView
+                        android:id="@+id/square10"
+                        style="@style/SquareStyle"
+                        android:text="10" />
+                    <TextView
+                        android:visibility="invisible"
+                        style="@style/SquareStyle"
+                        android:text="10" />
+                </GridLayout>
+
+                 <androidx.recyclerview.widget.RecyclerView
+                     android:layout_marginTop="15dp"
+                     android:layout_gravity="center"
+                     android:id="@+id/actors_validate"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Suivant"
+                    style="@style/button_style_1"
+                    />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
+</RelativeLayout>

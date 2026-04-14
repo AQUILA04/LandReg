@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "756338813802",
+    "project_id": "landregistration-95d5c",
+    "storage_bucket": "landregistration-95d5c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:756338813802:android:8818032c850b955112d313",
+        "android_client_info": {
+          "package_name": "com.lesadrax.registrationclient"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9kiYDjPMQuiUzk4ik62VzfuhP-Tl8388"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

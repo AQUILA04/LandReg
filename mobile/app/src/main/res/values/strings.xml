@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">LAND REG</string>
+    <string name="champ_requis">Champ requis</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="bcst">Commencer la constatation</string>
+    <string name="ccst">Continuer la constatation</string>
+    <string name="consta">Constatations</string>
+    <string name="actors">Acteurs</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="togo_republic">République Togolaise</string>
+    <string name="region">REGION.............................</string>
+    <string name="prefecture">PREFECTURE......................</string>
+    <string name="commune">COMMUNE DE............................</string>
+    <string name="title">PROCES VERBAL DE CARTOGRAPHIE, D\'ABORNEMENT DES LIMITES, DE CONSTATION ET D\'ENREGISTREMENT DES DROITS FONCIERS</string>
+    <string name="under_title">Concernant la parcelle située à:</string>
+    <string name="canton">Canton</string>
+    <string name="village">Village</string>
+    <string name="place">Lieudit</string>
+    <string name="conflits">Conflits</string>
+</resources>

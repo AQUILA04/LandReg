@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp">
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="@dimen/toolbar_ic_size"
+            android:layout_height="@dimen/toolbar_ic_size"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back"
+            android:visibility="visible"
+            app:tint="@color/black" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="5dp"
+            android:ellipsize="end"
+            android:textStyle="bold"
+            android:gravity="start"
+            android:maxLines="1"
+            android:text="PV"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/print"
+            android:layout_alignParentEnd="true"
+            android:text="Imprimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/print_pv"
+        layout="@layout/print_pv"/>
+    <LinearLayout
+        android:id="@+id/progress_pan"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="50dp"
+        android:visibility="gone"
+        android:background="@color/bg">
+
+        <ProgressBar
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+</LinearLayout>

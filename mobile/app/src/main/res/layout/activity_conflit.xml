@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main"
+    android:background="@color/bg"
+    tools:context=".ui.activity.ConflitActivity">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="@dimen/toolbar_ic_size"
+            android:layout_height="@dimen/toolbar_ic_size"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back"
+            android:visibility="visible"
+            app:tint="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="5dp"
+            android:ellipsize="end"
+            android:textStyle="bold"
+            android:gravity="start"
+            android:maxLines="1"
+            android:text="Conflit"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.lesadrax.registrationclient.from.FormView
+                android:id="@+id/form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:id="@+id/btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Modifier"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="20dp"
+                style="@style/button_style_1" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/btn"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Valider"-->
+    <!--        android:layout_marginHorizontal="20dp"-->
+    <!--        android:layout_marginBottom="20dp"-->
+    <!--        style="@style/button_style_1"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"/>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#8B0000" /> <!-- Rouge bordeaux -->
+    <!-- Autres variantes de rouge bordeaux :
+         #800000 : Bordeaux foncé
+         #A52A2A : Brun rougeâtre
+         #B22222 : Rouge brique
+    -->
+    <corners android:radius="50dp" />
+    <padding
+        android:left="16dp"
+        android:top="12dp"
+        android:right="16dp"
+        android:bottom="12dp" />
+</shape>

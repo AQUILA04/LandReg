@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:visibility="visible"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="@dimen/toolbar_ic_size"
+            android:layout_height="@dimen/toolbar_ic_size"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back"
+            android:visibility="visible"
+            app:tint="@color/black" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="5dp"
+            android:ellipsize="end"
+            android:textStyle="bold"
+            android:gravity="start"
+            android:maxLines="1"
+            android:text="Fingerprint"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- TextView ajouté au-dessus du champ select -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Les doigts recommandés sont le pouce, l'index et majeur gauche"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            android:gravity="center"
+            android:layout_marginBottom="8dp"
+            android:padding="8dp"
+            android:background="@android:color/transparent"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/hand"
+            android:hint="choisir le doigt a scanner"
+            app:endIconMode="dropdown_menu">
+            <AutoCompleteTextView
+                android:id="@+id/hand_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/field_padding"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:weightSum="3"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/check_finger_first"
+                    android:layout_gravity="center"
+                    android:text="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/fg_icon"
+                    android:id="@+id/finger_first_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/finger_first_name"
+                    android:layout_marginTop="10dp"
+                    android:textSize="13sp"
+                    android:layout_gravity="center"
+                    android:text=""
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/check_finger_second"
+                    android:layout_gravity="center"
+                    android:text="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/fg_icon"
+                    android:id="@+id/finger_second_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/finger_second_name"
+                    android:textSize="13sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
+                    android:text=""
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/check_finger_third"
+                    android:layout_gravity="center"
+                    android:text="3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/fg_icon"
+                    android:id="@+id/finger_third_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/finger_third_name"
+                    android:textSize="13sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
+                    android:text=""
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/scan"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Scanner"
+                style="@style/button_style_1" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enregistrer"
+        style="@style/button_style_1" />
+</RelativeLayout>
