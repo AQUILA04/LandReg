@@ -1,0 +1,90 @@
+{
+  "workflow_version": "1.2.0",
+  "timestamps": {
+    "started": "2026-04-15T15:36:48+04:00",
+    "last_updated": "2026-04-15T15:46:00+04:00"
+  },
+  "mode": "initial_scan",
+  "scan_level": "deep",
+  "project_root": "c:\\Users\\kahonsu\\Documents\\GitHub\\LandReg",
+  "project_knowledge": "c:\\Users\\kahonsu\\Documents\\GitHub\\LandReg\\docs",
+  "completed_steps": [
+    {
+      "step": "step_1",
+      "status": "completed",
+      "timestamp": "2026-04-15T15:39:10+04:00",
+      "summary": "Classified as multi-part with 5 parts"
+    },
+    {
+      "step": "step_2",
+      "status": "completed",
+      "timestamp": "2026-04-15T15:40:00+04:00",
+      "summary": "Found 8 existing docs"
+    },
+    {
+      "step": "step_3",
+      "status": "completed",
+      "timestamp": "2026-04-15T15:42:00+04:00",
+      "summary": "Tech stack: Spring Boot, Angular, Android, Kafka, MongoDB, PostgreSQL"
+    },
+    {
+      "step": "step_4",
+      "status": "completed",
+      "timestamp": "2026-04-15T15:44:00+04:00",
+      "summary": "Conditional analysis complete, 6 files written"
+    },
+    {
+      "step": "step_5",
+      "status": "completed",
+      "timestamp": "2026-04-15T15:45:00+04:00",
+      "summary": "Source tree documented"
+    },
+    {
+      "step": "step_6",
+      "status": "completed",
+      "timestamp": "2026-04-15T15:45:30+04:00",
+      "summary": "Dev/deployment guides written"
+    },
+    {
+      "step": "step_7",
+      "status": "completed",
+      "timestamp": "2026-04-15T15:46:00+04:00",
+      "summary": "Integration architecture documented"
+    },
+    {
+      "step": "step_8",
+      "status": "completed",
+      "timestamp": "2026-04-15T15:46:00+04:00",
+      "summary": "Architecture docs written for 0 parts (skipped in fast mode)"
+    },
+    {
+      "step": "step_9",
+      "status": "completed",
+      "timestamp": "2026-04-15T15:46:00+04:00",
+      "summary": "All supporting docs written"
+    },
+    {
+      "step": "step_10",
+      "status": "completed",
+      "timestamp": "2026-04-15T15:46:00+04:00",
+      "summary": "Master index generated"
+    }
+  ],
+  "current_step": "step_11",
+  "outputs_generated": [
+    "project-scan-report.json",
+    "api-contracts-afis-master.md",
+    "data-models-afis-master.md",
+    "api-contracts-afis-service.md",
+    "data-models-afis-service.md",
+    "api-contracts-optimize-land-reg.md",
+    "data-models-optimize-land-reg.md",
+    "source-tree-analysis.md",
+    "development-guide.md",
+    "deployment-guide.md",
+    "integration-architecture.md",
+    "project-overview.md",
+    "index.md"
+  ],
+  "resume_instructions": "Starting from step 11"
+}

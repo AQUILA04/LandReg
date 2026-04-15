@@ -5,6 +5,7 @@ import com.optimize.common.securities.models.Licence;
 import com.optimize.common.securities.repository.LicenceRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,6 +16,9 @@ import java.util.*;
 public class LicenceService {
 
     private final LicenceRepository licenceRepository;
+
+    @Value("${app.licence.passcode:425170760269839727}")
+    private String adminPasscode;
 
     public boolean isValidLicence(String activationCode) {
         Licence licence = licenceRepository.findByActivationCode(activationCode);
@@ -72,7 +76,7 @@ public class LicenceService {
     }
 
     public List<Licence> initializeLicences(int numberOfLicences, String type, String passCode) {
-        if ("425170760269839727".equals(passCode)) {
+        if (adminPasscode.equals(passCode)) {
             List<Licence> licences = new ArrayList<>();
             for (int i = 0; i < numberOfLicences; i++) {
                 String activationCode = generateActivationCode(type);
