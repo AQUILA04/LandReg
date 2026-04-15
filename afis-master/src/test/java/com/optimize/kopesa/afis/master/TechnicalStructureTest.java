@@ -24,13 +24,15 @@ class TechnicalStructureTest {
         .optionalLayer("Persistence").definedBy("..repository..")
         .layer("Domain").definedBy("..domain..")
 
+        .layer("Broker").definedBy("..broker..")
+
         .whereLayer("Config").mayNotBeAccessedByAnyLayer()
         .whereLayer("Client").mayNotBeAccessedByAnyLayer()
-        .whereLayer("Web").mayOnlyBeAccessedByLayers("Config")
-        .whereLayer("Service").mayOnlyBeAccessedByLayers("Web", "Config")
-        .whereLayer("Security").mayOnlyBeAccessedByLayers("Config", "Client", "Service", "Web")
-        .whereLayer("Persistence").mayOnlyBeAccessedByLayers("Service", "Security", "Web", "Config")
-        .whereLayer("Domain").mayOnlyBeAccessedByLayers("Persistence", "Service", "Security", "Web", "Config")
+        .whereLayer("Web").mayOnlyBeAccessedByLayers("Config", "Broker")
+        .whereLayer("Service").mayOnlyBeAccessedByLayers("Web", "Config", "Broker")
+        .whereLayer("Security").mayOnlyBeAccessedByLayers("Config", "Client", "Service", "Web", "Broker")
+        .whereLayer("Persistence").mayOnlyBeAccessedByLayers("Service", "Security", "Web", "Config", "Broker")
+        .whereLayer("Domain").mayOnlyBeAccessedByLayers("Persistence", "Service", "Security", "Web", "Config", "Broker")
 
         .ignoreDependency(belongToAnyOf(AfisMasterApp.class), alwaysTrue())
         .ignoreDependency(alwaysTrue(), belongToAnyOf(
