@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Set;
 
-@FeignClient(value = "AFIS-MASTER", url = "http://localhost:8082/api/fingerprint-stores")
+@FeignClient(value = "AFIS-MASTER", url = "http://localhost:8082/api/fingerprint-stores", fallback = AfisClientFallback.class)
 public interface AfisClient {
 
     @PostMapping(value = "bio-auth")

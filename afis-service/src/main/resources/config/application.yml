@@ -142,8 +142,11 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       group-id: afis-master
       auto-offset-reset: earliest
+      enable-auto-commit: false
       properties:
         spring.json.trusted.packages: "*"
+    listener:
+      ack-mode: manual
   docker:
     compose:
       enabled: false

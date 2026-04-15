@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
@@ -80,14 +81,20 @@ public class MatcherService {
     }
 
     @KafkaListener(topics = "afis-matcher-topic", groupId = "afis-master", containerFactory = "kafkaListenerContainerFactory")
-    public void processBatchRequest(String message) throws JsonProcessingException {
-        log.info("RECEIVING MATCHING REQUEST: {}", message.substring(0, 255));
-        MatcherRequestDTO matcherRequestDTO = new ObjectMapper().readValue(message, MatcherRequestDTO.class);
-        MatcherResponseDTO result = findMatch(matcherRequestDTO);
-        log.info("MATCHING REQUEST FINISHED: {}", result);
-        // Envoie du résultat au service principal
-        brokerService.sendResult(result);
-        log.info("MATCHING REQUEST SENT: {}", result);
+    public void processBatchRequest(String message, Acknowledgment acknowledgment) throws JsonProcessingException {
+        try {
+            log.info("RECEIVING MATCHING REQUEST: {}", message.substring(0, 255));
+            MatcherRequestDTO matcherRequestDTO = new ObjectMapper().readValue(message, MatcherRequestDTO.class);
+            MatcherResponseDTO result = findMatch(matcherRequestDTO);
+            log.info("MATCHING REQUEST FINISHED: {}", result);
+            // Envoie du résultat au service principal
+            brokerService.sendResult(result);
+            log.info("MATCHING REQUEST SENT: {}", result);
+            acknowledgment.acknowledge();
+        } catch (Exception e) {
+            log.error("MATCHING REQUEST FAILED: {}", e.getMessage(), e);
+            throw e; // Rethrow to trigger DLQ / Retry logic
+        }
     }
 
 
