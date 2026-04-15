@@ -23,8 +23,11 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       group-id: afis-master
       auto-offset-reset: earliest
+      enable-auto-commit: false
       properties:
         spring.json.trusted.packages: "*"
+    listener:
+      ack-mode: manual
   jpa:
     properties:
       hibernate:
@@ -43,12 +46,30 @@ spring:
 #          service-base-url: http://localhost:1111
           service-host-type: IP
 feign:
+  circuitbreaker:
+    enabled: true
   client:
     config:
       default:
         connectTimeout: 10000
         readTimeout: 10000
         loggerLevel: basic
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+    instances:
+      AFIS-MASTER:
+        baseConfig: default
 
 loki:
   url: ${LOKI_URL:https://logs-prod-028.grafana.net/loki/api/v1/push}
