@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LandReg Admin Portal - Design Directions</title>
+  <style>
+    :root {
+      --color-bg-base: #0B0F19;
+      --color-bg-surface: #111827;
+      --color-border: #1F2937;
+      --color-primary: #3B82F6;
+      --color-text-primary: #F9FAFB;
+      --color-text-muted: #9CA3AF;
+      --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    body {
+      margin: 0; padding: 0;
+      background: #000; color: var(--color-text-primary);
+      font-family: var(--font-family);
+      display: flex; flex-direction: column; align-items: center;
+    }
+    header { padding: 40px 20px; text-align: center; }
+    h1 { margin: 0 0 10px 0; font-weight: 500;}
+    p { color: var(--color-text-muted); margin: 0; }
+    
+    .container { width: 90%; max-width: 1400px; padding: 20px 0; }
+    
+    .direction-card {
+      background: var(--color-bg-base); border: 1px solid var(--color-border);
+      border-radius: 8px; overflow: hidden; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .direction-title {
+      padding: 16px 20px; border-bottom: 1px solid var(--color-border);
+      background: #0f1422; font-weight: 600; display: flex; justify-content: space-between;
+    }
+    .badge { background: var(--color-primary); color: white; padding: 4px 8px; border-radius: 4px; font-size: 11px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px;}
+    
+    /* Direction 1: Top Nav */
+    .mockup-d1 { display: flex; flex-direction: column; height: 400px; background: var(--color-bg-base); }
+    .m1-top { height: 60px; border-bottom: 1px solid var(--color-border); background: var(--color-bg-surface); display: flex; align-items: center; padding: 0 20px; gap: 16px; }
+    .m-select { background: var(--color-bg-base); border: 1px solid var(--color-border); color: var(--color-text-primary); padding: 6px 12px; border-radius: 4px; font-size: 13px; min-width: 150px; }
+    .m-badge { background: rgba(59, 130, 246, 0.2); color: var(--color-primary); padding: 4px 8px; font-size: 11px; border-radius: 4px; border: 1px solid var(--color-primary);}
+    .m1-body { flex: 1; padding: 20px; display: flex; flex-direction: column; }
+    .m-grid { width: 100%; border-collapse: collapse; margin-top: 16px;}
+    .m-grid th { text-align: left; padding: 12px; border-bottom: 1px solid var(--color-border); color: var(--color-text-muted); font-size: 11px; text-transform: uppercase;}
+    .m-grid td { padding: 12px; border-bottom: 1px solid #161b22; font-size: 13px; }
+    .m-grid tr:hover { background: rgba(255,255,255,0.02); }
+
+    /* Direction 2: Sidebar */
+    .mockup-d2 { display: flex; height: 400px; background: var(--color-bg-base); }
+    .m2-side { width: 250px; border-right: 1px solid var(--color-border); background: var(--color-bg-surface); padding: 20px; display: flex; flex-direction: column; gap: 12px;}
+    .m2-label { font-size: 11px; color: var(--color-text-muted); text-transform: uppercase; margin-top: 10px;}
+    .m2-main { flex: 1; padding: 20px; }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>LandReg Design Directions</h1>
+    <p>Exploring Layout Architectures for the Omni-Filter</p>
+  </header>
+
+  <div class="container">
+    
+    <!-- Direction 1 -->
+    <div class="direction-card">
+      <div class="direction-title">
+        <span>Direction 1: The Command Center (Horizontal Top-Bar)</span>
+        <span class="badge">Recommended</span>
+      </div>
+      <div class="mockup-d1">
+        <div class="m1-top">
+          <div style="font-weight: bold; margin-right: auto; letter-spacing: 1px; color: white;">LandReg System</div>
+          <span class="m-badge">Global Filter Active</span>
+          <select class="m-select"><option>Region: Littoral</option></select>
+          <select class="m-select"><option>Dept: Wouri</option></select>
+          <select class="m-select"><option>Com: Douala 1</option></select>
+        </div>
+        <div class="m1-body">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="margin:0; font-size:18px;">Actors Database</h2>
+            <button style="background:var(--color-primary); color:white; border:none; padding:8px 16px; border-radius:4px; font-weight:600; cursor:pointer;">Export CSV</button>
+          </div>
+          <table class="m-grid">
+            <tr><th>Agent ID</th><th>Name</th><th>Role</th><th>Location Scope</th></tr>
+            <tr><td>AG-4011</td><td>Jean-Baptiste</td><td>Inspector</td><td>Douala 1</td></tr>
+            <tr><td>AG-4018</td><td>Marie Claire</td><td>Reviewer</td><td>Douala 1</td></tr>
+            <tr><td>AG-4022</td><td>Paul Enock</td><td>Field Agent</td><td>Douala 1</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Direction 2 -->
+    <div class="direction-card">
+      <div class="direction-title">
+        <span>Direction 2: The Tactical View (Persistent Sidebar)</span>
+      </div>
+      <div class="mockup-d2">
+        <div class="m2-side">
+          <div style="font-weight: bold; margin-bottom:10px; color: white;">LandReg System</div>
+          <div class="m2-label">Cascade Geography</div>
+          <select class="m-select"><option>Region: Littoral</option></select>
+          <select class="m-select"><option>Dept: Wouri</option></select>
+          <select class="m-select"><option>Com: Douala 1</option></select>
+        </div>
+        <div class="m2-main">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px;">
+            <h2 style="margin:0; font-size:18px;">Actors Database</h2>
+            <button style="background:var(--color-primary); color:white; border:none; padding:8px 16px; border-radius:4px; font-weight:600; cursor:pointer;">Export CSV</button>
+          </div>
+          <div style="width:100%; height:1px; background:var(--color-border); margin-bottom:16px;"></div>
+          <table class="m-grid" style="margin-top:0;">
+            <tr><th>Agent ID</th><th>Name</th><th>Role</th><th>Location Scope</th></tr>
+            <tr><td>AG-4011</td><td>Jean-Baptiste</td><td>Inspector</td><td>Douala 1</td></tr>
+            <tr><td>AG-4018</td><td>Marie Claire</td><td>Reviewer</td><td>Douala 1</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
