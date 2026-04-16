@@ -3,13 +3,13 @@ spring:
     name: optimize-land-reg
     version: 1.0.0
   profiles:
-    active: recette
+    active: poc
   flyway:
     enabled: false
     locations: classpath:db/migration
     baseline-on-migrate: true
-#  config:
-#    import: optional:file:${user.home}/.optimize-land-reg/config/application.yml
+  config:
+    import: optional:file:${user.home}/.${spring.application.name}/config/application.yml
   docker:
     compose:
       enabled: false

@@ -22,7 +22,8 @@ public class LicenceService {
 
     public boolean isValidLicence(String activationCode) {
         Licence licence = licenceRepository.findByActivationCode(activationCode);
-        if (licence == null) return false;
+        if (licence == null)
+            return false;
         return licence.getExpirationDate().isAfter(LocalDate.now());
     }
 
@@ -72,6 +73,9 @@ public class LicenceService {
             }
         }
         licence.setExpirationDate(DateUtils.convertToLocalDate(calendar.getTime()));
+        if (!licence.getExpirationDate().isAfter(LocalDate.now())) {
+            licence.setExpirationDate(LocalDate.now().plusMonths(6));
+        }
         return licenceRepository.save(licence);
     }
 
@@ -91,7 +95,11 @@ public class LicenceService {
     private String generateActivationCode(String type) {
         // Generate a unique activation code based on the type
         // For simplicity, we use a basic pattern here
-        return type + RandomStringUtils.randomAlphanumeric(3).toUpperCase() + "-" + RandomStringUtils.randomAlphanumeric(5).toUpperCase() + "-" + RandomStringUtils.randomAlphanumeric(5).toUpperCase() + "-" + RandomStringUtils.randomAlphanumeric(5).toUpperCase() + "-" + RandomStringUtils.randomAlphanumeric(5).toUpperCase();
+        return type + RandomStringUtils.randomAlphanumeric(3).toUpperCase() + "-"
+                + RandomStringUtils.randomAlphanumeric(5).toUpperCase() + "-"
+                + RandomStringUtils.randomAlphanumeric(5).toUpperCase() + "-"
+                + RandomStringUtils.randomAlphanumeric(5).toUpperCase() + "-"
+                + RandomStringUtils.randomAlphanumeric(5).toUpperCase();
     }
 
     public boolean isExistsByCode(String code) {

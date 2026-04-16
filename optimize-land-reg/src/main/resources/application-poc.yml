@@ -1,0 +1,108 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/olr_recette_db
+    username: app #jeff #francis
+    password: "L@ndRegAPP" #Admin@1234
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  main:
+    allow-circular-references: true
+  boot:
+    admin:
+      client:
+        url: http://localhost:1111
+        instance:
+#          service-base-url: http://localhost:8080
+          service-host-type: IP
+bezkoder:
+  app:
+    jwtSecret: cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e
+    jwtExpirationMs: 86400000
+    jwtRefreshExpirationMs: 86400000
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          filter:
+            CommonsRequestLoggingFilter: DEBUG
+  file:
+    path: ${user.home}/.${spring.application.name}/logs/
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  info:
+    env:
+      enabled: true
+
+server:
+  port: 8081
+  ssl:
+    enabled: false
+
+security:
+  licence:
+    prod:
+      active: 1
+      society: "Optimize"
+  config:
+    auto-initialize:
+      enabled: true
+    profiles: ADMIN,USER,LAND_AGENT
+    permissions: ROLE_ADMIN,ROLE_USER,ROLE_LAND_AGENT
+    profil-permissions:
+      ADMIN: ROLE_ADMIN
+      USER: ROLE_USER
+      LAND_AGENT: ROLE_LAND_AGENT
+    users:
+      accounts:
+        admin:
+          username: admin
+          password: Abcd1234
+          profil: ADMIN
+          user-details:
+            firstname: admin_firstname
+            lastname: admin_lastname
+            phone: 90000001
+            gender: MALE
+            email: admin@email.com
+        user:
+          username: demo
+          password: Abcd1234
+          profil: USER
+          user-details:
+            firstname: User 
+            lastname: Demo
+            phone: 90000002
+            gender: MALE
+            email: user@email.com
+            
+lang-reg:
+  kafka:
+    config:
+      num-partitions:
+        afis-master-topic: 1
+        afis-matcher-topic: 1
+        afis-matcher-result-topic: 1
+        afis-master-feedback-topic: 1
+      replication-factor: #la valeur ne doit pas dépasser le nombre de brokers déployer
+        afis-master-topic: 1
+        afis-matcher-topic: 1
+        afis-matcher-result-topic: 1
+        afis-master-feedback-topic: 1
+app:
+  security:
+    parameter:
+      init-enabled: false
+        

@@ -1,5 +1,6 @@
 package com.optimize.common.securities.models;
 
+import com.optimize.common.securities.converters.StringCryptoConverter;
 import com.optimize.common.securities.payload.request.DeploymentRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -16,7 +17,11 @@ public class DeploymentLicence {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String societyName;
+    
+    @Convert(converter = StringCryptoConverter.class)
+    @Column(columnDefinition = "TEXT")
     private String activationCode;
+    
     private LocalDate issuedDate;
     private LocalDate renewDate;
 
