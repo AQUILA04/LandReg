@@ -286,6 +286,15 @@ public class ActorService extends GenericService<AbstractActor, Long> {
         return getRepository().findAllActors(pageable);
     }
 
+    public Page<ActorRespDto> filter(DateFilterDto dto, Pageable pageable) {
+        // Here we ideally want a pageable query, but for now we'll call getRepository().findAllActors
+        // if no filter is supplied. We can add a pageable filter method to the repo if needed.
+        if (dto == null || (dto.startDate() == null && dto.endDate() == null)) {
+            return getAllActors(pageable);
+        }
+        return getRepository().findAllActorsByDatePageable(dto.startDate(), dto.endDate(), pageable);
+    }
+
     public List<ActorModel> getUINDetails(UINWrapper uinWrapper) {
         List<Actor> actors = getRepository().findByUinInAndRegistrationStatus(uinWrapper.getUinList(), RegistrationStatus.ACTOR);
         return actors.stream().map(AbstractActor::toActorModel).toList();

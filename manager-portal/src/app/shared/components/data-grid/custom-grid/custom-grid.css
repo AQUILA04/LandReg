@@ -1,0 +1,113 @@
+.grid-container {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  width: 100%;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  max-height: 600px;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.custom-table th {
+  background-color: var(--color-bg-surface-hover);
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  padding: calc(var(--spacing-base) * 3) calc(var(--spacing-base) * 4);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.custom-table td {
+  padding: calc(var(--spacing-base) * 3) calc(var(--spacing-base) * 4);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.custom-table tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.custom-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.empty-state {
+  text-align: center;
+  padding: calc(var(--spacing-base) * 8) !important;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: calc(var(--spacing-base) * 4);
+  background-color: var(--color-bg-surface-hover);
+  border-top: 1px solid var(--color-border);
+}
+
+.page-info {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.page-buttons {
+  display: flex;
+  gap: calc(var(--spacing-base) * 2);
+}
+
+.btn-page {
+  padding: calc(var(--spacing-base) * 1.5) calc(var(--spacing-base) * 3);
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  transition: all var(--transition-fast);
+}
+
+.btn-page:hover:not(:disabled) {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-page:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Skeleton Loading Animation */
+.skeleton-row td {
+  padding: calc(var(--spacing-base) * 3) calc(var(--spacing-base) * 4);
+}
+
+.skeleton-block {
+  height: 20px;
+  background: linear-gradient(90deg,
+    var(--color-bg-surface) 0px,
+    var(--color-bg-surface-hover) 50%,
+    var(--color-bg-surface) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
