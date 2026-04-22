@@ -63,3 +63,21 @@ jobs:
           name: optimize-land-reg-jar
           path: optimize-land-reg/target/*.jar
           if-no-files-found: error
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies and Build manager-portal
+        run: |
+          npm ci
+          npm run build
+        working-directory: manager-portal
+
+      - name: Upload manager-portal artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: manager-portal-dist
+          path: manager-portal/dist/
+          if-no-files-found: error

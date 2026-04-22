@@ -17,6 +17,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 @Slf4j
 @SpringBootApplication(scanBasePackages = "com.optimize")
@@ -24,6 +25,7 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport;
 @EnableFeignClients
 @EnableJpaAuditing(auditorAwareRef = "auditorProvider")
 @EnableSpringDataWebSupport(pageSerializationMode = EnableSpringDataWebSupport.PageSerializationMode.VIA_DTO)
+@EnableAsync
 public class OptimizeLandRegApplication {
 
 	public static void main(String[] args) {
