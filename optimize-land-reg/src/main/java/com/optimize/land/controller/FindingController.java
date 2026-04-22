@@ -69,6 +69,12 @@ public class FindingController extends BaseController<Finding, Long> {
         return new ResponseEntity<>(success(getService().search(dto.keyword(), pageable), "success search by keyword"), HttpStatus.OK);
     }
 
+    @PostMapping(value = "filter")
+    public ResponseEntity<Response> filter(@RequestBody com.optimize.land.model.dto.FindingFilterDto dto, Pageable pageable) {
+        log.info("FILTER CONSTATATIONS REQUEST: {}", dto);
+        return new ResponseEntity<>(success(getService().filter(dto, pageable), "success filter constatations"), HttpStatus.OK);
+    }
+
     @Override
     public FindingService getService() {
         return (FindingService) super.getService();

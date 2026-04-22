@@ -48,6 +48,12 @@ public class SynchroHistoryController extends BaseController<SynchroHistory, Lon
         return super.getAll();
     }
 
+    @PostMapping(value = "filter")
+    public ResponseEntity<Response> filter(@RequestBody com.optimize.land.model.dto.DateFilterDto dto, Pageable pageable) {
+        log.info("FILTER SYNCHRO HISTORIES REQUEST: {}", dto);
+        return new ResponseEntity<>(success(getService().filter(dto, pageable), "success filter synchro histories"), HttpStatus.OK);
+    }
+
     @GetMapping(value = "{id}")
     @Override
     public ResponseEntity<Response> getOne(@PathVariable Long id) {
