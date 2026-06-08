@@ -1,0 +1,199 @@
+name: LandReg CD Pipeline
+
+on:
+  workflow_run:
+    workflows: ["LandReg CI Pipeline"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      action:
+        type: choice
+        description: 'Action to perform'
+        options: [promote, rollback-test, rollback-prod]
+        required: true
+
+env:
+  REGISTRY: ghcr.io
+  REPO_LOWER: aquila04/landreg
+  PROJECT_NAME: landreg
+
+jobs:
+  resolve-images:
+    name: Resolve Last Published Images
+    if: >
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') ||
+      (github.event_name == 'workflow_dispatch' && inputs.action == 'promote')
+    runs-on: ubuntu-latest
+    outputs:
+      optimize_image: ${{ steps.resolve.outputs.optimize_image }}
+      afis_master_image: ${{ steps.resolve.outputs.afis_master_image }}
+      afis_service_image: ${{ steps.resolve.outputs.afis_service_image }}
+      frontend_image: ${{ steps.resolve.outputs.frontend_image }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          fetch-depth: 0
+
+      - name: Resolve last published image
+        id: resolve
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+          HEAD_SHA="${{ github.event.workflow_run.head_sha || github.sha }}"
+
+          resolve_sha() {
+            local component="$1"
+            local image="ghcr.io/$REPO_LOWER-$component"
+            while read -r sha; do
+              if docker manifest inspect "$image:sha-$sha" > /dev/null 2>&1; then
+                echo "$image:sha-$sha"; return 0
+              fi
+            done < <(git log --format='%H' "$HEAD_SHA" | head -100)
+            echo "$image:latest" # Fallback
+          }
+
+          echo "optimize_image=$(resolve_sha optimize)" >> "$GITHUB_OUTPUT"
+          echo "afis_master_image=$(resolve_sha afis-master)" >> "$GITHUB_OUTPUT"
+          echo "afis_service_image=$(resolve_sha afis-service)" >> "$GITHUB_OUTPUT"
+          echo "frontend_image=$(resolve_sha frontend)" >> "$GITHUB_OUTPUT"
+
+  deploy-test:
+    name: Deploy to TEST Environment
+    needs: resolve-images
+    if: >
+      github.event_name == 'workflow_run' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'main'
+    runs-on: ubuntu-latest
+    environment: test
+    steps:
+      - name: Bootstrap init.sh if absent
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H "${{ secrets.TEST_SERVER_HOST }}" >> ~/.ssh/known_hosts
+          
+          ssh -i ~/.ssh/id_rsa "${{ secrets.TEST_SERVER_USER }}@${{ secrets.TEST_SERVER_HOST }}" bash << 'ENDSSH'
+          set -euo pipefail
+          INIT="/opt/${{ env.PROJECT_NAME }}/init.sh"
+          if [[ ! -f "$INIT" ]]; then
+            sudo mkdir -p /opt/${{ env.PROJECT_NAME }}
+            sudo curl -sSL https://raw.githubusercontent.com/${{ github.repository }}/main/deploy/init.sh -o "$INIT"
+            sudo chmod +x "$INIT"
+          fi
+          ENDSSH
+
+      - name: Deploy
+        run: |
+          ssh -i ~/.ssh/id_rsa "${{ secrets.TEST_SERVER_USER }}@${{ secrets.TEST_SERVER_HOST }}" \
+            "sudo /opt/${{ env.PROJECT_NAME }}/init.sh test \
+              '${{ needs.resolve-images.outputs.frontend_image }}' \
+              '${{ needs.resolve-images.outputs.optimize_image }}' \
+              '${{ needs.resolve-images.outputs.afis_master_image }}' \
+              '${{ needs.resolve-images.outputs.afis_service_image }}' \
+              --ghcr-username '${{ github.actor }}' \
+              --ghcr-token '${{ secrets.GITHUB_TOKEN }}' \
+              --db-user '${{ secrets.DB_USER }}' \
+              --db-password '${{ secrets.TEST_DB_PASSWORD }}' \
+              --db-name '${{ secrets.TEST_DB_NAME }}' \
+              --mongo-user '${{ secrets.MONGO_USER }}' \
+              --mongo-password '${{ secrets.TEST_MONGO_PASSWORD }}' \
+              --keycloak-admin-password '${{ secrets.TEST_KEYCLOAK_ADMIN_PASSWORD }}' \
+              --jwt-secret '${{ secrets.TEST_JWT_SECRET }}' \
+              --app-hostname-test '${{ secrets.TEST_APP_HOSTNAME }}' \
+              --keycloak-hostname-test '${{ secrets.TEST_KEYCLOAK_HOSTNAME }}'"
+
+  deploy-prod:
+    name: Deploy to PROD Environment
+    needs: resolve-images
+    if: >
+      github.event_name == 'workflow_run' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      startsWith(github.event.workflow_run.head_branch, 'prod/')
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - name: Bootstrap init.sh if absent
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H "${{ secrets.PROD_SERVER_HOST }}" >> ~/.ssh/known_hosts
+          
+          ssh -i ~/.ssh/id_rsa "${{ secrets.PROD_SERVER_USER }}@${{ secrets.PROD_SERVER_HOST }}" bash << 'ENDSSH'
+          set -euo pipefail
+          INIT="/opt/${{ env.PROJECT_NAME }}/init.sh"
+          if [[ ! -f "$INIT" ]]; then
+            sudo mkdir -p /opt/${{ env.PROJECT_NAME }}
+            sudo curl -sSL https://raw.githubusercontent.com/${{ github.repository }}/main/deploy/init.sh -o "$INIT"
+            sudo chmod +x "$INIT"
+          fi
+          ENDSSH
+
+      - name: Deploy
+        run: |
+          ssh -i ~/.ssh/id_rsa "${{ secrets.PROD_SERVER_USER }}@${{ secrets.PROD_SERVER_HOST }}" \
+            "sudo /opt/${{ env.PROJECT_NAME }}/init.sh prod \
+              '${{ needs.resolve-images.outputs.frontend_image }}' \
+              '${{ needs.resolve-images.outputs.optimize_image }}' \
+              '${{ needs.resolve-images.outputs.afis_master_image }}' \
+              '${{ needs.resolve-images.outputs.afis_service_image }}' \
+              --ghcr-username '${{ github.actor }}' \
+              --ghcr-token '${{ secrets.GITHUB_TOKEN }}' \
+              --db-user '${{ secrets.DB_USER }}' \
+              --db-password '${{ secrets.PROD_DB_PASSWORD }}' \
+              --db-name '${{ secrets.PROD_DB_NAME }}' \
+              --mongo-user '${{ secrets.MONGO_USER }}' \
+              --mongo-password '${{ secrets.PROD_MONGO_PASSWORD }}' \
+              --keycloak-admin-password '${{ secrets.PROD_KEYCLOAK_ADMIN_PASSWORD }}' \
+              --jwt-secret '${{ secrets.PROD_JWT_SECRET }}' \
+              --app-hostname-prod '${{ secrets.PROD_APP_HOSTNAME }}' \
+              --keycloak-hostname-prod '${{ secrets.PROD_KEYCLOAK_HOSTNAME }}'"
+
+  promote:
+    name: Promote TEST to PROD
+    if: github.event_name == 'workflow_dispatch' && inputs.action == 'promote'
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - name: Read TEST release and deploy to PROD
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H "${{ secrets.TEST_SERVER_HOST }}" >> ~/.ssh/known_hosts
+          ssh-keyscan -H "${{ secrets.PROD_SERVER_HOST }}" >> ~/.ssh/known_hosts
+          
+          ssh -i ~/.ssh/id_rsa "${{ secrets.TEST_SERVER_USER }}@${{ secrets.TEST_SERVER_HOST }}" \
+            "cat /opt/${{ env.PROJECT_NAME }}/test/releases/test_current.txt" > release.txt
+          
+          FRONTEND=$(grep '^FRONTEND_IMAGE=' release.txt | cut -d= -f2-)
+          OPTIMIZE=$(grep '^OPTIMIZE_LAND_REG_IMAGE=' release.txt | cut -d= -f2-)
+          AFIS_MASTER=$(grep '^AFIS_MASTER_IMAGE=' release.txt | cut -d= -f2-)
+          AFIS_SERVICE=$(grep '^AFIS_SERVICE_IMAGE=' release.txt | cut -d= -f2-)
+          
+          ssh -i ~/.ssh/id_rsa "${{ secrets.PROD_SERVER_USER }}@${{ secrets.PROD_SERVER_HOST }}" bash << 'ENDSSH'
+          set -euo pipefail
+          INIT="/opt/${{ env.PROJECT_NAME }}/init.sh"
+          if [[ ! -f "$INIT" ]]; then
+            sudo mkdir -p /opt/${{ env.PROJECT_NAME }}
+            sudo curl -sSL https://raw.githubusercontent.com/${{ github.repository }}/main/deploy/init.sh -o "$INIT"
+            sudo chmod +x "$INIT"
+          fi
+          ENDSSH
+          
+          ssh -i ~/.ssh/id_rsa "${{ secrets.PROD_SERVER_USER }}@${{ secrets.PROD_SERVER_HOST }}" \
+            "sudo /opt/${{ env.PROJECT_NAME }}/init.sh prod \
+              '$FRONTEND' '$OPTIMIZE' '$AFIS_MASTER' '$AFIS_SERVICE' \
+              --ghcr-username '${{ github.actor }}' \
+              --ghcr-token '${{ secrets.GITHUB_TOKEN }}' \
+              --db-user '${{ secrets.DB_USER }}' \
+              --db-password '${{ secrets.PROD_DB_PASSWORD }}' \
+              --db-name '${{ secrets.PROD_DB_NAME }}' \
+              --mongo-user '${{ secrets.MONGO_USER }}' \
+              --mongo-password '${{ secrets.PROD_MONGO_PASSWORD }}' \
+              --keycloak-admin-password '${{ secrets.PROD_KEYCLOAK_ADMIN_PASSWORD }}' \
+              --jwt-secret '${{ secrets.PROD_JWT_SECRET }}' \
+              --app-hostname-prod '${{ secrets.PROD_APP_HOSTNAME }}' \
+              --keycloak-hostname-prod '${{ secrets.PROD_KEYCLOAK_HOSTNAME }}'"

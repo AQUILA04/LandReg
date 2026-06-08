@@ -1,0 +1,161 @@
+name: LandReg CI Pipeline
+
+on:
+  push:
+    branches: [ "main", "develop", "prod/**" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+env:
+  REGISTRY: ghcr.io
+  REPO_LOWER: aquila04/landreg
+
+jobs:
+  changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    outputs:
+      optimize: ${{ steps.filter.outputs.optimize }}
+      afis_master: ${{ steps.filter.outputs.afis_master }}
+      afis_service: ${{ steps.filter.outputs.afis_service }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            optimize:
+              - 'optimize-land-reg/**'
+              - 'lib/**'
+            afis_master:
+              - 'afis-master/**'
+            afis_service:
+              - 'afis-service/**'
+            frontend:
+              - 'manager-portal/**'
+
+  build-optimize:
+    name: Build Optimize Land Reg
+    needs: changes
+    if: needs.changes.outputs.optimize == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract metadata (tags, labels)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.REPO_LOWER }}-optimize
+          tags: |
+            type=sha,format=long
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./optimize-land-reg/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  build-afis-master:
+    name: Build AFIS Master
+    needs: changes
+    if: needs.changes.outputs.afis_master == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract metadata (tags, labels)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.REPO_LOWER }}-afis-master
+          tags: |
+            type=sha,format=long
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./afis-master
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  build-afis-service:
+    name: Build AFIS Service
+    needs: changes
+    if: needs.changes.outputs.afis_service == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract metadata (tags, labels)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.REPO_LOWER }}-afis-service
+          tags: |
+            type=sha,format=long
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./afis-service
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  build-frontend:
+    name: Build Frontend
+    needs: changes
+    if: needs.changes.outputs.frontend == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract metadata (tags, labels)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.REPO_LOWER }}-frontend
+          tags: |
+            type=sha,format=long
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./manager-portal
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
