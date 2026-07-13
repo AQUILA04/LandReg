@@ -1,8 +1,15 @@
 package com.optimize.kopesa.afis.master.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.optimize.kopesa.afis.master.broker.FingerWorkerProducer;
 import com.optimize.kopesa.afis.master.broker.MasterFeedbackProducer;
+import com.optimize.kopesa.afis.master.domain.ProcessingFingerprint;
 import com.optimize.kopesa.afis.master.domain.enumeration.ActorType;
+import com.optimize.kopesa.afis.master.domain.enumeration.Finger;
+import com.optimize.kopesa.afis.master.domain.enumeration.HandType;
+import com.optimize.common.blob.kafka.AfisMasterRequestV2;
+import com.optimize.common.blob.kafka.FingerRef;
+import com.optimize.common.blob.kafka.FingerWorkerRequest;
 import com.optimize.kopesa.afis.master.repository.FingerprintStoreRepository;
 import com.optimize.kopesa.afis.master.repository.ProcessingFingerprintRepository;
 import com.optimize.kopesa.afis.master.service.dto.AfisMasterRequest;
@@ -24,6 +31,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 @Service
 public class MasterMatcherService {
@@ -33,6 +41,7 @@ public class MasterMatcherService {
     private final MatcherJobHistoryService matcherJobHistoryService;
     private final ProcessingFingerprintRepository processingFingerprintRepository;
     private final FingerprintStoreMapper fingerprintStoreMapper;
+    private final FingerWorkerProducer fingerWorkerProducer;
     private MasterFeedbackProducer feedbackProducer;
     @Value(value = "${afis-service.fingerprint-folder}")
     private String fingerprintFolder;
@@ -41,12 +50,41 @@ public class MasterMatcherService {
                                 FingerprintStoreRepository fingerprintStoreRepository,
                                 MatcherJobHistoryService matcherJobHistoryService,
                                 ProcessingFingerprintRepository processingFingerprintRepository,
-                                FingerprintStoreMapper fingerprintStoreMapper) {
+                                FingerprintStoreMapper fingerprintStoreMapper,
+                                FingerWorkerProducer fingerWorkerProducer) {
         this.brokerService = brokerService;
         this.fingerprintStoreRepository = fingerprintStoreRepository;
         this.matcherJobHistoryService = matcherJobHistoryService;
         this.processingFingerprintRepository = processingFingerprintRepository;
         this.fingerprintStoreMapper = fingerprintStoreMapper;
+        this.fingerWorkerProducer = fingerWorkerProducer;
+    }
+
+    public void dispatchDeduplicationJobV2(AfisMasterRequestV2 request) throws JsonProcessingException {
+        log.info("Dispatching v2 finger pipeline for rid={} fingers={}", request.getRid(), request.getFingers().size());
+        matcherJobHistoryService.dispatchFingerJob(request.getRid(), request.getFingers().size());
+        String correlationId = UUID.randomUUID().toString();
+        for (FingerRef finger : request.getFingers()) {
+            ProcessingFingerprint processing = new ProcessingFingerprint();
+            processing.setId(UUID.randomUUID().toString());
+            processing.setRid(request.getRid());
+            processing.setFingerId(finger.getFingerId());
+            processing.setHandType(HandType.valueOf(finger.getHandType()));
+            processing.setFingerName(Finger.valueOf(finger.getFingerName()));
+            processing.setFingerprintImageContentType(finger.getContentType());
+            processing.setImageUri(finger.getImageUri());
+            processing.setImageBucket(finger.getImageBucket());
+            processing.setImageObjectKey(finger.getImageObjectKey());
+            processingFingerprintRepository.save(processing);
+
+            FingerWorkerRequest workerRequest = new FingerWorkerRequest(
+                request.getRid(),
+                finger.getFingerId(),
+                finger.getImageUri(),
+                correlationId
+            );
+            fingerWorkerProducer.sendFingerRequest(workerRequest);
+        }
     }
 
     public void dispatchDeduplicationJob (AfisMasterRequest request) throws JsonProcessingException {

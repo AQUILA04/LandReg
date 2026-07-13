@@ -7,9 +7,9 @@
     <springProperty scope="context" name="activeProfile" source="spring.profiles.active"/>
 <!--    <springProperty scope="context" name="logstashServer" source="logging.logstash.server.url"/>-->
 
-    <springProperty scope="context" name="LOKI_URL" source="loki.url"/>
-    <springProperty scope="context" name="LOKI_USER_ID" source="loki.user-id"/>
-    <springProperty scope="context" name="LOKI_API_KEY" source="loki.api-key"/>
+    <springProperty scope="context" name="LOKI_URL" source="loki.url" defaultValue=""/>
+    <springProperty scope="context" name="LOKI_USER_ID" source="loki.user-id" defaultValue=""/>
+    <springProperty scope="context" name="LOKI_API_KEY" source="loki.api-key" defaultValue=""/>
 
     <!-- You can override this to have a custom pattern -->
     <property name="CONSOLE_LOG_PATTERN"
@@ -125,7 +125,7 @@
         </encoder>
     </appender>
 
-    <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
+    <appender name="LOKI_SYNC" class="com.github.loki4j.logback.Loki4jAppender">
         <http>
             <url>${LOKI_URL}</url>
             <auth>
@@ -161,6 +161,19 @@
         </message>
     </appender>
 
+    <!-- Async appender to prevent Loki errors from blocking application startup -->
+    <!-- Only activated if LOKI_API_KEY is provided -->
+    <if condition='!property("LOKI_API_KEY").isEmpty()'>
+        <then>
+            <appender name="LOKI" class="ch.qos.logback.classic.AsyncAppender">
+                <queueSize>512</queueSize>
+                <discardingThreshold>0</discardingThreshold>
+                <includeCallerData>false</includeCallerData>
+                <appender-ref ref="LOKI_SYNC"/>
+            </appender>
+        </then>
+    </if>
+
 
     <logger name="EventLog" level="DEBUG" additivity="false">
         <appender-ref ref="AppEventRollingFile"/>
@@ -175,7 +188,9 @@
     <root level="INFO">
         <appender-ref ref="MainRollingFile"/>
         <appender-ref ref="Console"/>
-        <appender-ref ref="LOKI"/>
+        <if condition='!property("LOKI_API_KEY").isEmpty()'>
+            <then><appender-ref ref="LOKI"/></then>
+        </if>
 <!--        <appender-ref ref="LOGSTASH"/>-->
     </root>
 

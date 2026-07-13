@@ -12,6 +12,7 @@ import com.optimize.land.jms.AfisProducer;
 import com.optimize.land.jms.model.AfisMasterRequest;
 import com.optimize.land.jms.model.RegistrationProcessorFeedback;
 import com.optimize.land.model.dto.*;
+import com.optimize.land.model.dto.v2.ActorDtoV2;
 import com.optimize.land.model.entity.*;
 import com.optimize.land.model.enumeration.ActorType;
 import com.optimize.land.model.enumeration.BioAuthResponse;
@@ -20,6 +21,8 @@ import com.optimize.land.model.enumeration.SynchroType;
 import com.optimize.land.model.mapper.ActorMapper;
 import com.optimize.land.model.projection.ActorProjection;
 import com.optimize.land.repository.*;
+import com.optimize.land.config.storage.MinioProperties;
+import com.optimize.land.service.storage.FingerprintBlobService;
 import com.optimize.land.util.ProfilConstant;
 import com.optimize.land.util.UniqueIDGenerator;
 import jakarta.validation.constraints.NotNull;
@@ -30,10 +33,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 
 @Service
@@ -52,6 +57,9 @@ public class ActorService extends GenericService<AbstractActor, Long> {
     private UserService userService;
 
     private final OutboxEventRepository outboxEventRepository;
+    private final MinioProperties minioProperties;
+    private final ActorMultipartAssembler actorMultipartAssembler;
+    private FingerprintBlobService fingerprintBlobService;
 
     protected ActorService(ActorRepository repository,
                            ActorMapper actorMapper,
@@ -63,7 +71,9 @@ public class ActorService extends GenericService<AbstractActor, Long> {
                            InformalGroupRepository informalGroupRepository,
                            PrivateLegalEntityRepository privateLegalEntityRepository,
                            PublicLegalEntityRepository publicLegalEntityRepository,
-                           OutboxEventRepository outboxEventRepository) {
+                           OutboxEventRepository outboxEventRepository,
+                           MinioProperties minioProperties,
+                           ActorMultipartAssembler actorMultipartAssembler) {
         super(repository);
         this.actorMapper = actorMapper;
         this.fingerprintStoreService = fingerprintStoreService;
@@ -75,12 +85,34 @@ public class ActorService extends GenericService<AbstractActor, Long> {
         this.privateLegalEntityRepository = privateLegalEntityRepository;
         this.publicLegalEntityRepository = publicLegalEntityRepository;
         this.outboxEventRepository = outboxEventRepository;
+        this.minioProperties = minioProperties;
+        this.actorMultipartAssembler = actorMultipartAssembler;
+    }
+
+    @Transactional
+    public String registerV2(@NotNull ActorDtoV2 actorDtoV2, @NotNull List<MultipartFile> fingerprintFiles)
+        throws JsonProcessingException {
+        log.info(
+            "ACTOR REGISTRATION V2: {}, Fingerprint files {}",
+            actorDtoV2.getSynchroBatchNumber(),
+            fingerprintFiles.size()
+        );
+        actorDtoV2.validateUniqueActorType();
+        Set<FingerprintStore> fingerprintStores = actorMultipartAssembler.assembleFingerprintStores(actorDtoV2, fingerprintFiles);
+        ActorDto actorDto = toActorDtoForValidation(actorDtoV2);
+        actorDto.setType(actorDtoV2.getType());
+        return registerInternal(actorDto, fingerprintStores);
     }
 
     @Transactional
     public String register(@NotNull ActorDto actorDto) throws JsonProcessingException {
         log.info("ACTOR REGISTRATION: {}, Fingerprint count {}", actorDto.getSynchroBatchNumber(), actorDto.getFingerprintStores().size());
         log.info("ACTOR DTO {}", actorDto);
+        Set<FingerprintStore> fingerprintStores = actorMapper.toSetFingerprintStore(actorDto.getFingerprintStores());
+        return registerInternal(actorDto, fingerprintStores);
+    }
+
+    private String registerInternal(ActorDto actorDto, Set<FingerprintStore> fingerprintStores) throws JsonProcessingException {
         if (synchroHistoryService.getRepository().existsByBatchNumberAndPacketsNumberContains(actorDto.getSynchroBatchNumber(), actorDto.getSynchroPacketNumber())) {
             Optional<AbstractActor> optionalActor = getRepository().findBySynchroBatchNumberAndSynchroPacketNumber(actorDto.getSynchroBatchNumber(), actorDto.getSynchroPacketNumber());
             if (optionalActor.isPresent()) {
@@ -94,6 +126,7 @@ public class ActorService extends GenericService<AbstractActor, Long> {
             actorDto.setId(null);
             actorDto.validateUniqueActorType();
             Registration registration = actorMapper.toRegistration(actorDto);
+            registration.setFingerprintStores(fingerprintStores);
             registration.validateUniqueActorType();
             registration.fingerprintMandatoryCheck();
             final String rid = UniqueIDGenerator.generateRID();
@@ -101,14 +134,23 @@ public class ActorService extends GenericService<AbstractActor, Long> {
             registration.setOperatorAgent(userService.getCurrentUser().getUsername());
             if (!registration.getFingerprintStores().isEmpty()) {
                 log.info("==> fingerprints non null | SAVING FINGERPRINTS");
+                if (isClaimCheckEnabled()) {
+                    fingerprintBlobService.uploadFingerprints(rid, registration.getFingerprintStores());
+                }
                 fingerprintStoreService.getRepository().saveAll(registration.getFingerprintStores());
             }
             //registration.updateFingerprint();
             create(registration);
             //fingerprintStoreService.getRepository().saveAllAndFlush(registration.getFingerprintStores());
             if(registration.actorTypeIs(ActorType.PHYSICAL_PERSON)) {
-                afisProducer.sendMatchingRequest(new AfisMasterRequest(registration.getRid(),
-                        registration.getFingerprintStores()));
+                if (isClaimCheckEnabled()) {
+                    afisProducer.sendMatchingRequestV2(
+                        fingerprintBlobService.toKafkaRequest(registration.getRid(), registration.getFingerprintStores())
+                    );
+                } else {
+                    afisProducer.sendMatchingRequest(new AfisMasterRequest(registration.getRid(),
+                            registration.getFingerprintStores()));
+                }
                 registration.setRegistrationStatus(RegistrationStatus.QUEUED);
                 update(registration);
             } else {
@@ -193,9 +235,15 @@ public class ActorService extends GenericService<AbstractActor, Long> {
         try {
             if (Boolean.TRUE.equals(feedback.getFoundMatch())) {
                 log.info("===> AFIS DUPLICATED UPDATE");
+                if (isClaimCheckEnabled()) {
+                    fingerprintBlobService.deleteQueuePrefix(feedback.getRid());
+                }
                 duplicate(feedback.getRid(), feedback.getMatchedRID());
             } else {
                 log.info("===> AFIS VALIDATED UPDATE");
+                if (isClaimCheckEnabled()) {
+                    finalizeClaimCheckStorage(feedback.getRid());
+                }
                 validate(feedback.getRid());
             }
         } catch (Exception e) {
@@ -203,6 +251,33 @@ public class ActorService extends GenericService<AbstractActor, Long> {
             log.error(e.getLocalizedMessage());
             failed(feedback.getRid(), e.getLocalizedMessage());
         }
+    }
+
+    private void finalizeClaimCheckStorage(String rid) {
+        Set<FingerprintStore> fingerprints = fingerprintStoreService.getRepository().findByRid(rid);
+        fingerprintBlobService.updateFingerprintsToStoreBucket(fingerprints);
+        fingerprintStoreService.getRepository().saveAll(fingerprints);
+    }
+
+    private ActorDto toActorDtoForValidation(ActorDtoV2 actorDtoV2) {
+        ActorDto actorDto = new ActorDto();
+        actorDto.setId(actorDtoV2.getId());
+        actorDto.setPhysicalPerson(actorDtoV2.getPhysicalPerson());
+        actorDto.setInformalGroup(actorDtoV2.getInformalGroup());
+        actorDto.setPrivateLegalEntity(actorDtoV2.getPrivateLegalEntity());
+        actorDto.setPublicLegalEntity(actorDtoV2.getPublicLegalEntity());
+        actorDto.setUin(actorDtoV2.getUin());
+        actorDto.setSynchroBatchNumber(actorDtoV2.getSynchroBatchNumber());
+        actorDto.setSynchroPacketNumber(actorDtoV2.getSynchroPacketNumber());
+        actorDto.setRole(actorDtoV2.getRole());
+        actorDto.setType(actorDtoV2.getType());
+        return actorDto;
+    }
+
+    private boolean isClaimCheckEnabled() {
+        return minioProperties.isEnabled()
+            && minioProperties.isClaimCheckEnabled()
+            && fingerprintBlobService != null;
     }
 
     public List<ActorRespDto> getByStatus(List<RegistrationStatus> statusList) {
@@ -369,5 +444,10 @@ public class ActorService extends GenericService<AbstractActor, Long> {
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    @Autowired(required = false)
+    public void setFingerprintBlobService(FingerprintBlobService fingerprintBlobService) {
+        this.fingerprintBlobService = fingerprintBlobService;
     }
 }

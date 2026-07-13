@@ -252,6 +252,23 @@ jhipster:
         - api://default
 afis-service:
   fingerprint-folder: ${user.home}/.optimize-land-reg/fingerprint/
+afis:
+  pipeline:
+    version: v2
+    match-threshold: 65
+    hnsw-top-k: 100
+    storage:
+      enabled: true
+      endpoint: http://localhost:9000
+      access-key: minioadmin
+      secret-key: minioadmin
+    qdrant:
+      host: localhost
+      grpc-port: 6334
+      collection: fingerprints
+      vector-size: 512
+    onnx:
+      model-path: classpath:models/fingerprint_embedding.onnx
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class

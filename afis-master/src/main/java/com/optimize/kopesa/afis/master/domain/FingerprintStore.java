@@ -47,6 +47,24 @@ public class FingerprintStore implements Serializable {
     @Field("fingerprint_image_content_type")
     private String fingerprintImageContentType;
 
+    @Field("finger_id")
+    private String fingerId;
+
+    @Field("image_uri")
+    private String imageUri;
+
+    @Field("image_bucket")
+    private String imageBucket;
+
+    @Field("image_object_key")
+    private String imageObjectKey;
+
+    @Field("fingerprint_template")
+    private byte[] fingerprintTemplate;
+
+    @Field("qdrant_point_id")
+    private String qdrantPointId;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public String getId() {
@@ -111,7 +129,9 @@ public class FingerprintStore implements Serializable {
     }
 
     public void validData() {
-        if (Objects.isNull(this.fingerprintImage) || this.fingerprintImage.length == 0) {
+        boolean hasImage = Objects.nonNull(this.fingerprintImage) && this.fingerprintImage.length > 0;
+        boolean hasUri = Objects.nonNull(this.imageUri) && !this.imageUri.isBlank();
+        if (!hasImage && !hasUri) {
             throw new RuntimeException("Invalid null fingerprint");
         }
     }
@@ -133,6 +153,54 @@ public class FingerprintStore implements Serializable {
         this.fingerprintImageContentType = fingerprintImageContentType;
     }
 
+    public String getFingerId() {
+        return fingerId;
+    }
+
+    public void setFingerId(String fingerId) {
+        this.fingerId = fingerId;
+    }
+
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
+    }
+
+    public String getImageBucket() {
+        return imageBucket;
+    }
+
+    public void setImageBucket(String imageBucket) {
+        this.imageBucket = imageBucket;
+    }
+
+    public String getImageObjectKey() {
+        return imageObjectKey;
+    }
+
+    public void setImageObjectKey(String imageObjectKey) {
+        this.imageObjectKey = imageObjectKey;
+    }
+
+    public byte[] getFingerprintTemplate() {
+        return fingerprintTemplate;
+    }
+
+    public void setFingerprintTemplate(byte[] fingerprintTemplate) {
+        this.fingerprintTemplate = fingerprintTemplate;
+    }
+
+    public String getQdrantPointId() {
+        return qdrantPointId;
+    }
+
+    public void setQdrantPointId(String qdrantPointId) {
+        this.qdrantPointId = qdrantPointId;
+    }
+
     public ActorType getType() {
         return type;
     }
@@ -150,6 +218,9 @@ public class FingerprintStore implements Serializable {
 
     @JsonIgnore
     public FingerprintTemplate getTemplate () {
+        if (fingerprintTemplate != null && fingerprintTemplate.length > 0) {
+            return new FingerprintTemplate(fingerprintTemplate);
+        }
         return new FingerprintTemplate(fingerprintImage);
     }
 

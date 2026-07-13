@@ -2,6 +2,10 @@ spring:
   application:
     name: optimize-land-reg
     version: 1.0.0
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 35MB
   profiles:
     active: poc
   flyway:
@@ -75,3 +79,25 @@ loki:
   url: ${LOKI_URL:https://logs-prod-028.grafana.net/loki/api/v1/push}
   user-id: ${LOKI_USER_ID:1114217}
   api-key: ${LOKI_API_KEY}
+
+landreg:
+  storage:
+    enabled: false
+    claim-check-enabled: false
+    endpoint: http://localhost:9000
+    access-key: minioadmin
+    secret-key: minioadmin
+    queue-bucket: queue-processing
+    store-bucket: store
+  backfill:
+    enabled: false
+    cron: "0 0 2 * * *"
+  afis:
+    pipeline-version: v2
+    qdrant:
+      host: localhost
+      grpc-port: 6334
+      collection: fingerprints
+      vector-size: 512
+    onnx:
+      model-path: classpath:models/fingerprint_embedding.onnx

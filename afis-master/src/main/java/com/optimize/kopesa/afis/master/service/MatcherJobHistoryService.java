@@ -5,6 +5,8 @@ import com.optimize.kopesa.afis.master.domain.enumeration.MatchJobStatus;
 import com.optimize.kopesa.afis.master.repository.MatcherJobHistoryRepository;
 import com.optimize.kopesa.afis.master.service.dto.MatcherJobHistoryDTO;
 import com.optimize.kopesa.afis.master.service.dto.MatcherResponseDTO;
+import com.optimize.common.blob.kafka.FingerWorkerResponse;
+import com.optimize.common.blob.kafka.FingerMatchStatus;
 import com.optimize.kopesa.afis.master.service.mapper.MatcherJobHistoryMapper;
 import java.util.Optional;
 import java.util.UUID;
@@ -60,6 +62,47 @@ public class MatcherJobHistoryService {
             matcherJobHistory.setFoundMatch(Boolean.FALSE);
             matcherJobHistoryRepository.save(matcherJobHistory);
         }
+    }
+
+    public void dispatchFingerJob(String rid, Integer fingerCount) {
+        Optional<MatcherJobHistory> matcherJobHistoryOptional = matcherJobHistoryRepository.findByRid(rid);
+        if (matcherJobHistoryOptional.isEmpty()) {
+            MatcherJobHistory matcherJobHistory = new MatcherJobHistory();
+            matcherJobHistory.setId(UUID.randomUUID().toString());
+            matcherJobHistory.setRid(rid);
+            matcherJobHistory.setProducerCount(fingerCount);
+            matcherJobHistory.setConsumerReponseCount(0);
+            matcherJobHistory.setHighScore(0d);
+            matcherJobHistory.setFoundMatch(Boolean.FALSE);
+            matcherJobHistoryRepository.save(matcherJobHistory);
+        }
+    }
+
+    public MatcherJobHistory updateFingerResponse(FingerWorkerResponse response) {
+        Optional<MatcherJobHistory> matcherJobHistoryOptional = matcherJobHistoryRepository.findByRid(response.getRid());
+        if (matcherJobHistoryOptional.isEmpty()) {
+            return null;
+        }
+        MatcherJobHistory matcherJobHistory = matcherJobHistoryOptional.orElseThrow();
+        matcherJobHistory.setConsumerReponseCount(matcherJobHistory.getConsumerReponseCount() + 1);
+        if (response.getHighestScore() > matcherJobHistory.getHighScore()) {
+            matcherJobHistory.setHighScore(response.getHighestScore());
+        }
+        if (FingerMatchStatus.DUPLICATE.equals(response.getStatus()) && Boolean.FALSE.equals(matcherJobHistory.getFoundMatch())) {
+            matcherJobHistory.setFoundMatch(Boolean.TRUE);
+            matcherJobHistory.setMatchedRID(response.getMatchedRid());
+            matcherJobHistory.setStatus(MatchJobStatus.FINISHED);
+        }
+        if (matcherJobHistory.getProducerCount().equals(matcherJobHistory.getConsumerReponseCount())
+            && !MatchJobStatus.FINISHED.equals(matcherJobHistory.getStatus())) {
+            matcherJobHistory.setStatus(MatchJobStatus.FINISHED);
+            feedbackOnDuplicateIfNeeded(matcherJobHistory);
+        }
+        return matcherJobHistoryRepository.save(matcherJobHistory);
+    }
+
+    private void feedbackOnDuplicateIfNeeded(MatcherJobHistory matcherJobHistory) {
+        // feedback sent by FingerResultAggregatorService on unique path only
     }
 
     public MatcherJobHistory updateConsumerResponseJob (MatcherResponseDTO matcherResponseDTO) {
