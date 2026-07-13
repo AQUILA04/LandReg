@@ -29,7 +29,7 @@ public class ActorRegistrationConfig {
         if (preferences.contains(KEY_USE_V2)) {
             v2Enabled = preferences.getBoolean(KEY_USE_V2, assetDefault);
         } else {
-            v2Enabled = assetDefault || BuildConfig.USE_ACTOR_REGISTRATION_V2;
+            v2Enabled = assetDefault;
         }
     }
 

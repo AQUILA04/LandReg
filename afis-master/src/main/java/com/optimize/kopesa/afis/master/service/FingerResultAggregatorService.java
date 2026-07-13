@@ -1,6 +1,7 @@
 package com.optimize.kopesa.afis.master.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.optimize.common.blob.ImageUriResolver;
 import com.optimize.common.blob.StorageBuckets;
 import com.optimize.common.blob.kafka.FingerWorkerResponse;
 import com.optimize.kopesa.afis.master.broker.MasterFeedbackProducer;
@@ -105,15 +106,29 @@ public class FingerResultAggregatorService {
         store.setFingerId(processing.getFingerId());
         store.setFingerprintTemplate(processing.getFingerprintTemplate());
         store.setQdrantPointId(processing.getQdrantPointId());
-        if (processing.getImageObjectKey() != null) {
-            store.setImageObjectKey(processing.getImageObjectKey());
+        String objectKey = resolveStoreObjectKey(processing);
+        if (objectKey != null) {
+            store.setImageObjectKey(objectKey);
             store.setImageBucket(StorageBuckets.STORE);
-            store.setImageUri("s3://" + StorageBuckets.STORE + "/" + processing.getImageObjectKey());
-        } else {
-            store.setImageUri(processing.getImageUri());
-            store.setImageBucket(processing.getImageBucket());
-            store.setImageObjectKey(processing.getImageObjectKey());
+            store.setImageUri("s3://" + StorageBuckets.STORE + "/" + objectKey);
+        } else if (processing.getFingerprintImage() != null && processing.getFingerprintImage().length > 0) {
+            store.setFingerprintImage(processing.getFingerprintImage());
         }
         return store;
+    }
+
+    private static String resolveStoreObjectKey(ProcessingFingerprint processing) {
+        String objectKey = processing.getImageObjectKey();
+        if (objectKey == null && processing.getImageUri() != null && !processing.getImageUri().isBlank()) {
+            objectKey = ImageUriResolver.parse(processing.getImageUri()).objectKey();
+        }
+        if (objectKey == null && processing.getRid() != null && processing.getFingerId() != null) {
+            objectKey =
+                processing.getRid() +
+                "/" +
+                processing.getFingerId() +
+                ImageUriResolver.extensionFromContentType(processing.getFingerprintImageContentType());
+        }
+        return objectKey;
     }
 }

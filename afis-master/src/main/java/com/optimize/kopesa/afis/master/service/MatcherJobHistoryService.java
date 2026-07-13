@@ -91,18 +91,11 @@ public class MatcherJobHistoryService {
         if (FingerMatchStatus.DUPLICATE.equals(response.getStatus()) && Boolean.FALSE.equals(matcherJobHistory.getFoundMatch())) {
             matcherJobHistory.setFoundMatch(Boolean.TRUE);
             matcherJobHistory.setMatchedRID(response.getMatchedRid());
-            matcherJobHistory.setStatus(MatchJobStatus.FINISHED);
         }
-        if (matcherJobHistory.getProducerCount().equals(matcherJobHistory.getConsumerReponseCount())
-            && !MatchJobStatus.FINISHED.equals(matcherJobHistory.getStatus())) {
+        if (matcherJobHistory.getProducerCount().equals(matcherJobHistory.getConsumerReponseCount())) {
             matcherJobHistory.setStatus(MatchJobStatus.FINISHED);
-            feedbackOnDuplicateIfNeeded(matcherJobHistory);
         }
         return matcherJobHistoryRepository.save(matcherJobHistory);
-    }
-
-    private void feedbackOnDuplicateIfNeeded(MatcherJobHistory matcherJobHistory) {
-        // feedback sent by FingerResultAggregatorService on unique path only
     }
 
     public MatcherJobHistory updateConsumerResponseJob (MatcherResponseDTO matcherResponseDTO) {
@@ -116,7 +109,6 @@ public class MatcherJobHistoryService {
             if (matcherResponseDTO.isFoundMatch().equals(Boolean.TRUE) && matcherJobHistory.getFoundMatch().equals(Boolean.FALSE)) {
                 matcherJobHistory.setFoundMatch(Boolean.TRUE);
                 matcherJobHistory.setMatchedRID(matcherResponseDTO.getMatchRID());
-                matcherJobHistory.setStatus(MatchJobStatus.FINISHED);
             }
 
             if (matcherJobHistory.getProducerCount().equals(matcherJobHistory.getConsumerReponseCount())) {
