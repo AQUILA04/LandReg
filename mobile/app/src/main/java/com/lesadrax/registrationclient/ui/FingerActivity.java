@@ -32,9 +32,9 @@ import com.lesadrax.registrationclient.R;
 import com.lesadrax.registrationclient.data.model.Actor;
 import com.lesadrax.registrationclient.data.model.UpdateModel;
 import com.lesadrax.registrationclient.data.model.UpdateResponse;
+import com.lesadrax.registrationclient.data.network.ActorRegistrationFacade;
 import com.lesadrax.registrationclient.data.network.ApiService;
 import com.lesadrax.registrationclient.data.network.RetrofitClient;
-import com.lesadrax.registrationclient.data.utis.DataUtils;
 import com.lesadrax.registrationclient.databinding.ActivityFingerBinding;
 import com.lesadrax.registrationclient.databinding.ActivityOperationBinding;
 import com.lesadrax.registrationclient.from.model.FormValue;
@@ -175,8 +175,9 @@ public class FingerActivity extends AppCompatActivity {
         progressDialog.setMessage("Modification ...");
         progressDialog.show();
         ApiService apiService = RetrofitClient.getClient(new SessionManager(FingerActivity.this).getAccessToken()).create(ApiService.class);
+        ActorRegistrationFacade actorRegistrationFacade = new ActorRegistrationFacade(FingerActivity.this);
 
-        apiService.updateObject("" + actor.getId(), DataUtils.actorData(actor, ""))
+        actorRegistrationFacade.updateActor(apiService, actor.getId(), actor)
                 .enqueue(new Callback<LinkedHashMap<String, Object>>() {
                     @Override
                     public void onResponse(Call<LinkedHashMap<String, Object>> call, Response<LinkedHashMap<String, Object>> response) {
