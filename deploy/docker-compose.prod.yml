@@ -1,0 +1,190 @@
+version: '3.8'
+
+services:
+  # Base de données PostgreSQL pour optimize-land-reg
+  postgres:
+    image: postgres:15-alpine
+    container_name: ${COMPOSE_PROJECT_NAME}-postgres
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - internal
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Base de données MongoDB pour afis-master et afis-service
+  mongodb:
+    image: mongo:6.0
+    container_name: ${COMPOSE_PROJECT_NAME}-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - internal
+    restart: unless-stopped
+
+  # Kafka pour la communication asynchrone
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.0
+    container_name: ${COMPOSE_PROJECT_NAME}-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - internal
+    restart: unless-stopped
+
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    container_name: ${COMPOSE_PROJECT_NAME}-kafka
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - internal
+    restart: unless-stopped
+
+  # Keycloak pour l'authentification (utilisé par afis-master)
+  keycloak:
+    image: quay.io/keycloak/keycloak:22.0.1
+    container_name: ${COMPOSE_PROJECT_NAME}-keycloak
+    command: start-dev
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/${DB_NAME}
+      KC_DB_USERNAME: ${DB_USER}
+      KC_DB_PASSWORD: ${DB_PASSWORD}
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+    depends_on:
+      - postgres
+    networks:
+      - internal
+      - traefik-public
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-keycloak.rule=Host(`${KEYCLOAK_HOSTNAME}`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-keycloak.entrypoints=websecure"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-keycloak.tls.certresolver=letsencrypt"
+    restart: unless-stopped
+
+  # Service optimize-land-reg
+  optimize-land-reg:
+    image: ${OPTIMIZE_LAND_REG_IMAGE}
+    container_name: ${COMPOSE_PROJECT_NAME}-optimize-land-reg
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/${DB_NAME}
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - BEZKODER_APP_JWTSECRET=${JWT_SECRET}
+      - LOGGING_FILE_PATH=/app/logs
+    volumes:
+      - optimize_logs:/app/logs
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+    networks:
+      - internal
+      - traefik-public
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-api.rule=Host(`${APP_HOSTNAME}`) && PathPrefix(`/api/v1`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-api.priority=10"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-api.entrypoints=websecure"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-api.tls.certresolver=letsencrypt"
+      - "traefik.http.services.${COMPOSE_PROJECT_NAME}-api.loadbalancer.server.port=8081"
+    restart: unless-stopped
+
+  # Service afis-master
+  afis-master:
+    image: ${AFIS_MASTER_IMAGE}
+    container_name: ${COMPOSE_PROJECT_NAME}-afis-master
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATA_MONGODB_URI=mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongodb:27017/AfisMaster?authSource=admin
+      - SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS=kafka:9092
+      - SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER_URI=http://keycloak:8080/realms/jhipster
+      - LOGGING_FILE_PATH=/app/logs
+    volumes:
+      - afis_master_logs:/app/logs
+    depends_on:
+      - mongodb
+      - kafka
+      - keycloak
+    networks:
+      - internal
+      - traefik-public
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-afis-master.rule=Host(`${APP_HOSTNAME}`) && PathPrefix(`/api/afis`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-afis-master.priority=10"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-afis-master.entrypoints=websecure"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-afis-master.tls.certresolver=letsencrypt"
+      - "traefik.http.services.${COMPOSE_PROJECT_NAME}-afis-master.loadbalancer.server.port=8082"
+    restart: unless-stopped
+
+  # Service afis-service (worker)
+  afis-service:
+    image: ${AFIS_SERVICE_IMAGE}
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATA_MONGODB_URI=mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongodb:27017/AfisService?authSource=admin
+      - SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS=kafka:9092
+      - LOGGING_FILE_PATH=/app/logs
+    volumes:
+      - afis_service_logs:/app/logs
+    depends_on:
+      - mongodb
+      - kafka
+    networks:
+      - internal
+    deploy:
+      mode: replicated
+      replicas: 2
+    restart: unless-stopped
+
+  # Frontend Angular
+  manager-portal:
+    image: ${MANAGER_PORTAL_IMAGE}
+    container_name: ${COMPOSE_PROJECT_NAME}-manager-portal
+    networks:
+      - traefik-public
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-frontend.rule=Host(`${APP_HOSTNAME}`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-frontend.priority=1"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-frontend.entrypoints=websecure"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-frontend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.${COMPOSE_PROJECT_NAME}-frontend.loadbalancer.server.port=80"
+    restart: unless-stopped
+
+networks:
+  internal:
+    name: ${COMPOSE_PROJECT_NAME}-internal
+  traefik-public:
+    external: true
+
+volumes:
+  postgres_data:
+  mongodb_data:
+  optimize_logs:
+  afis_master_logs:
+  afis_service_logs:

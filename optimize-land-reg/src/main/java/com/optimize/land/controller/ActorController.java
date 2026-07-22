@@ -95,6 +95,15 @@ public class ActorController extends BaseController<AbstractActor, Long> {
         return new ResponseEntity<>(success(getService().search(dto.keyword(), pageable), "success search by keyword"), HttpStatus.OK);
     }
 
+    @PostMapping(value = "filter")
+    public ResponseEntity<Response> filter(@RequestBody DateFilterDto dto, Pageable pageable) {
+        log.info("FILTER ACTORS REQUEST: {}", dto);
+        // Note: ActorRepository currently has findAllActorsByDate which returns List,
+        // to simplify for now we'll call getService().getAllActors(pageable) if no filter is applied
+        // or a custom method on service if dates are provided
+        return new ResponseEntity<>(success(getService().filter(dto, pageable), "success filter actors"), HttpStatus.OK);
+    }
+
     @PutMapping(value = "{id}")
     public ResponseEntity<Response> update(@PathVariable Long id, @RequestBody @Valid ActorDto dto) {
         log.info("UPDATE ACTOR REQUEST: {}", dto);

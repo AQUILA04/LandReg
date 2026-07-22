@@ -95,6 +95,13 @@ public class SynchroHistoryService extends GenericService<SynchroHistory, Long> 
         }
     }
 
+    public org.springframework.data.domain.Page<SynchroHistory> filter(com.optimize.land.model.dto.DateFilterDto dto, org.springframework.data.domain.Pageable pageable) {
+        if (dto == null || (dto.startDate() == null && dto.endDate() == null)) {
+            return getRepository().findAll(pageable);
+        }
+        return getRepository().filterByDate(dto.startDate(), dto.endDate(), pageable);
+    }
+
 
     public SynchroHistoryRepository getRepository() {
         return (SynchroHistoryRepository) repository;

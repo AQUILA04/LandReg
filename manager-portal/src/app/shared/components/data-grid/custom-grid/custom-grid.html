@@ -1,0 +1,58 @@
+<div class="grid-container">
+  <div class="table-responsive">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          @for (col of columns; track col.key) {
+            <th>{{ col.label }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @if (isLoading) {
+          @for (i of [1,2,3,4,5]; track i) {
+            <tr class="skeleton-row">
+              @for (col of columns; track col.key) {
+                <td><div class="skeleton-block"></div></td>
+              }
+            </tr>
+          }
+        } @else {
+          @for (row of data; track row.id) {
+            <tr>
+              @for (col of columns; track col.key) {
+                <td>{{ row[col.key] }}</td>
+              }
+            </tr>
+          } @empty {
+            <tr aria-label="Empty Dataset">
+              <td [colSpan]="columns.length" class="empty-state">
+                Aucune donnée trouvée.
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination-controls">
+    <span class="page-info">
+      Total: {{ totalElements }} | Page {{ currentPage + 1 }} sur {{ totalPages === 0 ? 1 : totalPages }}
+    </span>
+    <div class="page-buttons">
+      <button
+        class="btn-page"
+        [disabled]="currentPage === 0 || isLoading"
+        (click)="onPageChange(currentPage - 1)">
+        Précédent
+      </button>
+      <button
+        class="btn-page"
+        [disabled]="currentPage >= totalPages - 1 || isLoading"
+        (click)="onPageChange(currentPage + 1)">
+        Suivant
+      </button>
+    </div>
+  </div>
+</div>

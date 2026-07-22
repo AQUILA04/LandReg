@@ -1,0 +1,58 @@
+<div class="omni-filter-container">
+  <div class="filter-group">
+    <label>Région</label>
+    <select [value]="store.region() || ''" (change)="onRegionChange($event)" class="custom-select">
+      <option value="">Sélectionner...</option>
+      @for (reg of regions; track reg) {
+        <option [value]="reg">{{ reg }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label>Préfecture</label>
+    <select [value]="store.prefecture() || ''" (change)="onPrefectureChange($event)"
+            [disabled]="!store.region()" class="custom-select">
+      <option value="">Sélectionner...</option>
+      @for (pref of availablePrefectures; track pref) {
+        <option [value]="pref">{{ pref }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label>Commune</label>
+    <select [value]="store.commune() || ''" (change)="onCommuneChange($event)"
+            [disabled]="!store.prefecture()" class="custom-select">
+      <option value="">Sélectionner...</option>
+      @for (com of availableCommunes; track com) {
+        <option [value]="com">{{ com }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label>Canton</label>
+    <select [value]="store.canton() || ''" (change)="onCantonChange($event)"
+            [disabled]="!store.commune()" class="custom-select">
+      <option value="">Sélectionner...</option>
+      @for (can of availableCantons; track can) {
+        <option [value]="can">{{ can }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="filter-group date-group">
+    <label>Date Début</label>
+    <input type="date" [value]="store.startDate() || ''" (change)="onStartDateChange($event)" class="custom-input">
+  </div>
+
+  <div class="filter-group date-group">
+    <label>Date Fin</label>
+    <input type="date" [value]="store.endDate() || ''" (change)="onEndDateChange($event)" class="custom-input">
+  </div>
+
+  <div class="filter-actions">
+    <button class="btn-clear" (click)="resetAll()">Réinitialiser</button>
+  </div>
+</div>

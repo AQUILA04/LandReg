@@ -101,6 +101,21 @@ public class FindingService extends GenericService<Finding, Long> {
         return getRepository().searchByKeyword(keywordFinal, pageable);
     }
 
+    public Page<FindingProjection> filter(com.optimize.land.model.dto.FindingFilterDto dto, Pageable pageable) {
+        if (dto == null) {
+            return getAllToProjection(pageable);
+        }
+        User user = userService.getCurrentUser();
+        if (user.is(ProfilConstant.LAND_AGENT_OPERATOR)) {
+            return getRepository().filterByCriteriaAndOperator(
+                dto.region(), dto.prefecture(), dto.commune(), dto.canton(),
+                dto.startDate(), dto.endDate(), user.getUsername(), pageable);
+        }
+        return getRepository().filterByCriteria(
+                dto.region(), dto.prefecture(), dto.commune(), dto.canton(),
+                dto.startDate(), dto.endDate(), pageable);
+    }
+
     @Override
     public FindingRepository getRepository() {
         return (FindingRepository) super.getRepository();
