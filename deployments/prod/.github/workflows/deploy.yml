@@ -136,7 +136,7 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $ECR_REGISTRY/landreg-backend-api:$IMAGE_TAG ./backend-api
+          docker build -f optimize-land-reg/Dockerfile -t $ECR_REGISTRY/landreg-backend-api:$IMAGE_TAG .
           docker push $ECR_REGISTRY/landreg-backend-api:$IMAGE_TAG
           docker tag $ECR_REGISTRY/landreg-backend-api:$IMAGE_TAG $ECR_REGISTRY/landreg-backend-api:latest
           docker push $ECR_REGISTRY/landreg-backend-api:latest
@@ -169,7 +169,7 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $ECR_REGISTRY/landreg-afis-master:$IMAGE_TAG ./afis-master
+          docker build -f afis-master/Dockerfile -t $ECR_REGISTRY/landreg-afis-master:$IMAGE_TAG .
           docker push $ECR_REGISTRY/landreg-afis-master:$IMAGE_TAG
           docker tag $ECR_REGISTRY/landreg-afis-master:$IMAGE_TAG $ECR_REGISTRY/landreg-afis-master:latest
           docker push $ECR_REGISTRY/landreg-afis-master:latest
@@ -202,7 +202,7 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $ECR_REGISTRY/landreg-afis-service:$IMAGE_TAG ./afis-service
+          docker build -f afis-service/Dockerfile -t $ECR_REGISTRY/landreg-afis-service:$IMAGE_TAG .
           docker push $ECR_REGISTRY/landreg-afis-service:$IMAGE_TAG
           docker tag $ECR_REGISTRY/landreg-afis-service:$IMAGE_TAG $ECR_REGISTRY/landreg-afis-service:latest
           docker push $ECR_REGISTRY/landreg-afis-service:latest
