@@ -11,6 +11,7 @@ import com.lesadrax.registrationclient.from.model.FormValue;
 import com.lesadrax.registrationclient.from.utils.FileUtils;
 
 import java.util.Map;
+import java.util.UUID;
 
 public class DataUtils {
 
