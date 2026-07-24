@@ -1,5 +1,6 @@
 package com.optimize.kopesa.afis.service.service;
 
+import com.optimize.common.blob.kafka.FingerWorkerResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.optimize.kopesa.afis.service.service.dto.MatcherResponseDTO;
@@ -11,15 +12,29 @@ import org.springframework.stereotype.Service;
 @Service
 public class MessageBrokerService {
     private final Logger log = LoggerFactory.getLogger(MessageBrokerService.class);
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    public static final String TOPIC_FINGER_RES = "biometrics.finger.res";
+    public static final String TOPIC_FINGER_DLQ = "biometrics.finger.dlq";
 
-    public MessageBrokerService(KafkaTemplate<String, String> kafkaTemplate) {
+    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final ObjectMapper objectMapper;
+
+    public MessageBrokerService(KafkaTemplate<String, String> kafkaTemplate, ObjectMapper objectMapper) {
         this.kafkaTemplate = kafkaTemplate;
+        this.objectMapper = objectMapper;
     }
 
     public void sendResult(MatcherResponseDTO result) throws JsonProcessingException {
-        kafkaTemplate.send("afis-matcher-result-topic", new ObjectMapper().writeValueAsString(result));
-        log.info("Message " + result.toString() +
-            " has been sucessfully sent to the topic:  afis-matcher-topic");
+        kafkaTemplate.send("afis-matcher-result-topic", objectMapper.writeValueAsString(result));
+        log.info("Legacy matcher result sent for rid {}", result.getRid());
+    }
+
+    public void sendFingerResult(FingerWorkerResponse result) throws JsonProcessingException {
+        kafkaTemplate.send(TOPIC_FINGER_RES, objectMapper.writeValueAsString(result));
+        log.info("Finger result sent rid={} finger={} status={}", result.getRid(), result.getFingerId(), result.getStatus());
+    }
+
+    public void sendFingerDlq(String payload) {
+        kafkaTemplate.send(TOPIC_FINGER_DLQ, payload);
+        log.warn("Finger request routed to DLQ");
     }
 }

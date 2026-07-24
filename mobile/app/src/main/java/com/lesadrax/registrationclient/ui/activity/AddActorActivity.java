@@ -31,9 +31,9 @@ import com.lesadrax.registrationclient.data.model.Actor;
 import com.lesadrax.registrationclient.data.model.RoleEnum;
 import com.lesadrax.registrationclient.data.model.UpdateModel;
 import com.lesadrax.registrationclient.data.model.UpdateResponse;
+import com.lesadrax.registrationclient.data.network.ActorRegistrationFacade;
 import com.lesadrax.registrationclient.data.network.ApiService;
 import com.lesadrax.registrationclient.data.network.RetrofitClient;
-import com.lesadrax.registrationclient.data.utis.DataUtils;
 import com.lesadrax.registrationclient.databinding.ActivityAddActorBinding;
 import com.lesadrax.registrationclient.from.FormView;
 import com.lesadrax.registrationclient.from.model.FormField;
@@ -521,8 +521,9 @@ public class AddActorActivity extends AppCompatActivity {
                         progressDialog.show();
                     });
                     ApiService apiService = RetrofitClient.getClient(new SessionManager(AddActorActivity.this).getAccessToken()).create(ApiService.class);
+                    ActorRegistrationFacade actorRegistrationFacade = new ActorRegistrationFacade(AddActorActivity.this);
 
-                    apiService.updateObject("" + id, DataUtils.actorData(a, "")).enqueue(new Callback<LinkedHashMap<String, Object>>() {
+                    actorRegistrationFacade.updateActor(apiService, id, a).enqueue(new Callback<LinkedHashMap<String, Object>>() {
                         @Override
                         public void onResponse(Call<LinkedHashMap<String, Object>> call, Response<LinkedHashMap<String, Object>> response) {
 

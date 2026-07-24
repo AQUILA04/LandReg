@@ -365,6 +365,26 @@
         <artifactId>imgscalr-lib</artifactId>
         <version>4.2</version>
       </dependency>
+      <dependency>
+        <groupId>com.optimize</groupId>
+        <artifactId>common-blob-storage</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>io.minio</groupId>
+        <artifactId>minio</artifactId>
+        <version>8.5.17</version>
+      </dependency>
+      <dependency>
+        <groupId>com.microsoft.onnxruntime</groupId>
+        <artifactId>onnxruntime</artifactId>
+        <version>1.24.3</version>
+      </dependency>
+      <dependency>
+        <groupId>io.qdrant</groupId>
+        <artifactId>client</artifactId>
+        <version>1.17.0</version>
+      </dependency>
         <!-- Grafana Loki logging -->
         <dependency>
             <groupId>com.github.loki4j</groupId>

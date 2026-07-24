@@ -17,6 +17,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
+        buildConfigField("boolean", "USE_ACTOR_REGISTRATION_V2", "false")
     }
 
     buildTypes {

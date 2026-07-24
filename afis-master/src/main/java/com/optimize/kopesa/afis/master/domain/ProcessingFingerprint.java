@@ -36,6 +36,24 @@ public class ProcessingFingerprint implements Serializable {
     @Field("fingerprint_image_content_type")
     private String fingerprintImageContentType;
 
+    @Field("finger_id")
+    private String fingerId;
+
+    @Field("image_uri")
+    private String imageUri;
+
+    @Field("image_bucket")
+    private String imageBucket;
+
+    @Field("image_object_key")
+    private String imageObjectKey;
+
+    @Field("fingerprint_template")
+    private byte[] fingerprintTemplate;
+
+    @Field("qdrant_point_id")
+    private String qdrantPointId;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public String getId() {
@@ -114,6 +132,54 @@ public class ProcessingFingerprint implements Serializable {
 
     public void setFingerprintImageContentType(String fingerprintImageContentType) {
         this.fingerprintImageContentType = fingerprintImageContentType;
+    }
+
+    public String getFingerId() {
+        return fingerId;
+    }
+
+    public void setFingerId(String fingerId) {
+        this.fingerId = fingerId;
+    }
+
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
+    }
+
+    public String getImageBucket() {
+        return imageBucket;
+    }
+
+    public void setImageBucket(String imageBucket) {
+        this.imageBucket = imageBucket;
+    }
+
+    public String getImageObjectKey() {
+        return imageObjectKey;
+    }
+
+    public void setImageObjectKey(String imageObjectKey) {
+        this.imageObjectKey = imageObjectKey;
+    }
+
+    public byte[] getFingerprintTemplate() {
+        return fingerprintTemplate;
+    }
+
+    public void setFingerprintTemplate(byte[] fingerprintTemplate) {
+        this.fingerprintTemplate = fingerprintTemplate;
+    }
+
+    public String getQdrantPointId() {
+        return qdrantPointId;
+    }
+
+    public void setQdrantPointId(String qdrantPointId) {
+        this.qdrantPointId = qdrantPointId;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

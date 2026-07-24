@@ -54,4 +54,12 @@ services:
   pgadmin:
     extends:
       file: ./postgresql.yml
-      service: pgadmin      
+      service: pgadmin
+  minio:
+    extends:
+      file: ./minio.yml
+      service: minio
+  qdrant:
+    extends:
+      file: ./qdrant.yml
+      service: qdrant

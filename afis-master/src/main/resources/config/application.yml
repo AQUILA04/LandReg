@@ -261,6 +261,14 @@ jhipster:
         - api://default
 afis-service:
   fingerprint-folder: ${user.home}/.optimize-land-reg/fingerprint/
+afis:
+  pipeline:
+    version: v2
+    storage:
+      enabled: true
+      endpoint: http://localhost:9000
+      access-key: minioadmin
+      secret-key: minioadmin
 
 # ===================================================================
 # Application specific properties

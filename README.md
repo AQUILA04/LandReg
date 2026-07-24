@@ -8,7 +8,7 @@ This is a multi-part project consisting of the following modules:
 
 - **`afis-master/`**: Frontend & Backend for managing the Automated Fingerprint Identification System (Spring Boot + Angular).
 - **`afis-service/`**: Microservice handling intensive match jobs and interactions with the fingerprint store (Spring Boot).
-- **`mobile/`**: Android application used on the field by agents.
+- **`mobile/`**: Android application used on the field by agents. See [mobile/README.md](mobile/README.md) for v1/v2 actor registration configuration.
 - **`optimize-land-reg/`**: Core business entity API for the Land Registration domain (Spring Boot + PostgreSQL).
 - **`deployments/`**: Infrastructure configuration and Docker Compose environment setup.
 

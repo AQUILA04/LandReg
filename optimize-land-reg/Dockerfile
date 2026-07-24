@@ -1,32 +1,30 @@
-# Build stage
-FROM eclipse-temurin:17-jdk-jammy AS builder
-WORKDIR /app
+# Build from repository root:
+#   docker build -f optimize-land-reg/Dockerfile -t landreg-backend-api .
 
-# Copy the shared libraries first to build them
-COPY ../lib /lib
-RUN cd /lib/common-entities && ./mvnw clean install -DskipTests || (apt-get update && apt-get install -y maven && mvn clean install -DskipTests)
-RUN cd /lib/common-securities && ./mvnw clean install -DskipTests || mvn clean install -DskipTests
+FROM maven:3.9.9-eclipse-temurin-17 AS builder
+WORKDIR /workspace
 
-# Copy maven wrapper and pom
-COPY .mvn/ .mvn/
-COPY mvnw pom.xml ./
-RUN chmod +x mvnw
+COPY lib/common-entities/pom.xml lib/common-entities/
+COPY lib/common-entities/src lib/common-entities/src
+RUN mvn -f lib/common-entities/pom.xml clean install -DskipTests -B
 
-# Download dependencies
-RUN ./mvnw dependency:go-offline -B
+COPY lib/common-securities/pom.xml lib/common-securities/
+COPY lib/common-securities/src lib/common-securities/src
+RUN mvn -f lib/common-securities/pom.xml clean install -DskipTests -B
 
-# Copy source and build
-COPY src ./src
-RUN ./mvnw package -DskipTests
+COPY lib/common-blob-storage/pom.xml lib/common-blob-storage/
+COPY lib/common-blob-storage/src lib/common-blob-storage/src
+RUN mvn -f lib/common-blob-storage/pom.xml clean install -DskipTests -B
 
-# Run stage
+COPY optimize-land-reg/pom.xml optimize-land-reg/
+COPY optimize-land-reg/src optimize-land-reg/src
+RUN mvn -f optimize-land-reg/pom.xml clean package -DskipTests -B \
+    && JAR="$(ls optimize-land-reg/target/optimize-land-reg-*.jar | grep -v plain | head -n1)" \
+    && cp "$JAR" /workspace/app.jar
+
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
-COPY --from=builder /app/target/*.jar app.jar
-
-# Run as non-root
-RUN useradd -m appuser
-USER appuser
-
+ENV SPRING_DOCKER_COMPOSE_ENABLED=false
+COPY --from=builder /workspace/app.jar /app/app.jar
 EXPOSE 8081
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

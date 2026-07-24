@@ -1,27 +1,22 @@
-# Build stage
-FROM eclipse-temurin:17-jdk-jammy AS builder
-WORKDIR /app
+# Build from repository root:
+#   docker build -f afis-master/Dockerfile -t landreg-afis-master .
 
-# Copy maven wrapper and pom
-COPY .mvn/ .mvn/
-COPY mvnw pom.xml ./
-RUN chmod +x mvnw
+FROM maven:3.9.9-eclipse-temurin-17 AS builder
+WORKDIR /workspace
 
-# Download dependencies
-RUN ./mvnw dependency:go-offline -B
+COPY lib/common-blob-storage/pom.xml lib/common-blob-storage/
+COPY lib/common-blob-storage/src lib/common-blob-storage/src
+RUN mvn -f lib/common-blob-storage/pom.xml clean install -DskipTests -B
 
-# Copy source and build
-COPY src ./src
-RUN ./mvnw package -DskipTests -Pprod
+COPY afis-master/ afis-master/
+RUN chmod +x afis-master/mvnw \
+    && cd afis-master \
+    && ./mvnw -Pprod clean package -DskipTests -B \
+    && JAR="$(ls target/afis-master-*.jar | grep -v plain | head -n1)" \
+    && cp "$JAR" /workspace/app.jar
 
-# Run stage
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
-COPY --from=builder /app/target/*.jar app.jar
-
-# Run as non-root
-RUN useradd -m appuser
-USER appuser
-
+COPY --from=builder /workspace/app.jar /app/app.jar
 EXPOSE 8082
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

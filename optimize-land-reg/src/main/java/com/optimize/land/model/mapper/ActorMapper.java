@@ -2,6 +2,8 @@ package com.optimize.land.model.mapper;
 
 import com.optimize.common.entities.util.Converter;
 import com.optimize.land.model.dto.*;
+import com.optimize.land.model.dto.v2.ActorDtoV2;
+import com.optimize.land.model.dto.v2.FingerprintStoreV2Dto;
 import com.optimize.land.model.entity.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -38,6 +40,18 @@ public interface ActorMapper {
     @Mapping(target = "fingerName", expression = "java(fingerprintStoreDto.fingerNameFromString())")
     @Mapping(target = "handType", expression = "java(fingerprintStoreDto.getHandTypeFromString())")
     FingerprintStore toFingerprintStore(FingerprintStoreDto fingerprintStoreDto);
+
+    @Mapping(target = "fingerprintImage", source = "imageBytes")
+    @Mapping(target = "fingerprintImageContentType", source = "contentType")
+    @Mapping(target = "fingerName", expression = "java(metadata.fingerNameFromString())")
+    @Mapping(target = "handType", expression = "java(metadata.getHandTypeFromString())")
+    @Mapping(target = "fingerStr", source = "metadata.fingerStr")
+    @Mapping(target = "rid", source = "metadata.rid")
+    @Mapping(target = "id", source = "metadata.id")
+    FingerprintStore toFingerprintStore(FingerprintStoreV2Dto metadata, byte[] imageBytes, String contentType);
+
+    @Mapping(target = "fingerprintStores", ignore = true)
+    Registration toRegistration(ActorDtoV2 actorDtoV2);
     @Mapping(target = "fingerprintImage", expression = "java(toBase64String(fingerprintStore.getFingerprintImage()))")
     FingerprintStoreDto toFingerprintStoreDto(FingerprintStore fingerprintStore);
     Set<FingerprintStore> toSetFingerprintStore(Set<FingerprintStoreDto> fingerprintStoreDtoSet);

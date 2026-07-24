@@ -42,6 +42,15 @@ public class FingerprintStore extends BaseEntity<String> {
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private byte[] fingerprintImage;
 
+    @Column(name = "image_uri")
+    private String imageUri;
+
+    @Column(name = "image_bucket")
+    private String imageBucket;
+
+    @Column(name = "image_object_key")
+    private String imageObjectKey;
+
     @Column(name = "fingerprint_image_content_type")
     private String fingerprintImageContentType;
     private String fingerStr;

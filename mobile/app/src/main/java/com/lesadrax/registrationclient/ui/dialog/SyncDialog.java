@@ -19,6 +19,7 @@ import com.lesadrax.registrationclient.MyApp;
 import com.lesadrax.registrationclient.data.model.Actor;
 import com.lesadrax.registrationclient.data.model.SynchroData;
 import com.lesadrax.registrationclient.data.model.SynchroResponse;
+import com.lesadrax.registrationclient.data.network.ActorRegistrationFacade;
 import com.lesadrax.registrationclient.data.network.ApiService;
 import com.lesadrax.registrationclient.data.network.RetrofitClient;
 import com.lesadrax.registrationclient.data.repository.dao.ActorDao;
@@ -57,6 +58,8 @@ public class SyncDialog extends Dialog {
 
     ApiService apiService;
 
+    ActorRegistrationFacade actorRegistrationFacade;
+
     String batchNumber;
 
     public SyncDialog(@NonNull Context context, List<Actor> actors, int totalData) {
@@ -85,6 +88,7 @@ public class SyncDialog extends Dialog {
         b.resultPan.setVisibility(View.GONE);
         String token = new SessionManager(getContext()).getAccessToken();
         apiService = RetrofitClient.getClient(token).create(ApiService.class);
+        actorRegistrationFacade = new ActorRegistrationFacade(getContext());
         Log.d("****Token", "======> "+token);
         System.out.println(token);
         totalToSync = data.size();
@@ -103,7 +107,7 @@ public class SyncDialog extends Dialog {
                         JsonObject object = DataUtils.actorData(actor, batchNumber);
                         if(object != null)
                             Log.d("*****SUCCESS", "=====>  "+object);
-                        createSyncActor(object, actor);
+                        createSyncActor(actor);
                     }
                 } else {
                     System.out.println("Erreur : " + response.code());
@@ -126,14 +130,14 @@ public class SyncDialog extends Dialog {
 
     }
 
-    private void createSyncActor(JsonObject object, Actor actor) {
-        if (object == null) {
+    private void createSyncActor(Actor actor) {
+        if (actor.getFormValues() == null) {
             count++;
             getFinishInfo();
             return;
         }
 
-        apiService.createActor(object).enqueue(new Callback<Void>() {
+        actorRegistrationFacade.createActor(apiService, actor, batchNumber).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 count++;

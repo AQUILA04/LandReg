@@ -93,14 +93,27 @@ lang-reg:
     config:
       num-partitions:
         afis-master-topic: 1
+        biometrics.match.req: 1
+        biometrics.finger.req: 3
+        biometrics.finger.res: 3
+        biometrics.finger.dlq: 1
         afis-matcher-topic: 1
         afis-matcher-result-topic: 1
         afis-master-feedback-topic: 1
       replication-factor: #la valeur ne doit pas dépasser le nombre de brokers déployer
         afis-master-topic: 1
+        biometrics.match.req: 1
+        biometrics.finger.req: 1
+        biometrics.finger.res: 1
+        biometrics.finger.dlq: 1
         afis-matcher-topic: 1
         afis-matcher-result-topic: 1
         afis-master-feedback-topic: 1
+
+landreg:
+  storage:
+    enabled: true
+    claim-check-enabled: true
 app:
   security:
     parameter:
